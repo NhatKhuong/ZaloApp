@@ -1,15 +1,18 @@
-import { Text, View } from 'react-native'
-import React, { Component } from 'react'
-import styles from './Header_Style'
-import { MaterialIcons } from '@expo/vector-icons'; 
-import { Feather } from '@expo/vector-icons'; 
-export class Header extends Component {
-  render() {
+import { Text, View } from "react-native";
+import React, { Component } from "react";
+import styles from "./Header_Style";
+import { MaterialIcons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
+function Header({navigation}) {
     return (
         <View style={styles.container}>
             <View style={styles.container_left}>
-                <View style={styles.containerIcon}>
-                    <MaterialIcons name="keyboard-arrow-left" size={24} color="white" />
+                <View onClick= {()=>navigation.goBack()} style={styles.containerIcon}>
+                    <MaterialIcons
+                        name="keyboard-arrow-left"
+                        size={24}
+                        color="white"
+                    />
                 </View>
                 <View style={styles.container_friend_Name}>
                     <Text style={styles.friend_Name}>Nhật Khương</Text>
@@ -27,8 +30,7 @@ export class Header extends Component {
                 </View>
             </View>
         </View>
-    )
-  }
+    );
 }
 
-export default Header
+export default Header;
