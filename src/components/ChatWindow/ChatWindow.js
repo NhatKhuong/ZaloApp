@@ -8,8 +8,8 @@ function ChatWindow(props) {
     return (
         <View style={styles.container}>
             <Header {...props}/>
-            <Body />
-            <Footter />
+            <Body style={styles.main}/>
+            <Footter style={styles.footter} />
         </View>
     );
 }
