@@ -10,12 +10,13 @@ import styles from "./src/components/app/App_Style";
 import ListFriend from "./src/components/ListFriend/ListFriend";
 import ItemFriend from "./src/components/ListFriend/ItemFriend";
 import Footter from "./src/components/Footter/Footter";
+import DrawerChat from "./src/components/ChatWindow/Drawble/DrawerChat";
 
 export default function App() {
     const home = "Home"
     const chatWindow = "ChatWindow"
     const listFriend = "ListFriend"
-    
+    const drawbleChat = "DrawerChat";
     return (
         // <AppNavigator />
         // <Home />
@@ -25,6 +26,7 @@ export default function App() {
                 <Stack.Screen name={home} component={Home}/>
                 <Stack.Screen name={chatWindow} component={ChatWindow} />
                 <Stack.Screen name={listFriend} component={ListFriend} />
+                <Stack.Screen name={drawbleChat} component={DrawerChat} />
             </Stack.Navigator>
         </NavigationContainer>
         
