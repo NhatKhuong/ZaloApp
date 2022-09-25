@@ -11,6 +11,8 @@ import ListFriend from "./src/components/ListFriend/ListFriend";
 import ItemFriend from "./src/components/ListFriend/ItemFriend";
 import Footter from "./src/components/Footter/Footter";
 import DrawerChat from "./src/components/ChatWindow/Drawble/DrawerChat";
+import Register from "./src/components/Login&Register/Register";
+import DashBoard from "./src/components/ForgotPassword&DashBoard&Splase/DashBoard";
 
 export default function App() {
     const home = "Home"
@@ -20,17 +22,17 @@ export default function App() {
     return (
         // <AppNavigator />
         // <Home />
-        <NavigationContainer>
+        // <NavigationContainer>
             
-            <Stack.Navigator initialRouteName={home} screenOptions={{headerShown:false}}>
-                <Stack.Screen name={home} component={Home}/>
-                <Stack.Screen name={chatWindow} component={ChatWindow} />
-                <Stack.Screen name={listFriend} component={ListFriend} />
-                <Stack.Screen name={drawbleChat} component={DrawerChat} />
-            </Stack.Navigator>
-        </NavigationContainer>
-        
-    );
+        //     <Stack.Navigator initialRouteName={home} screenOptions={{headerShown:false}}>
+        //         <Stack.Screen name={home} component={Home}/>
+        //         <Stack.Screen name={chatWindow} component={ChatWindow} />
+        //         <Stack.Screen name={listFriend} component={ListFriend} />
+        //         <Stack.Screen name={drawbleChat} component={DrawerChat} />
+        //     </Stack.Navigator>
+        // </NavigationContainer>
+        <DashBoard/>
+        );
 }
 
 // const styles = StyleSheet.create({
