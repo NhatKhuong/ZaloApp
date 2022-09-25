@@ -29,9 +29,9 @@ function Header({navigation}) {
                 <View style={styles.container_right_icon}>
                     <Feather name="video"  size={26} color="white"/>
                 </View>
-                <View style={styles.container_right_icon}>
+                <TouchableOpacity style={styles.container_right_icon} onPress={()=> navigation.navigate("DrawerChat")}>
                     <Feather name="menu" size={26} color="white" />
-                </View>
+                </TouchableOpacity>
             </View>
         </View>
     );

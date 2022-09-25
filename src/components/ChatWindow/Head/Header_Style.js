@@ -19,18 +19,22 @@ const styles = StyleSheet.create({
     },
     containerIcon:{
         justifyContent:'flex-end',
-        marginBottom:5 ,
+        paddingTop:12 ,
+        justifyContent:'center',
         width:"14%",
     },
     container_friend_Name:{
+        paddingLeft:5,
+        paddingTop:12,
         width:"88%",
         justifyContent:'flex-end',
-        marginBottom:10,
+        justifyContent:'center',
+
 
     },
     friend_Name:{
         color:'white',
-        fontSize:22,
+        fontSize:24,
 
     },
     iconSeach:{
@@ -44,11 +48,15 @@ const styles = StyleSheet.create({
     },
     container_right_icon:{
         justifyContent:'flex-end',
-        marginBottom:8,
+        height:"100%",
+        paddingBottom:8
     },
     button:{
         justifyContent:'center',
         alignItems:'center',
+    },
+    buttonMenu:{
+        backgroundColor:'red',
     }
 })
 
