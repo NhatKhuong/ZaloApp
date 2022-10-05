@@ -2,8 +2,16 @@ import React from "react";
 import { Image, SafeAreaView, Text, TouchableOpacity, View,} from "react-native";
 import styles from "./StyleDashBoard";
 import PagerView from 'react-native-pager-view';
+import { useNavigation } from "@react-navigation/native";
 
 function DashBoard(){
+    const navigation = useNavigation();
+    const hanldPressLogin = () => {
+        navigation.navigate("Login");
+    };
+    const hanldPressRegister = () => {
+        navigation.navigate("Register");
+    };
     return (
         <SafeAreaView style={styles.container}>
             <Image source={{url:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Zalo_logo_2019.svg/2560px-Zalo_logo_2019.svg.png'}} style={{height:53,width:150,marginTop:20,}}/>
@@ -60,11 +68,11 @@ function DashBoard(){
                 </PagerView>
             </View>
             <View style={styles.containerBotton}>
-                <TouchableOpacity style={styles.bottonLogin}>
+                <TouchableOpacity style={styles.bottonLogin} onPress={hanldPressLogin}>
                     <Text style={{fontSize:22,color:'white'}}>Đăng nhập</Text>
                 </TouchableOpacity>
                 <View style={{marginTop:10,}}>
-                    <TouchableOpacity style={styles.bottonRegister}>
+                    <TouchableOpacity style={styles.bottonRegister} onPress={hanldPressRegister}>
                         <Text style={{fontSize:22,}}>Đăng ký</Text>
                     </TouchableOpacity>
                 </View>
