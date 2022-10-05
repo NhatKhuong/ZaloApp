@@ -3,11 +3,18 @@ import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import styles from "./StyleRegister";
 import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 
 function Register(){
     const [isPassword,setPassword] = useState(true);
     const [isTextButton,setTextButton] = useState("Hiện");
-
+    const navigation = useNavigation();
+    const hanldPressDashBoard = () => {
+        navigation.navigate("DashBoard");
+    };
+    const hanldPressLogin = () => {
+        navigation.navigate("Login");
+    };
     const hanldPress = () => {
         if(isPassword){
             setPassword(false);
@@ -20,7 +27,7 @@ function Register(){
     return (
         <View style={styles.container}>
              <View style={styles.containerTabBar}>
-                    <TouchableOpacity style={{  paddingLeft:10,paddingRight:10,justifyContent:'center',paddingTop:10,}} >
+                    <TouchableOpacity onPress={hanldPressDashBoard} style={{  paddingLeft:10,paddingRight:10,justifyContent:'center',paddingTop:10,}} >
                         <Ionicons name="arrow-back" size={30} color="#fff" />
                     </TouchableOpacity>
                     <View style={{width:"73%",justifyContent:'center',paddingTop:10,}}>
@@ -44,7 +51,7 @@ function Register(){
                         <Text style={{fontSize:22}}>{isTextButton}</Text>
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={{marginTop:25,alignItems:'center',width:"100%"}} >
+                <TouchableOpacity onPress={hanldPressLogin} style={{marginTop:25,alignItems:'center',width:"100%"}} >
                     <View style={{display:'flex',flexDirection:'row'}}>
                         <Text style={{fontSize:22, color:'#63B8FF',fontWeight:'bold',marginRight:10,}}> Đã có tài khoản</Text>
                         <Image source={{url:'https://viettelhochiminh.com.vn/wp-content/uploads/2022/07/zalo-logo-inkythuatso-14-15-05-01.jpg'}} style={{height:30,width:30}}/>
