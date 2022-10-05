@@ -4,7 +4,6 @@ import { Ionicons } from '@expo/vector-icons';
 import styles from "./StyleLogin";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-
 function Login(){
     
     const [isPassword,setPassword] = useState(true);
@@ -24,6 +23,14 @@ function Login(){
             setTextButton("Hiện");
         }
     };
+    const hanldPressLogin = ()=>{
+        // // auth.createUserWithEmailAndPassword()
+        // auth.signInWithEmailAndPassword(email,passWord).then(userCredentials => {
+        //     const user = userCredentials.user;
+        //     console.log("Logged in with : ", user.email);
+        // })
+        // .catch(error=> alert(error.message))
+    }
     return (
         <View style={styles.container}>
              <View style={styles.containerTabBar}>
@@ -54,7 +61,7 @@ function Login(){
             
             <View style={styles.containerBottom}>
                 <View></View>
-                <TouchableOpacity style={styles.bottom} >
+                <TouchableOpacity onPress={hanldPressLogin} style={styles.bottom} >
                     <AntDesign name="arrowright" size={24} color="white" />
                 </TouchableOpacity>
             </View>
