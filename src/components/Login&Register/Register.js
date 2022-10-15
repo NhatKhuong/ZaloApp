@@ -1,13 +1,22 @@
-import { View,Text,TouchableOpacity,TextInput, Image } from "react-native";
+import { View,Text,TouchableOpacity,TextInput, Image, Alert } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import styles from "./StyleRegister";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+// Import FireBase
+import{initializeAuth,createUserWithEmailAndPassword} from 'firebase/auth';
+import {initializeApp} from 'firebase/app';
+import { firebaseConfig } from "../../../firebase-config";
 
 function Register(){
-    const [isPassword,setPassword] = useState(true);
+    const [isPassword,setIsPassword] = useState(true);
+    const [isPasswordAgain,setIsPasswordAgain] = useState(true);
+    const [email,setEmail] = useState("");
+    const [passWord,setPassWord] = useState("");
+    const [passWordAgain,setPassWordAgain] = useState("");
     const [isTextButton,setTextButton] = useState("Hiện");
+    const [isTextButton2,setTextButton2] = useState("Hiện");
     const navigation = useNavigation();
     const hanldPressDashBoard = () => {
         navigation.navigate("DashBoard");
@@ -15,15 +24,59 @@ function Register(){
     const hanldPressLogin = () => {
         navigation.navigate("Login");
     };
-    const hanldPress = () => {
+    const hanldPressPass = () => {
         if(isPassword){
-            setPassword(false);
+            setIsPassword(false);
             setTextButton("Ẩn");
         }else{
-            setPassword(true);
+            setIsPassword(true);
             setTextButton("Hiện");
         }
     };
+    const hanldPressPassAgain = () => {
+        if(isPasswordAgain){
+            setIsPasswordAgain(false);
+            setTextButton2("Ẩn");
+        }else{
+            setIsPasswordAgain(true);
+            setTextButton2("Hiện");
+        }
+    };
+    // Connect FireBase
+    const app = initializeApp(firebaseConfig);
+    const auth = initializeAuth(app,{
+    });
+    const regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const hanldPressRegister = ()=>{
+        if(email == ""){
+            Alert.alert("Thông báo","Email không được rỗng")
+        }
+        else {
+            if(!regexEmail.test(email)&& passWord == passWordAgain || !regexEmail.test(email)&& passWord != passWordAgain){
+                Alert.alert("Thông báo","Email không hợp lệ")
+            }
+            else if(regexEmail.test(email) && passWord != passWordAgain) {
+                Alert.alert("Thông báo","Mật khẩu xác nhận không giống với mật khẩu trên")
+            }
+            else if(regexEmail.test(email) && passWord == "") {
+                Alert.alert("Thông báo","Mời bạn nhập mật khẩu")
+            }
+            else 
+            {
+                createUserWithEmailAndPassword(auth,email,passWord)
+                .then(()=>{
+                    Alert.alert("Thông báo","Đăng ký thành công !")
+                    navigation.navigate("Login");
+                })
+                .catch(error =>{
+                    Alert.alert("Thông báo","Xảy ra lỗi! \n Mời bạn nhập lại tài khoản và mật khẩu")
+                })
+            }
+            
+            
+        }
+    }
+
     return (
         <View style={styles.container}>
              <View style={styles.containerTabBar}>
@@ -38,17 +91,17 @@ function Register(){
                 <Text style={{fontSize:18,textAlign:'center'}}>Vui lòng nhập số điện thoại và mật khẩu để {'\n'} đăng ký tài khoản</Text>
             </View>
             <View style={styles.containerInput}>
-                <TextInput placeholder="Vui lòng nhập Email" style={{marginLeft:15,marginRight:15,height:50,fontSize:22,borderBottomWidth:1,}}/>
+                <TextInput onChangeText={x=>setEmail(x)} value={email} placeholder="Vui lòng nhập Email" style={{marginLeft:15,marginRight:15,height:50,fontSize:22,borderBottomWidth:1,}}/>
                 <View style={{display:'flex',flexDirection:'row',borderBottomWidth:1,marginLeft:15,marginRight:15,}}>
-                    <TextInput secureTextEntry={isPassword}  placeholder="Vui lòng nhập mật khẩu" style={{height:50,fontSize:22,width:"85%"}}/>
-                    <TouchableOpacity style={{justifyContent:'center',alignItems:'center',width:"15%"}} onPress={hanldPress}>
+                    <TextInput onChangeText={x=>setPassWord(x)} value={passWord} secureTextEntry={isPassword}  placeholder="Vui lòng nhập mật khẩu" style={{height:50,fontSize:22,width:"85%"}}/>
+                    <TouchableOpacity style={{justifyContent:'center',alignItems:'center',width:"15%"}} onPress={hanldPressPass}>
                         <Text style={{fontSize:22}}>{isTextButton}</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={{display:'flex',flexDirection:'row',borderBottomWidth:1,marginLeft:15,marginRight:15,}}>
-                    <TextInput secureTextEntry={isPassword}  placeholder="Vui lòng nhập lại mật khẩu" style={{height:50,fontSize:22,width:"85%"}}/>
-                    <TouchableOpacity style={{justifyContent:'center',alignItems:'center',width:"15%"}} onPress={hanldPress}>
-                        <Text style={{fontSize:22}}>{isTextButton}</Text>
+                    <TextInput onChangeText={x=>setPassWordAgain(x)} value={passWordAgain} secureTextEntry={isPasswordAgain}  placeholder="Vui lòng nhập lại mật khẩu" style={{height:50,fontSize:22,width:"85%"}}/>
+                    <TouchableOpacity style={{justifyContent:'center',alignItems:'center',width:"15%"}} onPress={hanldPressPassAgain}>
+                        <Text style={{fontSize:22}}>{isTextButton2}</Text>
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity onPress={hanldPressLogin} style={{marginTop:25,alignItems:'center',width:"100%"}} >
@@ -61,7 +114,7 @@ function Register(){
             
             <View style={styles.containerBottom}>
                 <View></View>
-                <TouchableOpacity style={styles.bottom} >
+                <TouchableOpacity onPress={hanldPressRegister} style={styles.bottom} >
                     <AntDesign name="arrowright" size={24} color="white" />
                 </TouchableOpacity>
             </View>
