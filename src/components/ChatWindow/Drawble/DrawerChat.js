@@ -9,13 +9,18 @@ import styles from "./StyleDrawerChat";
 import { useState } from "react";
 import { MaterialIcons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
+import { useNavigation } from "@react-navigation/native";
 
 function DrawerChat(){
+    const navigation = useNavigation();
     const [isBFF,setIsBFF] = useState(false);
+    const hanldPressGoBack= ()=>{
+        navigation.navigate("ChatWindow");
+    }
     return(
         <View style={styles.container} >
             <View style={styles.containerTabBar}>
-                    <TouchableOpacity style={{  paddingLeft:10,paddingRight:10,justifyContent:'center',paddingTop:10,}} >
+                    <TouchableOpacity onPress={hanldPressGoBack} style={{  paddingLeft:10,paddingRight:10,justifyContent:'center',paddingTop:10,}} >
                         <Ionicons name="arrow-back" size={30} color="#fff" />
                     </TouchableOpacity>
                     <View style={{width:"73%",justifyContent:'center',alignItems:'center',paddingTop:10,}}>

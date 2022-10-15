@@ -1,9 +1,13 @@
-import { View,Text,TouchableOpacity,TextInput } from "react-native";
+import { View,Text,TouchableOpacity,TextInput, Alert } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import styles from "./StyleLogin";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+// Import FireBase
+import{initializeAuth,signInWithEmailAndPassword,GoogleAuthProvider,signInWithPopup} from 'firebase/auth';
+import {initializeApp} from 'firebase/app';
+import { firebaseConfig } from "../../../firebase-config";
 function Login(){
     
     const [isPassword,setPassword] = useState(true);
@@ -23,13 +27,33 @@ function Login(){
             setTextButton("Hiện");
         }
     };
+    // Connect FireBase
+    const app = initializeApp(firebaseConfig);
+    const auth = initializeAuth(app,{
+    });
+    const provider = new GoogleAuthProvider();
+    const loginWithGoogle = async() => {
+        const user = await signInWithPopup(auth, provider)
+        return user;
+    };
+    const handleLoginWithGoogle = () => {
+        // loginWithGoogle();
+        loginWithGoogle()
+                .then(() => {
+                    navigation.navigate("Home");
+                })
+                .catch((err) => {
+                    Alert.alert("Thông báo","Có lỗi xảy ra");
+                });
+    };
     const hanldPressLogin = ()=>{
-        // // auth.createUserWithEmailAndPassword()
-        // auth.signInWithEmailAndPassword(email,passWord).then(userCredentials => {
-        //     const user = userCredentials.user;
-        //     console.log("Logged in with : ", user.email);
-        // })
-        // .catch(error=> alert(error.message))
+        signInWithEmailAndPassword(auth,email,passWord)
+        .then(()=>{
+            navigation.navigate("Home");
+        })
+        .catch(error =>{
+            Alert.alert("Thông báo","Xảy ra lỗi! \n Mời bạn nhập lại tài khoản và mật khẩu")
+        })
     }
     return (
         <View style={styles.container}>
@@ -58,13 +82,24 @@ function Login(){
                     </Text>
             </TouchableOpacity>
             </View>
-            
             <View style={styles.containerBottom}>
                 <View></View>
                 <TouchableOpacity onPress={hanldPressLogin} style={styles.bottom} >
                     <AntDesign name="arrowright" size={24} color="white" />
                 </TouchableOpacity>
             </View>
+            <TouchableOpacity onPress={handleLoginWithGoogle} style={styles.buttonGoogle}>
+                <View style={{margin:30,borderWidth:0.5,height:50,alignItems:'center',display:'flex',flexDirection:'row',borderColor:'grey',backgroundColor:"#FFC1C1",borderRadius:10,}}>
+                    <View style={{width:"15%",alignItems:'center',height:50,justifyContent:'center'}}>
+                        <AntDesign name="google" size={24} color="red" />
+                    </View>
+                    <View style={{width:"70%"}}>
+                        <Text style={{fontSize:22,textAlign:'center',color:'red'}}>Sign In With Google</Text>
+                    </View>
+                </View>
+            </TouchableOpacity>
+            
+            
         </View>
     );
 }
