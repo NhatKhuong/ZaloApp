@@ -5,7 +5,6 @@ import Search from "../Search/Search";
 import ListFriend from "../ListFriend/ListFriend";
 import Footter from "../Footter/Footter";
 function Home(props) {
-    
     return (
         <View style={styles.container}>
             <View style={styles.containerItem}>
