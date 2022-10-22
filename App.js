@@ -9,7 +9,9 @@ import Register from "./src/components/Login&Register/Register";
 import Login from "./src/components/Login&Register/Login";
 import DashBoard from "./src/components/ForgotPassword&DashBoard/DashBoard";
 import ForgotPassword from "./src/components/ForgotPassword&DashBoard/ForgotPassword";
-
+import ScannerQR from "./src/components/ScannerQR/scannerQR";
+import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import axios from "axios";
 export default function App() {
     const home = "Home"
     const chatWindow = "ChatWindow"
@@ -19,6 +21,9 @@ export default function App() {
     const register = "Register";
     const dashBoard = "DashBoard";
     const forgotPassword = "ForgotPassword";
+    const scannerQR = "ScannerQR";
+
+    
     return (
         <NavigationContainer>
             <Stack.Navigator initialRouteName={dashBoard} screenOptions={{headerShown:false}}>
@@ -30,7 +35,17 @@ export default function App() {
                 <Stack.Screen name={register} component={Register} />
                 <Stack.Screen name={dashBoard} component={DashBoard} />
                 <Stack.Screen name={forgotPassword} component={ForgotPassword} />
+                <Stack.Screen name={scannerQR} component={ScannerQR} />
             </Stack.Navigator>
         </NavigationContainer>
         );
+        
 }
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#fff',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+  });

@@ -1,12 +1,11 @@
 import axios from "axios";
 class AuthService {
-    serverUrl = process.env.SERVER_APP_URL || "http:localhost:5000/api";
 
-    async login(accessToken: string) {
+    async login(accessToken) {
         try {
             
             var user = await axios.get(`http://localhost:5000/api/users/profile`, {
-                headers: { authorization: accessToken as string },
+                headers: { authorization: accessToken },
             });
             return user;
         } catch (e) {

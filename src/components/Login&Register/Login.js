@@ -8,8 +8,9 @@ import { useNavigation } from "@react-navigation/native";
 import{initializeAuth,signInWithEmailAndPassword,} from 'firebase/auth';
 import {initializeApp} from 'firebase/app';
 import { firebaseConfig } from "../../../firebase-config";
+// import authService from "../../services/auth.service";
+import axios from "axios";
 function Login(){
-    
     const [isPassword,setPassword] = useState(true);
     const [isTextButton,setTextButton] = useState("Hiện");
     const [email,setEmail] = useState("");
@@ -34,9 +35,14 @@ function Login(){
     const hanldPressLogin = ()=>{
         signInWithEmailAndPassword(auth,email,passWord)
         .then(()=>{
-            console.log(auth.currentUser.stsTokenManager.accessToken) // In cái Token
-            navigation.navigate("Home");
-
+            const accessToken =`Bearer ${auth.currentUser.stsTokenManager.accessToken}`;
+            axios(`https://frozen-caverns-53350.herokuapp.com/api/users/profile`,{
+              method: 'GET',
+              headers: { authorization: accessToken },
+            }).then((response) => {
+              console.log(response.data);
+            }).catch(err => console.log(err));
+            navigation.navigate("Home")
         })
         .catch(error =>{
             Alert.alert("Thông báo","Xảy ra lỗi! \n Mời bạn nhập lại tài khoản và mật khẩu")

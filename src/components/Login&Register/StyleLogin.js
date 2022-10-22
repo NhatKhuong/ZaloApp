@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     },
     containerText:{
-        height:"5%",
+        height:"8%",
         backgroundColor:'#F5FFFA',
         justifyContent:'center',
         alignItems:'center',
