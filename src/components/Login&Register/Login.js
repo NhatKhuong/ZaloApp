@@ -5,11 +5,12 @@ import styles from "./StyleLogin";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 // Import FireBase
-import{initializeAuth,signInWithEmailAndPassword,GoogleAuthProvider,signInWithPopup} from 'firebase/auth';
+import{initializeAuth,signInWithEmailAndPassword,} from 'firebase/auth';
 import {initializeApp} from 'firebase/app';
 import { firebaseConfig } from "../../../firebase-config";
+// import authService from "../../services/auth.service";
+import axios from "axios";
 function Login(){
-    
     const [isPassword,setPassword] = useState(true);
     const [isTextButton,setTextButton] = useState("Hiện");
     const [email,setEmail] = useState("");
@@ -31,25 +32,17 @@ function Login(){
     const app = initializeApp(firebaseConfig);
     const auth = initializeAuth(app,{
     });
-    const provider = new GoogleAuthProvider();
-    const loginWithGoogle = async() => {
-        const user = await signInWithPopup(auth, provider)
-        return user;
-    };
-    const handleLoginWithGoogle = () => {
-        // loginWithGoogle();
-        loginWithGoogle()
-                .then(() => {
-                    navigation.navigate("Home");
-                })
-                .catch((err) => {
-                    Alert.alert("Thông báo","Có lỗi xảy ra");
-                });
-    };
     const hanldPressLogin = ()=>{
         signInWithEmailAndPassword(auth,email,passWord)
         .then(()=>{
-            navigation.navigate("Home");
+            const accessToken =`Bearer ${auth.currentUser.stsTokenManager.accessToken}`;
+            axios(`https://frozen-caverns-53350.herokuapp.com/api/users/profile`,{
+              method: 'GET',
+              headers: { authorization: accessToken },
+            }).then((response) => {
+              console.log(response.data);
+            }).catch(err => console.log(err));
+            navigation.navigate("Home")
         })
         .catch(error =>{
             Alert.alert("Thông báo","Xảy ra lỗi! \n Mời bạn nhập lại tài khoản và mật khẩu")
@@ -88,7 +81,7 @@ function Login(){
                     <AntDesign name="arrowright" size={24} color="white" />
                 </TouchableOpacity>
             </View>
-            <TouchableOpacity onPress={handleLoginWithGoogle} style={styles.buttonGoogle}>
+            <TouchableOpacity style={styles.buttonGoogle}>
                 <View style={{margin:30,borderWidth:0.5,height:50,alignItems:'center',display:'flex',flexDirection:'row',borderColor:'grey',backgroundColor:"#FFC1C1",borderRadius:10,}}>
                     <View style={{width:"15%",alignItems:'center',height:50,justifyContent:'center'}}>
                         <AntDesign name="google" size={24} color="red" />

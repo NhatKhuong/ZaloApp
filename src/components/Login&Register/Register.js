@@ -5,7 +5,7 @@ import styles from "./StyleRegister";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 // Import FireBase
-import{initializeAuth,createUserWithEmailAndPassword} from 'firebase/auth';
+import{initializeAuth,createUserWithEmailAndPassword, sendEmailVerification} from 'firebase/auth';
 import {initializeApp} from 'firebase/app';
 import { firebaseConfig } from "../../../firebase-config";
 
@@ -13,6 +13,7 @@ function Register(){
     const [isPassword,setIsPassword] = useState(true);
     const [isPasswordAgain,setIsPasswordAgain] = useState(true);
     const [email,setEmail] = useState("");
+    const [userName,setuserName] = useState("");
     const [passWord,setPassWord] = useState("");
     const [passWordAgain,setPassWordAgain] = useState("");
     const [isTextButton,setTextButton] = useState("Hiện");
@@ -91,6 +92,7 @@ function Register(){
                 <Text style={{fontSize:18,textAlign:'center'}}>Vui lòng nhập số điện thoại và mật khẩu để {'\n'} đăng ký tài khoản</Text>
             </View>
             <View style={styles.containerInput}>
+                <TextInput onChangeText={x=>setuserName(x)} value={userName} placeholder="Vui lòng nhập Tên người dùng" style={{marginLeft:15,marginRight:15,height:50,fontSize:22,borderBottomWidth:1,}}/>
                 <TextInput onChangeText={x=>setEmail(x)} value={email} placeholder="Vui lòng nhập Email" style={{marginLeft:15,marginRight:15,height:50,fontSize:22,borderBottomWidth:1,}}/>
                 <View style={{display:'flex',flexDirection:'row',borderBottomWidth:1,marginLeft:15,marginRight:15,}}>
                     <TextInput onChangeText={x=>setPassWord(x)} value={passWord} secureTextEntry={isPassword}  placeholder="Vui lòng nhập mật khẩu" style={{height:50,fontSize:22,width:"85%"}}/>
@@ -98,6 +100,7 @@ function Register(){
                         <Text style={{fontSize:22}}>{isTextButton}</Text>
                     </TouchableOpacity>
                 </View>
+
                 <View style={{display:'flex',flexDirection:'row',borderBottomWidth:1,marginLeft:15,marginRight:15,}}>
                     <TextInput onChangeText={x=>setPassWordAgain(x)} value={passWordAgain} secureTextEntry={isPasswordAgain}  placeholder="Vui lòng nhập lại mật khẩu" style={{height:50,fontSize:22,width:"85%"}}/>
                     <TouchableOpacity style={{justifyContent:'center',alignItems:'center',width:"15%"}} onPress={hanldPressPassAgain}>
