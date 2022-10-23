@@ -2,23 +2,43 @@ import { View,Text,TouchableOpacity,TextInput, Alert } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import styles from "./StyleLogin";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 // Import FireBase
 import{initializeAuth,signInWithEmailAndPassword,} from 'firebase/auth';
 import {initializeApp} from 'firebase/app';
 import { firebaseConfig } from "../../../firebase-config";
-// import authService from "../../services/auth.service";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import userAPI from "../../redux/reducers/user/userAPI";
+
 function Login(){
+    //UseState
     const [isPassword,setPassword] = useState(true);
     const [isTextButton,setTextButton] = useState("Hiện");
     const [email,setEmail] = useState("");
     const [passWord,setPassWord] = useState("");
+    //useDispatch
+    const dispatch = useDispatch();
+    const userState = useSelector(state => state.user);
+    //Navigation
     const navigation = useNavigation();
     const hanldPressDashBoard = () => {
         navigation.navigate("DashBoard");
     };
+    //UseEffect
+    useEffect(() => {
+        if (userState.is_login) {
+            navigation.navigate("Home")
+        } else {
+            if (userState.error) {
+                (
+                    Alert.alert("Thông báo", "Tài khoản, mật khẩu sai")
+                )
+            }
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [userState]);
     const hanldPress = () => {
         if(isPassword){
             setPassword(false);
@@ -36,18 +56,14 @@ function Login(){
         signInWithEmailAndPassword(auth,email,passWord)
         .then(()=>{
             const accessToken =`Bearer ${auth.currentUser.stsTokenManager.accessToken}`;
-            axios(`https://frozen-caverns-53350.herokuapp.com/api/users/profile`,{
-              method: 'GET',
-              headers: { authorization: accessToken },
-            }).then((response) => {
-              console.log(response.data);
-            }).catch(err => console.log(err));
-            navigation.navigate("Home")
+            var user = userAPI.getUserInfo()(accessToken )
+            dispatch(user);
         })
         .catch(error =>{
             Alert.alert("Thông báo","Xảy ra lỗi! \n Mời bạn nhập lại tài khoản và mật khẩu")
         })
     }
+    
     return (
         <View style={styles.container}>
              <View style={styles.containerTabBar}>
