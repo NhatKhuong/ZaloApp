@@ -1,3 +1,4 @@
+import 'localstorage-polyfill'; 
 class TokenService {
     getRefreshToken() {
         const token = localStorage.getItem("refresh_token");
@@ -9,11 +10,11 @@ class TokenService {
         return token;
     }
 
-    setRefreshToken(token: string) {
+    setRefreshToken(token) {
         localStorage.setItem("refresh_token", token);
     }
 
-    setAccessToken(token: string) {
+    setAccessToken(token) {
         localStorage.setItem("access_token", token);
     }
 

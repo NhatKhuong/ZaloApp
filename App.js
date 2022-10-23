@@ -11,7 +11,9 @@ import DashBoard from "./src/components/ForgotPassword&DashBoard/DashBoard";
 import ForgotPassword from "./src/components/ForgotPassword&DashBoard/ForgotPassword";
 import ScannerQR from "./src/components/ScannerQR/scannerQR";
 import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import axios from "axios";
+import { Provider } from "react-redux";
+import {store} from "./src/redux/store";
+import 'localstorage-polyfill'; 
 export default function App() {
     const home = "Home"
     const chatWindow = "ChatWindow"
@@ -25,7 +27,8 @@ export default function App() {
 
     
     return (
-        <NavigationContainer>
+        <Provider store={store}>
+            <NavigationContainer>
             <Stack.Navigator initialRouteName={dashBoard} screenOptions={{headerShown:false}}>
                 <Stack.Screen name={home} component={Home}/>
                 <Stack.Screen name={chatWindow} component={ChatWindow} />
@@ -38,6 +41,7 @@ export default function App() {
                 <Stack.Screen name={scannerQR} component={ScannerQR} />
             </Stack.Navigator>
         </NavigationContainer>
+        </Provider>
         );
         
 }
