@@ -27,7 +27,6 @@ export const userSlice = createSlice({
         builder.addCase(
             userAPI.getUserInfo().fulfilled,
             (state, action) => {
-                console.log(state);  
                 tokenService.setAccessToken(action.payload.accessToken);
                 // tokenService.setRefreshToken(action.payload.accessToken);
                 state.error = false;
@@ -35,7 +34,6 @@ export const userSlice = createSlice({
                 state.user = action.payload.user;
                 state.rooms = action.payload.rooms;
                 state.accessToken = action.payload.accessToken;  
-                console.log(state);           
             }
         );
         builder.addCase(userAPI.getUserInfo().rejected, (state) => {

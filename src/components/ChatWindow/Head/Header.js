@@ -4,12 +4,14 @@ import styles from "./Header_Style";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
-function Header({navigation}) {
+import { useNavigation } from "@react-navigation/native";
+function Header() {
+    const navigation = useNavigation();
     return (
         <View style={styles.container}>
             <View style={styles.container_left}>
                 <View  style={styles.containerIcon}>
-                    <TouchableOpacity onPress={()=>navigation.goBack()} style={styles.button}>
+                    <TouchableOpacity onPress={()=>navigation.navigate("Home")} style={styles.button}>
                         <MaterialIcons 
                             name="keyboard-arrow-left"
                             size={32}

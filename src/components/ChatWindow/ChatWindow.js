@@ -4,11 +4,12 @@ import styles from "./ChatWindow_Style";
 import Header from "./Head/Header";
 import Body from "./Body/Body";
 import Footter from "./Footter/Footter_Chat";
-function ChatWindow(props) {
+function ChatWindow({route}) {
+    const {id} = route.params;
     return (
         <View style={styles.container}>
-            <Header {...props}/>
-            <Body style={styles.main}/>
+            <Header />
+            <Body id={id} style={styles.main}/>
             <Footter style={styles.footter} />
         </View>
     );

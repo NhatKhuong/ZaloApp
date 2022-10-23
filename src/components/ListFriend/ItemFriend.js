@@ -1,33 +1,24 @@
 import { Text, View, Image, FlatList, ScrollView, TouchableHighlight } from "react-native";
 import React, { Component } from "react";
 import styles from "./ItemFriend_Style";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { AntDesign } from '@expo/vector-icons';
 import { SwipeListView } from "react-native-swipe-list-view";
 import { Feather } from '@expo/vector-icons';
-import { color } from "react-native-reanimated";
-const Data = [
-    {id:1,name:'Trần Tấn Phước',image:'https://khoinguonsangtao.vn/wp-content/uploads/2022/07/avatar-gau-cute.jpg',lastMessage:'Hello',time:'10 phút'},
-    {id:2,name:'Trần Tấn A',image:'https://khoinguonsangtao.vn/wp-content/uploads/2022/07/avatar-gau-cute.jpg',lastMessage:'Hello',time:'10 phút'},
-    {id:3,name:'Trần Tấn B',image:'https://vaithuhayho.com/wp-content/uploads/2022/07/anh-avatar-cute-de-thuong-5.jpg',lastMessage:'Hello',time:'10 phút'},
-    {id:4,name:'Trần Tấn C',image:'https://i.pinimg.com/originals/47/e0/01/47e001f1be26293d7f8826c5b262d9df.jpg',lastMessage:'Hello',time:'10 phút'},
-    {id:5,name:'Trần Tấn D',image:'https://kiemtientuweb.com/ckfinder/userfiles/images/avt-cute/avatar-cute-1.jpg',lastMessage:'Hello',time:'10 phút'},
-    {id:6,name:'Trần Tấn D',image:'https://kiemtientuweb.com/ckfinder/userfiles/images/avt-cute/avatar-cute-1.jpg',lastMessage:'Hello',time:'10 phút'},
-    {id:7,name:'Trần Tấn D',image:'https://kiemtientuweb.com/ckfinder/userfiles/images/avt-cute/avatar-cute-1.jpg',lastMessage:'Hello',time:'10 phút'},
-    {id:8,name:'Trần Tấn D',image:'https://kiemtientuweb.com/ckfinder/userfiles/images/avt-cute/avatar-cute-1.jpg',lastMessage:'Hello',time:'10 phút'},
-    {id:9,name:'Trần Tấn D',image:'https://kiemtientuweb.com/ckfinder/userfiles/images/avt-cute/avatar-cute-1.jpg',lastMessage:'Hello',time:'10 phút'},
-    {id:10,name:'Trần Tấn D',image:'https://kiemtientuweb.com/ckfinder/userfiles/images/avt-cute/avatar-cute-1.jpg',lastMessage:'Hello',time:'10 phút'},
-    {id:11,name:'Trần Tấn D',image:'https://kiemtientuweb.com/ckfinder/userfiles/images/avt-cute/avatar-cute-1.jpg',lastMessage:'Hello',time:'10 phút'},
-    {id:12,name:'Trần Tấn A',image:'https://khoinguonsangtao.vn/wp-content/uploads/2022/07/avatar-gau-cute.jpg',lastMessage:'Hello',time:'10 phút'},
-    {id:13,name:'Trần Tấn B',image:'https://vaithuhayho.com/wp-content/uploads/2022/07/anh-avatar-cute-de-thuong-5.jpg',lastMessage:'Hello',time:'10 phút'},
-    {id:14,name:'Trần Tấn C',image:'https://i.pinimg.com/originals/47/e0/01/47e001f1be26293d7f8826c5b262d9df.jpg',lastMessage:'Hello',time:'10 phút'},
-];
-const ItemFriend = ({navigation,user}) => {
-    const hanldPress = () => {
-        navigation.navigate("ChatWindow");
-    };
+import { useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
+
+const ItemFriend = ({navigation}) => {
+    
+    const userState = useSelector(state => state.user)
+    const listRoom = userState.rooms;
+    const Data = listRoom.map((e)=>{
+        return ({id:e._id,name:e.name,image:e.avatar,lastMessage:e.messages[0]?.content,time:(e.createdAt)});
+    });
+    
     const renderItem = ({item}) =>{
-        return  <TouchableHighlight underlayColor={'#E6E6FA'} style={styles.touchHightLight} onPress={hanldPress}>
+        return  <TouchableHighlight underlayColor={'#E6E6FA'} style={styles.touchHightLight} onPress={()=>{
+            navigation.navigate("ChatWindow",{id:item.id,name:item.name,image:item.image,lastMessage:item.lastMessage,time:item.time})
+        }}>
                 <View style={styles.container} >
                     <View style={styles.itemFriend_info}>
                         <View style={styles.itemFriend_avatar}>
