@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
     input_Message:{
         width:210,
         marginLeft:10,
+        height:26,
     }
 })
 

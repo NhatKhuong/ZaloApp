@@ -1,16 +1,22 @@
-import { Text, TextInput, View } from 'react-native'
-import React, { Component } from 'react'
+import { KeyboardAvoidingView, Text, TextInput, View } from 'react-native'
+import React, { Component, useState } from 'react'
 import styles from './Footter_Chat_Style'
 import { FontAwesome } from '@expo/vector-icons'; 
 import { MaterialIcons } from '@expo/vector-icons'; 
 import { SimpleLineIcons } from '@expo/vector-icons'; 
-export class Footter_Chat extends Component {
-  render() {
+function Footter_Chat (){
+  const [heightKey,setHeightKey] = useState("6%");
+  const hanldPress= ()=>{
+      setHeightKey("36%")
+  }
+  const hanldPressOut  = ()=>{
+    setHeightKey("6%")
+  }
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView style={[styles.container,{height:heightKey}]}>
         <View style={styles.foorter_left}>
           <MaterialIcons name="insert-emoticon" size={24} color="#0091ff" />
-          <TextInput style={styles.input_Message} placeholder='Nhập tin nhắn...'></TextInput>
+          <TextInput onFocus={hanldPress} onBlur={hanldPressOut} style={styles.input_Message} placeholder='Nhập tin nhắn...'></TextInput>
         </View>
         <View style={styles.footer_Right}>
           <View>
@@ -23,8 +29,7 @@ export class Footter_Chat extends Component {
             <FontAwesome name="send" size={24} color="#0091ff" />
           </View>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     )
   }
-}
 export default Footter_Chat
