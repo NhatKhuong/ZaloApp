@@ -9,8 +9,8 @@ function ChatWindow({route}) {
     return (
         <View style={styles.container}>
             <Header />
-            <Body id={id} style={styles.main}/>
-            <Footter style={styles.footter} />
+            <Body id={id} />
+            <Footter/>
         </View>
     );
 }

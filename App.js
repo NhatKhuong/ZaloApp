@@ -14,6 +14,8 @@ import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-na
 import { Provider } from "react-redux";
 import {store} from "./src/redux/store";
 import 'localstorage-polyfill'; 
+import MyProfile from "./src/components/Profile/MyProfile";
+import FriendProfile from "./src/components/Profile/FriendFrofile";
 export default function App() {
     const home = "Home"
     const chatWindow = "ChatWindow"
@@ -24,8 +26,8 @@ export default function App() {
     const dashBoard = "DashBoard";
     const forgotPassword = "ForgotPassword";
     const scannerQR = "ScannerQR";
-
-    
+    const myProfile = "MyProfile";
+    const friendProfile = "FriendProfile";
     return (
         <Provider store={store}>
             <NavigationContainer>
@@ -39,6 +41,8 @@ export default function App() {
                 <Stack.Screen name={dashBoard} component={DashBoard} />
                 <Stack.Screen name={forgotPassword} component={ForgotPassword} />
                 <Stack.Screen name={scannerQR} component={ScannerQR} />
+                <Stack.Screen name={myProfile} component={MyProfile} />
+                <Stack.Screen name={friendProfile} component={FriendProfile} />
             </Stack.Navigator>
         </NavigationContainer>
         </Provider>
