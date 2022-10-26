@@ -6,17 +6,23 @@ import { SwipeListView } from "react-native-swipe-list-view";
 import { Feather } from '@expo/vector-icons';
 import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
-
+import { useDispatch } from "react-redux";
+import roomAPI from "../../redux/reducers/Room/roomAPI";
 const ItemFriend = ({navigation}) => {
-    
+    const roomState = useSelector(state => state.room);
     const userState = useSelector(state => state.user)
     const listRoom = userState.rooms;
+    const accessToken = userState.accessToken;
+    const dispatch = useDispatch();
     const Data = listRoom.map((e)=>{
         return ({id:e._id,name:e.name,image:e.avatar,lastMessage:e.messages[0]?.content,time:(e.createdAt)});
     });
     
     const renderItem = ({item}) =>{
         return  <TouchableHighlight underlayColor={'#E6E6FA'} style={styles.touchHightLight} onPress={()=>{
+            const id = item.id;
+            dispatch(roomAPI.getListChat()({ accessToken, id }));
+            dispatch(roomAPI.saveRoomId()(id))
             navigation.navigate("ChatWindow",{id:item.id,name:item.name,image:item.image,lastMessage:item.lastMessage,time:item.time})
         }}>
                 <View style={styles.container} >
