@@ -1,15 +1,14 @@
 import axios from "axios";
 class BussinessService {
-    async getListChat(accessToken, _id) {
+    async getListChat(accessToken, id) {
         try {
-            var user = await axios.get(`https://frozen-caverns-53350.herokuapp.com/api/rooms/${_id}/messages`, {
+            var user = await axios(`https://frozen-caverns-53350.herokuapp.com/api/rooms/${id}/messages`,{
+                method: 'GET',
                 headers: { authorization: accessToken },
-            });
-            console.log(user);
+              });
             return user;
         } catch (e) {
-            console.log(e);
-            
+            console.log(e)
         }
     }
 
@@ -17,7 +16,7 @@ class BussinessService {
         try {
             console.log(accessToken);
             
-            var user = await axios.get(`https://frozen-caverns-53350.herokuapp.com/api/users/profile`, {
+            var user = await axios(`https://frozen-caverns-53350.herokuapp.com/api/users/profile`, {
                 headers: { authorization: accessToken },
             });
             console.log(user);
