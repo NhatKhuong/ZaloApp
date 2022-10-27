@@ -16,7 +16,6 @@ class UserAPI {
 
     updateListChatForUserNoOnScreen(){
         return createAsyncThunk("room/update-list-chat-for-userNoOnScreen", async (data, thunkAPI) => {
-            console.log(data);
             return data;
 
         });
