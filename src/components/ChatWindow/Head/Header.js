@@ -5,7 +5,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
-function Header() {
+function Header({name}) {
     const navigation = useNavigation();
     return (
         <View style={styles.container}>
@@ -21,7 +21,7 @@ function Header() {
                 </View>
                 
                 <View style={styles.container_friend_Name}>
-                    <Text style={styles.friend_Name}>Nhật Khương</Text>
+                    <Text style={styles.friend_Name}>{name}</Text>
                 </View>
             </View>
             <View style={styles.container_right}>
