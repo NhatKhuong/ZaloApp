@@ -10,6 +10,10 @@ import {initializeApp} from 'firebase/app';
 import { firebaseConfig } from "../../../firebase-config";
 import { useDispatch, useSelector } from "react-redux";
 import userAPI from "../../redux/reducers/user/userAPI";
+import * as WebBrowser from 'expo-web-browser';
+import * as Google from 'expo-auth-session/providers/google';
+import * as React from 'react';
+import { getAuth, GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
 
 function Login(){
     //UseState
@@ -17,6 +21,8 @@ function Login(){
     const [isTextButton,setTextButton] = useState("Hiện");
     const [email,setEmail] = useState("");
     const [passWord,setPassWord] = useState("");
+    const [accessToken,setAccessToken] =React.useState();
+
     //useDispatch
     const dispatch = useDispatch();
     const userState = useSelector(state => state.user);
@@ -32,7 +38,7 @@ function Login(){
         } else {
             if (userState.error) {
                 (
-                    Alert.alert("Thông báo", "Tài khoản, mật khẩu sai")
+                    Alert.alert("Thông báo", "Đăng nhập")
                 )
             }
         }
@@ -63,7 +69,32 @@ function Login(){
             Alert.alert("Thông báo","Xảy ra lỗi! \n Mời bạn nhập lại tài khoản và mật khẩu")
         })
     }
+
+    WebBrowser.maybeCompleteAuthSession();
+    const [request, response, promptAsync] = Google.useIdTokenAuthRequest(
+        {
+          expoClientId: '345645422283-i00vurhgr0ian3jgjc8sng4brf4fna9u.apps.googleusercontent.com',
+          clientId: '345645422283-jsabtq810dpq1rim0amsr74nmkvec522.apps.googleusercontent.com',
+          iosClientId: '345645422283-lrb3hel7ulctk9hcoul0idh9e4sol75k.apps.googleusercontent.com',
+        },
+      );
     
+    const handleLoginWithGoogle = (async() => {
+        const response =await promptAsync();
+        
+        if (response?.type === 'success') {
+
+            const { id_token } = response.params;
+            const auth = getAuth();
+            const credential = GoogleAuthProvider.credential(id_token);
+            signInWithCredential(auth, credential);
+
+            const accessToken =`Bear ${auth.currentUser.stsTokenManager.accessToken}`;
+            dispatch(userAPI.getUserInfo()(accessToken));
+            var user = userAPI.getUserInfo()(id_token )
+            dispatch(user);
+           }
+    });
     return (
         <View style={styles.container}>
              <View style={styles.containerTabBar}>
@@ -97,7 +128,7 @@ function Login(){
                     <AntDesign name="arrowright" size={24} color="white" />
                 </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.buttonGoogle}>
+            <TouchableOpacity style={styles.buttonGoogle}  disabled={!request} onPress={handleLoginWithGoogle}>
                 <View style={{margin:30,borderWidth:0.5,height:50,alignItems:'center',display:'flex',flexDirection:'row',borderColor:'grey',backgroundColor:"#FFC1C1",borderRadius:10,}}>
                     <View style={{width:"15%",alignItems:'center',height:50,justifyContent:'center'}}>
                         <AntDesign name="google" size={24} color="red" />
