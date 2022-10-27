@@ -39,7 +39,7 @@ class RoomAPI {
     return createAsyncThunk(
       "room/update-list-chat",
       async (data, thunkAPI) => {
-        return data
+        return data;
 
         });
     }

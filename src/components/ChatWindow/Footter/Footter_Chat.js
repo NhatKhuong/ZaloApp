@@ -8,6 +8,7 @@ import io, { Socket } from "socket.io-client";
 import { useDispatch } from 'react-redux';
 import roomAPI from "../../../redux/reducers/Room/roomAPI";
 import { useSelector } from 'react-redux';
+import * as ImagePicker  from 'expo-image-picker';
 function Footter_Chat (){
   const dispatch = useDispatch();
   const [heightKey,setHeightKey] = useState("6%");
@@ -35,6 +36,21 @@ function Footter_Chat (){
           type: "text",
       });
   };
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      console.log(result.uri);
+    }
+  };
     return (
       <KeyboardAvoidingView style={[styles.container,{height:heightKey}]}>
         <View style={styles.foorter_left}>
@@ -45,15 +61,16 @@ function Footter_Chat (){
           <View>
             <MaterialIcons name="keyboard-voice" size={24} color="#0091ff" />
           </View>
-          <View>
+          <TouchableOpacity onPress={pickImage}>
             <SimpleLineIcons name="picture" size={24} color="#0091ff" />
-          </View>
+          </TouchableOpacity>
           <TouchableOpacity onPress={()=>{
             console.log(text)
             sendMessageSocket();
             dispatch(roomAPI.updateSentMessage()(text));
             console.log("nhan enter");
             setText("");
+            hanldPressOut();
           }}>
             <FontAwesome name="send" size={24} color="#0091ff" />
           </TouchableOpacity>
