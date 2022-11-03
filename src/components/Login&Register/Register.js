@@ -65,7 +65,12 @@ function Register(){
             else 
             {
                 createUserWithEmailAndPassword(auth,email,passWord)
-                .then(()=>{
+                .then((userCredential)=>{
+                    const user =userCredential.user
+                    sendEmailVerification(user).then(()=>
+                    {
+                        console.log('Email verification sent')
+                    })
                     Alert.alert("Thông báo","Đăng ký thành công !")
                     navigation.navigate("Login");
                 })
@@ -88,8 +93,12 @@ function Register(){
                         <Text style={{fontSize:22,color:'white',}}>Đăng Ký</Text>
                     </View>
             </View>
+            <Image
+            source={require("../../../assets/dangky.png")}
+            style={{ height: 300, width: 350, marginLeft: 20 }}
+            />
             <View style={styles.containerText}>
-                <Text style={{fontSize:18,textAlign:'center'}}>Vui lòng nhập số điện thoại và mật khẩu để {'\n'} đăng ký tài khoản</Text>
+                <Text style={{fontSize:16,textAlign:'center'}}>Vui lòng nhập số điện thoại và mật khẩu để {'\n'} đăng ký tài khoản</Text>
             </View>
             <View style={styles.containerInput}>
                 <TextInput onChangeText={x=>setuserName(x)} value={userName} placeholder="Vui lòng nhập Tên người dùng" style={{marginLeft:15,marginRight:15,height:50,fontSize:22,borderBottomWidth:1,}}/>

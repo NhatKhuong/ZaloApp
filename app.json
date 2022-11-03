@@ -3,10 +3,10 @@
     "name": "AwesomeProject",
     "slug": "AwesomeProject",
     "version": "1.0.0",
+    "scheme": "myapp",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "scheme": "com.companyname.awesomeproject",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -26,21 +26,10 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      },
-      "package": "com.companyname.AwesomeProject"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    },
-    "packagerOpts": {
-      "sourceExts": [
-        "cjs"
-      ]
-    },
-    "extra": {
-      "eas": {
-        "projectId": "000dee96-1443-4921-b9b5-93fff516e4c5"
-      }
     }
   }
 }

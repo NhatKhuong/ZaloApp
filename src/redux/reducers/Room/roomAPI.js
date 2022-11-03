@@ -6,8 +6,8 @@ class RoomAPI {
     return createAsyncThunk(
       "room/get-list-chat",
       async (data, thunkAPI) => {
-        const { accessToken, _id } = data;
-        const result = await businessService.getListChat(accessToken, _id);
+        const { accessToken, id } = data;
+        const result = await businessService.getListChat(accessToken, id);
         if (result.status === 200) return result.data;
         return thunkAPI.rejectWithValue("login_fail");
       }
@@ -39,14 +39,13 @@ class RoomAPI {
     return createAsyncThunk(
       "room/update-list-chat",
       async (data, thunkAPI) => {
-        return data
+        return data;
 
         });
     }
     
     saveRoomId(){
         return createAsyncThunk("room/save-room-id", async (data, thunkAPI) => {
-            console.log(data);
             return data;
             
         });

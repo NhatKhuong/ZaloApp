@@ -13,4 +13,3 @@
   appId: "1:345645422283:web:2eec4b856f01a720ebad4e",
   measurementId: "G-KXD575GJZ4"
 };
-

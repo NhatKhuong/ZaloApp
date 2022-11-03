@@ -1,8 +1,12 @@
-import React from "react";
-import { Image, SafeAreaView, Text, TouchableOpacity, View,} from "react-native";
+import React, { useState, useRef } from "react";
+import { Image, SafeAreaView, Text, TouchableOpacity, View, Animated, ImageBackground,FlatList} from "react-native";
 import styles from "./StyleDashBoard";
 import PagerView from 'react-native-pager-view';
 import { useNavigation } from "@react-navigation/native";
+
+import slides from "../Login&Register/slides";
+import OnboardingItem from "../Login&Register/OnboardingItem";
+import Paginator from "../Login&Register/Paginator";
 
 function DashBoard(){
     const navigation = useNavigation();
@@ -12,9 +16,22 @@ function DashBoard(){
     const hanldPressRegister = () => {
         navigation.navigate("Register");
     };
+
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    const scrollX = useRef(new Animated.Value(0)).current;
+
+    const slidesRef = useRef(null);
+
+    const ViewableItemsChanged = useRef(({ viewableItems }) => {
+        setCurrentIndex(viewableItems[0].index);
+    }).current;
+
+  const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
+
     return (
         <SafeAreaView style={styles.container}>
-            <Image source={{url:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Zalo_logo_2019.svg/2560px-Zalo_logo_2019.svg.png'}} style={{height:53,width:150,marginTop:20,}}/>
+            {/* <Image source={{url:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Zalo_logo_2019.svg/2560px-Zalo_logo_2019.svg.png'}} style={{height:53,width:150,marginTop:20,}}/>
             <View style={{height:400,width:"100%",marginTop:40,}}>
                 <PagerView  style={styles.viewPager} initialPage={0}>
                     <View style={styles.page} key="1">
@@ -76,7 +93,77 @@ function DashBoard(){
                         <Text style={{fontSize:22,}}>Đăng ký</Text>
                     </TouchableOpacity>
                 </View>
+            </View> */}
+            <Text  style={{ fontSize:30, color:"#3366ff",fontWeight:'800' }}>Zalo</Text>
+            <ImageBackground
+            source={require(" ../../../assets/background.png")}
+            style={{ top: 20, width: "100%", height: 230 }}
+            />
+            <View style={{ flex: 3 }}>
+            <FlatList
+                style={{ marginTop: -150 }}
+                data={slides}
+                renderItem={({ item }) => <OnboardingItem item={item} />}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                pagingEnabled
+                bounces={false}
+                keyExtractor={(item) => item.id}
+                onScroll={Animated.event(
+                [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+                {
+                    useNativeDriver: false,
+                }
+                )}
+                scrollEventThrottle={32}
+                onViewableItemsChanged={ViewableItemsChanged}
+                viewabilityConfig={viewConfig}
+                ref={slidesRef}
+            />
+            <Paginator data={slides} scrollX={scrollX}/>
+            <View style={{ top: -50 }}>
+                <View
+                    style={[
+                    {
+                        left:80,
+                        width: 250,
+                        height: 35,
+                        backgroundColor: "rgba(0,101,255,255)",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        borderRadius: 50,
+                    },
+                    ]}
+                >
+                    <TouchableOpacity
+                    onPress={hanldPressLogin}
+                    >
+                    <Text style={{ color: "#fff" }}>Đăng nhập</Text>
+                    
+                    </TouchableOpacity>
+                </View>
+                <View
+                    style={[
+                    {
+                        left:80,
+                        width: 250,
+                        height: 35,
+                        backgroundColor: "rgba(241,243,247,255)",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        borderRadius: 50,
+                        top: 10,
+                    },
+                    ]}
+                >
+                    <TouchableOpacity
+                    onPress={hanldPressRegister}
+                    >
+                    <Text>Đăng ký</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
+        </View>
         </SafeAreaView>
     );
 }

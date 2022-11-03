@@ -1,4 +1,4 @@
-import { View,Text,TouchableOpacity,TextInput, Alert } from "react-native";
+import { View,Text,TouchableOpacity,TextInput, Alert, Image } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import styles from "./StyleLogin";
@@ -13,7 +13,8 @@ import userAPI from "../../redux/reducers/user/userAPI";
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import * as React from 'react';
-import { getAuth, GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
+import { getAuth, getIdToken, GoogleAuthProvider, signInWithCredential, signInWithCustomToken} from 'firebase/auth';
+
 
 function Login(){
     //UseState
@@ -21,8 +22,6 @@ function Login(){
     const [isTextButton,setTextButton] = useState("Hiện");
     const [email,setEmail] = useState("");
     const [passWord,setPassWord] = useState("");
-    const [accessToken,setAccessToken] =React.useState();
-
     //useDispatch
     const dispatch = useDispatch();
     const userState = useSelector(state => state.user);
@@ -69,7 +68,7 @@ function Login(){
             Alert.alert("Thông báo","Xảy ra lỗi! \n Mời bạn nhập lại tài khoản và mật khẩu")
         })
     }
-
+    
     WebBrowser.maybeCompleteAuthSession();
     const [request, response, promptAsync] = Google.useIdTokenAuthRequest(
         {
@@ -89,12 +88,13 @@ function Login(){
             const credential = GoogleAuthProvider.credential(id_token);
             signInWithCredential(auth, credential);
 
-            const accessToken =`Bear ${auth.currentUser.stsTokenManager.accessToken}`;
+            const accessToken =`Bear ${auth.currentUser.accessToken}`;
             dispatch(userAPI.getUserInfo()(accessToken));
             var user = userAPI.getUserInfo()(id_token )
             dispatch(user);
            }
     });
+
     return (
         <View style={styles.container}>
              <View style={styles.containerTabBar}>
@@ -105,8 +105,12 @@ function Login(){
                         <Text style={{fontSize:22,color:'white',}}>Đăng nhập</Text>
                     </View>
             </View>
+            <Image
+            source={require("../../../assets/dangnhap.png")}
+            style={{ height: 300, width: 350, marginLeft: 20 }}
+            />
             <View style={styles.containerText}>
-                <Text style={{fontSize:18,}}>Vui lòng nhập số điện thoại và mật khẩu để đăng nhập</Text>
+                <Text style={{fontSize:15,}}>Vui lòng nhập số điện thoại và mật khẩu để đăng nhập</Text>
             </View>
             <View style={styles.containerInput}>
                 <TextInput onChangeText={x=>setEmail(x)} value={email} placeholder="Vui lòng nhập Email" style={{marginLeft:15,marginRight:15,height:50,fontSize:22,borderBottomWidth:1,}}/>

@@ -9,6 +9,9 @@ function MyProfile() {
     const hanldPressGoBack= ()=>{
         navigation.navigate("Home");
     }
+    const hanldPressLogout= ()=>{
+        navigation.navigate("Login");
+    }
     return (
         <View style={styles.container} >
             <View style={styles.containerTabBar}>
@@ -39,7 +42,7 @@ function MyProfile() {
                                         <Text style={{fontSize:20,color:'black',}}>Thay đổi mật khẩu</Text>
                                     </View>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={styles.containerBody_Mid_ChangeName_Item}>
+                                <TouchableOpacity style={styles.containerBody_Mid_ChangeName_Item} onPress={hanldPressLogout}>
                                     <MaterialCommunityIcons name="exit-to-app" size={24} color="red"  style={{width:"15%",height:"100%"}}/>
                                     <View style={styles.containerBody_Mid_ChangeName_Item_Text}>
                                             <Text style={{fontSize:22,color:'red',}}>Đăng xuất</Text>
