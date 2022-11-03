@@ -11,11 +11,14 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
 
-function DrawerChat(){
+function DrawerChat({route}){
+    const {id,name,image} = route.params;
+    console.log(name);
+    console.log(id);
     const navigation = useNavigation();
     const [isBFF,setIsBFF] = useState(false);
     const hanldPressGoBack= ()=>{
-        navigation.navigate("ChatWindow");
+        navigation.navigate("ChatWindow",{id:id,name:name,image:image});
     }
     return(
         <View style={styles.container} >
@@ -31,8 +34,8 @@ function DrawerChat(){
             <ScrollView style={{paddingBottom: 600}}>
                 <View style={styles.containerBody}>
                     <View style={styles.containerBody_Top}>
-                        <Image style={styles.containerBody_Top_Avt}source={{ uri: 'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80'}}/>
-                        <Text style={{fontSize:30,fontWeight:'bold',color:'black',marginTop:10,}}>Trần Tấn Phước</Text>
+                        <Image style={styles.containerBody_Top_Avt}source={{ uri: image}}/>
+                        <Text style={{fontSize:30,fontWeight:'bold',color:'black',marginTop:10,}}>{name}</Text>
                         <View style={styles.containerBody_Top_Icon}>
                             <TouchableOpacity style={styles.containerBody_Top_Icon_Icon}>
                                 <View style={styles.containerBody_Top_Icon_IconItem}>

@@ -5,19 +5,32 @@ import MessageItem from './MessageItem';
 import MyMessagaItem from './MyMessagaItem';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
+import ScrollToBottom  from 'react-scroll-to-bottom';
 function Body ({id}) {
   const roomState = useSelector(state => state.room);
   const userState = useSelector(state => state.user);
   const dispatch = useDispatch();
   var count = 0;
     return (
-      <ScrollView style={styles.container}>
+      <ScrollView  style={styles.container}>
         {
           
           roomState.lstChat.map((e)=>{
             count++;
             // console.log(e);
             const isMyMessage = e.user._id === userState.user._id ? true : false;
+            const regex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
+            var isCheckImage = false;
+            console.log("_______________________________________");
+            console.log(e.content);
+            const message = e.content;
+            if(regex.test(message)){
+              isCheckImage = true;
+            }
+            else{
+              isCheckImage = false;
+            }
+            console.log("_______________________________________");
             if(isMyMessage){
               return <MyMessagaItem 
               key={count}
@@ -26,7 +39,7 @@ function Body ({id}) {
               time={e.createdAt}
               message={e.content}
               type={e.type} 
-              
+              check = {isCheckImage}
               />
             }
             else{
@@ -37,6 +50,7 @@ function Body ({id}) {
               time={e.createdAt}
               message={e.content}
               type={e.type}
+              check = {isCheckImage}
               />
             }
           })

@@ -95,7 +95,7 @@ function Register(){
             </View>
             <Image
             source={require("../../../assets/dangky.png")}
-            style={{ height: 300, width: 350, marginLeft: 20 }}
+            style={{ height: 250, width: 350, marginLeft: 20 }}
             />
             <View style={styles.containerText}>
                 <Text style={{fontSize:16,textAlign:'center'}}>Vui lòng nhập số điện thoại và mật khẩu để {'\n'} đăng ký tài khoản</Text>

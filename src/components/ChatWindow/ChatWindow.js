@@ -5,10 +5,10 @@ import Header from "./Head/Header";
 import Body from "./Body/Body";
 import Footter from "./Footter/Footter_Chat";
 function ChatWindow({route}) {
-    const {id,name} = route.params;
+    const {id,name,image,} = route.params;
     return (
         <View style={styles.container}>
-            <Header name={name} />
+            <Header  name={name} id={id} image={image} />
             <Body id={id} />
             <Footter/>
         </View>
