@@ -19,17 +19,9 @@ function Body ({id}) {
             count++;
             // console.log(e);
             const isMyMessage = e.user._id === userState.user._id ? true : false;
-            const regex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
-            var isCheckImage = false;
             console.log("_______________________________________");
             console.log(e.content);
-            const message = e.content;
-            if(regex.test(message)){
-              isCheckImage = true;
-            }
-            else{
-              isCheckImage = false;
-            }
+           
             console.log("_______________________________________");
             if(isMyMessage){
               return <MyMessagaItem 
@@ -39,7 +31,6 @@ function Body ({id}) {
               time={e.createdAt}
               message={e.content}
               type={e.type} 
-              check = {isCheckImage}
               />
             }
             else{
@@ -50,7 +41,6 @@ function Body ({id}) {
               time={e.createdAt}
               message={e.content}
               type={e.type}
-              check = {isCheckImage}
               />
             }
           })

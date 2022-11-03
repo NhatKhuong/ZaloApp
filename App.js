@@ -16,6 +16,7 @@ import {store} from "./src/redux/store";
 import 'localstorage-polyfill'; 
 import MyProfile from "./src/components/Profile/MyProfile";
 import FriendProfile from "./src/components/Profile/FriendFrofile";
+import Contracts from "./src/components/Contacts/Contracts";
 export default function App() {
     const home = "Home"
     const chatWindow = "ChatWindow"
@@ -28,6 +29,7 @@ export default function App() {
     const scannerQR = "ScannerQR";
     const myProfile = "MyProfile";
     const friendProfile = "FriendProfile";
+    const contracts = "Contracts"
     return (
         <Provider store={store}>
             <NavigationContainer>
@@ -43,6 +45,7 @@ export default function App() {
                 <Stack.Screen name={scannerQR} component={ScannerQR} />
                 <Stack.Screen name={myProfile} component={MyProfile} />
                 <Stack.Screen name={friendProfile} component={FriendProfile} />
+                <Stack.Screen name={contracts} component={Contracts} />
             </Stack.Navigator>
         </NavigationContainer>
         </Provider>
