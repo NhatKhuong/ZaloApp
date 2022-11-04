@@ -40,10 +40,10 @@ const styles = StyleSheet.create({
         display:'flex',
         flexDirection:'row',
         justifyContent:'space-around',
+        alignItems:"center"
     },
     containerIconAdd:{
         justifyContent:'flex-end',
-        marginBottom:10,
     },
     containerBody:{
         flex:1

@@ -56,14 +56,14 @@ const roomState = useSelector(state => state.room);
                 <Text style={styles.text}> Danh sách bạn bè</Text>
             </View>
             <View style={styles.containerIconRight}>
-                <TouchableOpacity style={styles.containerIconAdd}>
+                <TouchableOpacity onPress={()=>{ navigation.navigate("AddFriends")}} style={styles.containerIconAdd}>
                     <Ionicons name="md-add" size={30} color="white" />
                 </TouchableOpacity>
             </View>
         </View>
         <View style={styles.containerBody}>
             <View style={{flex:0.2,marginLeft:20,marginRight:20,marginTop:10,}}>
-                <TouchableOpacity style={styles.containerBody_Row}>
+                <TouchableOpacity onPress={()=>{ navigation.navigate("AddFriends")}} style={styles.containerBody_Row}>
                     <Image source={{uri:'https://cdn-icons-png.flaticon.com/512/1057/1057240.png'}} style={{height:35,width:35,}}></Image>
                     <Text style={{fontSize:18,marginLeft:20,}}>Thêm bạn bè mới</Text>
                 </TouchableOpacity>
