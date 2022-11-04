@@ -70,7 +70,6 @@ function Footter_Chat (){
             dispatch(roomAPI.updateSentMessage()(text));
             console.log("nhan enter");
             setText("");
-            hanldPressOut();
           }}>
             <FontAwesome name="send" size={24} color="#0091ff" />
           </TouchableOpacity>
