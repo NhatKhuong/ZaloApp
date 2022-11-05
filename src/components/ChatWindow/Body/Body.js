@@ -17,17 +17,12 @@ function Body ({id}) {
           
           roomState.lstChat.map((e)=>{
             count++;
-            // console.log(e);
             const isMyMessage = e.user._id === userState.user._id ? true : false;
-            console.log("_______________________________________");
-            console.log(e.content);
-           
-            console.log("_______________________________________");
             if(isMyMessage){
               return <MyMessagaItem 
               key={count}
               avatar={e.user.avatar}
-              name={e.user.name}
+              name={e.user.email}
               time={e.createdAt}
               message={e.content}
               type={e.type} 
@@ -37,7 +32,7 @@ function Body ({id}) {
               return <MessageItem 
               key={count}
               avatar={e.user.avatar}
-              name={e.user.name}
+              name={e.user.email}
               time={e.createdAt}
               message={e.content}
               type={e.type}

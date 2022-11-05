@@ -68,14 +68,14 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         height:150,
         width:"100%",
-        justifyContent:'space-between',
+        justifyContent:'center',
         alignItems:"center",
     },
     bottom:{
         paddingTop:20,
         paddingBottom:20,
-        paddingLeft:40,
-        paddingRight:40,
+        paddingLeft:30,
+        paddingRight:30,
         backgroundColor:"#B9D3EE",
         borderRadius:10,
     }

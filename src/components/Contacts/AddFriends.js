@@ -6,25 +6,94 @@ import { SafeAreaView } from 'react-navigation';
 import Footter from '../Footter/Footter';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { async } from '@firebase/util';
+import infoAPI from '../../redux/reducers/Info/infoAPI';
+import userAPI from '../../redux/reducers/user/userAPI';
+
 function AddFriends() {
     const navigation = useNavigation();
     const [email,setEmail] = useState("");
-    const Data = [
-        {id:1,name:"Tran Tan Phuoc", avt:"https://cdn-icons-png.flaticon.com/512/3820/3820188.png"},
-        {id:2,name:"Tran Tan A", avt:"https://cdn-icons-png.flaticon.com/512/3820/3820188.png"},
-        {id:3,name:"Tran Tan B", avt:"https://cdn-icons-png.flaticon.com/512/3820/3820188.png"},
-        {id:4,name:"Tran Tan C", avt:"https://cdn-icons-png.flaticon.com/512/3820/3820188.png"},
-        {id:5,name:"Tran Tan D", avt:"https://cdn-icons-png.flaticon.com/512/3820/3820188.png"},
-        {id:6,name:"Tran Tan D", avt:"https://cdn-icons-png.flaticon.com/512/3820/3820188.png"},
-        {id:7,name:"Tran Tan D", avt:"https://cdn-icons-png.flaticon.com/512/3820/3820188.png"},
-        {id:8,name:"Tran Tan D", avt:"https://cdn-icons-png.flaticon.com/512/3820/3820188.png"},
-        {id:9,name:"Tran Tan D", avt:"https://cdn-icons-png.flaticon.com/512/3820/3820188.png"},
-        {id:10,name:"Tran Tan D", avt:"https://cdn-icons-png.flaticon.com/512/3820/3820188.png"},
-        {id:11,name:"Tran Tan Ddfughdufghudfgyhufdgyudf@gmail.com", avt:"https://cdn-icons-png.flaticon.com/512/3820/3820188.png"},
-    ];
+    const dispatch = useDispatch();
+    const userState = useSelector(state => state.user);
+    let listRequest = userState.user.friendInvites || [];
+    console.log(listRequest);
+    var countResult = 0;
+    var countRequest = 0;
+    const [listResult, setListResult] = useState([]);
+    const accessToken = userState.accessToken;
+    const handelSearch =  async () => {
+        const emailNew = email+`@gmail.com`
+            try {
+                var user = await axios(`https://frozen-caverns-53350.herokuapp.com/api/users/email/${emailNew}`,{
+                    method: 'GET',
+                    headers: { authorization: accessToken },
+                });
+                setListResult(user.data.result);
+            } catch (error) {
+                setListResult([]);
+            }
+       
+    };
+
+    function handelClick(e) {
+        dispatch(
+            infoAPI.updateInfo()({
+                email: e.email,
+                avatar: e.avatar,
+                _id: e._id,
+            })
+        );
+        navigation.navigate("FriendProfile",{
+            isFriend: e.isFriend
+        });
+    }
+    var countReq = 0;
+    const Data = listRequest.map((e)=>{
+        countReq++;
+        return ({id:e.userId._id,name:e.userId.email});
+    });
+    function handlAccept(id) {
+        axios
+            .post(
+                `http://localhost:5000/api/users/invites`,
+                {
+                    userId: id,
+                },
+                {
+                    headers: { authorization: accessToken  },
+                }
+            )
+            .then((r) => {
+                console.log("done");
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+        dispatch(userAPI.deleteRequestAddFriend()(id));
+
+        axios
+            .get(`http://localhost:5000/api/rooms/users/${id}`, {
+                headers: { authorization: token },
+            })
+            .then((r) => {
+                console.log({ newData: r, id });
+                dispatch(userAPI.updateListRoomUI()(r.data));
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+
     const renderItem = ({item}) =>{
+        console.log('====================================');
+        console.log(item);
+        console.log('====================================');
+        countRequest++;
         return  (
-            <View style={{alignItems:'center',display:'flex',flexDirection:'row',height:60,borderWidth:0.5,borderColor:'black'}}>
+            <View key={countRequest} style={{alignItems:'center',display:'flex',flexDirection:'row',height:60,borderWidth:0.5,borderColor:'black'}}>
                         <View style={{display:'flex',flexDirection:'row',alignItems:'center',width:"70%"}}>
                             <View style={styles.itemFriend_avatar}>
                                     <Image
@@ -37,7 +106,7 @@ function AddFriends() {
                             <Text style={{fontSize:24,width:"70%"}}>{item.name}</Text>
                         </View>
                         <View style={{marginRight:20,}}>
-                            <TouchableOpacity style={styles.buttonAcp}> 
+                            <TouchableOpacity onPress={()=>handlAccept()} style={styles.buttonAcp}> 
                                 <Text style={{fontSize:18,}}>Chấp nhận</Text>
                             </TouchableOpacity>
                         </View>
@@ -65,25 +134,31 @@ function AddFriends() {
                 <Text style={{fontSize:24,marginLeft:10,marginTop:10,flex:0.2}}>Tìm kiếm bạn bè</Text>
                 <View style={styles.containerBody_SearchFriend_Input}>
                     <TextInput onChangeText={x=>setEmail(x)} value={email} placeholder="Vui lòng nhập Email" style={{marginLeft:15,marginRight:15,flex:0.9,fontSize:22,borderBottomWidth:1,height:50,}}/>
-                    <TouchableOpacity  style={styles.bottom} >
+                    <TouchableOpacity onPress={handelSearch}  style={styles.bottom} >
                         <AntDesign name="arrowright" size={24} color="white" />
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={{flex:0.5,alignItems:'center',display:'flex',flexDirection:'row'}}>
-                    <View style={styles.itemFriend_avatar}>
-                            <Image
-                                style={styles.itemFriend_avatar_avatar}
-                                source={{
-                                    uri: "https://cdn-icons-png.flaticon.com/512/3820/3820188.png",
-                                }}
-                            />
-                    </View>
-                    <Text style={{fontSize:24}}>abc</Text>
-                </TouchableOpacity>
+                {
+                    listResult.map((e)=>{
+                        countResult++;
+                        return (
+                            <TouchableOpacity key={countResult} onPress={()=> handelClick(e)}  style={{flex:0.5,alignItems:'center',display:'flex',flexDirection:'row'}}>
+                                <View style={styles.itemFriend_avatar}>
+                                    <Image
+                                    style={styles.itemFriend_avatar_avatar}
+                                    source={{
+                                        uri: e.avatar,
+                                    }}/>
+                                </View>
+                                <Text style={{fontSize:24}}>{e.email}</Text>
+                            </TouchableOpacity>
+                        );
+                    })
+                }
             </View>
             <View style={styles.containerBody_AcpFriends}>
-                <Text style={{fontSize:24,marginLeft:10,marginTop:10,flex:0.2}}>Danh sách gởi lời mời kết bạn</Text>
-                <SwipeListView style={{flex:0.8}} nestedScrollEnabled={true} data ={Data} renderItem={renderItem}  />
+                <Text style={{fontSize:24,marginLeft:10,marginTop:10,flex:0.2}}>Danh sách gởi lời mời kết bạn({countReq})</Text>
+                <SwipeListView style={{flex:0.8,backgroundColor:"white"}} nestedScrollEnabled={true} data ={Data} renderItem={renderItem}  />
             </View>
         </View>
         <Footter/>

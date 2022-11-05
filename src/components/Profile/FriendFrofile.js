@@ -1,13 +1,47 @@
 import { ScrollView, View,Text,TouchableOpacity, Image, ImageBackground} from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import styles from "./Style_FirendProfile";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-function FriendProfile() {
+import axios from "axios";
+import tokenService from "../../services/token.service";
+import { useSelector } from "react-redux";
+import { async } from "@firebase/util";
+function FriendProfile({route}) {
+    const {isFriend} = route.params;
     const navigation = useNavigation();
     const hanldPressGoBack= ()=>{
         navigation.navigate("Home");
+    }
+    const [add,setAdd] = useState("Kết bạn");
+    const [isAdd,setIsAdd] = useState(false);
+    const infoState = useSelector(state => state.info);
+    const token = tokenService.getAccessToken();
+    const handelPress=  ()=>{
+        if(isAdd){
+            setAdd("Kết bạn");
+            setIsAdd(false)
+        }
+        else{
+            setAdd("Hủy lời mời")
+            setIsAdd(true);
+            try {
+                axios.post(
+                    `https://frozen-caverns-53350.herokuapp.com/api/users/invites`,
+                    {
+                        userId: infoState._id,
+                    },
+                    {
+                        headers: { authorization: token },
+                    }).then(()=>{
+                        console.log("Done")
+                    });
+               
+            } catch (error) {
+                console.log(error)
+            }
+        }
     }
     return (
         <View style={styles.container} >
@@ -28,9 +62,14 @@ function FriendProfile() {
                     <View style={styles.containerBody_Mid}>
                         <View style={styles.containerBody_Mid_Bottom} >
                             <View style={styles.containerBody_Mid_Bottom_Item} >
-                                    <TouchableOpacity style={styles.bottom}>
-                                        <Text style={{fontSize:18,fontWeight:'bold'}}>Kết bạn</Text>
-                                    </TouchableOpacity>
+                                    {
+                                        (isFriend)? (null) : (<View style={{marginRight:10,}}>
+                                            <TouchableOpacity onPress={handelPress} style={styles.bottom}>
+                                              <Text style={{fontSize:18,fontWeight:'bold'}}>{add}</Text>
+                                            </TouchableOpacity>
+                                        </View>)
+                                        
+                                    }
                                     <TouchableOpacity style={styles.bottom}>
                                         <Text style={{fontSize:18,fontWeight:'bold'}}>Trò chuyện</Text>
                                     </TouchableOpacity>

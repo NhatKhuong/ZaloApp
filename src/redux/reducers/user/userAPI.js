@@ -20,6 +20,39 @@ class UserAPI {
 
         });
     }
+
+    updateListRoomUI() {
+        return createAsyncThunk(
+            "room/update-list-room",
+            async (data, thunkAPI) => {
+                return data;
+            }
+        );
+    }
+    updateListRequestAddFriend() {
+        return createAsyncThunk(
+            "room/update-list-request-add-friend",
+            async (data, thunkAPI) => {
+                return data;
+            }
+        );
+    }
+    deleteRequestAddFriend() {
+        return createAsyncThunk(
+            "room/delete-request-add-friend",
+            async (data, thunkAPI) => {
+                return data;
+            }
+        );
+    }
+    updateRoomByIdUI() {
+        return createAsyncThunk(
+            "room/update-room-by-id",
+            async (data, thunkAPI) => {
+                return data;
+            }
+        );
+    }
 }
 
 export default new UserAPI();
