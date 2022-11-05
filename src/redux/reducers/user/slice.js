@@ -69,5 +69,64 @@ export const userSlice = createSlice({
             userAPI.updateListChatForUserNoOnScreen().rejected,
             (state) => {}
         );
+        builder.addCase(
+            userAPI.updateListRoomUI().fulfilled,
+            (state, action) => {
+                const newArray = [action.payload].concat(state.rooms);
+                state.rooms = newArray;
+            }
+        );
+        builder.addCase(userAPI.updateListRoomUI().rejected, (state) => {});
+
+        builder.addCase(
+            userAPI.updateListRequestAddFriend().fulfilled,
+            (state, action) => {
+                const result = {
+                    _id: "",
+                    user: {
+                        userName: "",
+                        avatar: action.payload.avatar ,
+                        fullName: "",
+                        email: action.payload.email ,
+                        _id: action.payload._id,
+                    },
+                };
+                state.listRequest?.push(result);
+            }
+        );
+        builder.addCase(
+            userAPI.updateListRequestAddFriend().rejected,
+            (state) => {}
+        );
+
+        builder.addCase(
+            userAPI.deleteRequestAddFriend().fulfilled,
+            (state, action) => {
+                var restult = state.listRequest?.filter(function (e) {
+                    return e.user._id !== action.payload;
+                });
+                state.listRequest = restult;
+            }
+        );
+        builder.addCase(
+            userAPI.deleteRequestAddFriend().rejected,
+            (state) => {}
+        );
+        builder.addCase(
+            userAPI.updateRoomByIdUI().fulfilled,
+            (state, action) => {
+               for(var i=0;i<state.rooms.length;i++){
+                if(state.rooms[i]._id === action.payload._id){
+                    state.rooms[i]._id = action.payload._id;
+                    state.rooms[i].name = action.payload.name;
+                    state.rooms[i].avatar = action.payload.avatar;
+                }
+               }
+            }
+        );
+        builder.addCase(
+            userAPI.updateRoomByIdUI().rejected,
+            (state) => {}
+        );
     },
 });

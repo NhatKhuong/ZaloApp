@@ -17,9 +17,17 @@ const styles = StyleSheet.create({
         padding:10,
         borderRadius:10,
     },
+    container_RightName:{
+        marginLeft:10,
+        backgroundColor:"#fff",
+        padding:3,
+        borderRadius:10,
+        marginBottom:5,
+    },
     container_Right_Time:{
         color:'#C9D5D5',
         fontSize:10,
+        textAlign:'right'
     }
 
 })
