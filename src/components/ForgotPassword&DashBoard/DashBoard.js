@@ -94,7 +94,7 @@ function DashBoard(){
                     </TouchableOpacity>
                 </View>
             </View> */}
-            <Text  style={{ fontSize:30, color:"#3366ff",fontWeight:'800' }}>Zalo</Text>
+            <Text  style={{ fontSize:30, color:"#3366ff",fontWeight:'800' }}>Vola</Text>
             <ImageBackground
             source={require(" ../../../assets/background.png")}
             style={{ top: 20, width: "100%", height: 230 }}

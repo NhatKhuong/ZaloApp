@@ -12,7 +12,6 @@ import  io  from "socket.io-client";
 import roomAPI from "../../redux/reducers/Room/roomAPI";
 export let newSocket = io("https://frozen-caverns-53350.herokuapp.com");
 function Home(props) {
-
     const userState = useSelector(state => state.user);
     const roomState = useSelector(state => state.room);
     const [socket, setSocket] = useState(null);
@@ -48,6 +47,7 @@ function Home(props) {
                     rooms,
                 })
             );
+            
         });
         newSocket?.on("connect", () => {
             console.log("connecting");
