@@ -2,7 +2,6 @@ import { Image, Text, View } from 'react-native'
 import React, { Component } from 'react'
 import styles from './MyMessageItem_Style'
 function MyMessagaItem ({avatar,name,time,message,type}) {
-  
     return (
         <View style={styles.container}>
             <View style={styles.container_Right}>
