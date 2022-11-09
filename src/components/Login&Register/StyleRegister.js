@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
     },
     
     containerTabBar:{
-    height: "8%",
+    height: "10%",
     padding:5,
     backgroundColor: '#1E90FF',
     display:'flex',
@@ -24,14 +24,17 @@ const styles = StyleSheet.create({
     containerBottom:{
         display:'flex',
         flexDirection:'row',
-        justifyContent:'space-between',
+        justifyContent:'center',
         paddingRight:15,
         paddingTop:60,
     },
     bottom:{
-        padding:20,
-        backgroundColor:'#1C86EE',
-        borderRadius:100,
+        backgroundColor: "rgba(0,101,255,255)",
+        width: "60%",
+        borderRadius: 50,
+        padding: 12,
+        justifyContent:'center',
+        alignItems: "center",
     }
 });
 

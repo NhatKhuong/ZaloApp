@@ -127,7 +127,9 @@ function Register(){
             <View style={styles.containerBottom}>
                 <View></View>
                 <TouchableOpacity onPress={hanldPressRegister} style={styles.bottom} >
-                    <AntDesign name="arrowright" size={24} color="white" />
+                    {/* <AntDesign name="arrowright" size={24} color="white" /> */}
+                    <Text style={{color: "white",fontWeight: "700",fontSize: 16,}}>Đăng ký
+                    </Text>
                 </TouchableOpacity>
             </View>
         </View>

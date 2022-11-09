@@ -13,8 +13,8 @@ import userAPI from "../../redux/reducers/user/userAPI";
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import * as React from 'react';
-import { getAuth, getIdToken, GoogleAuthProvider, signInWithCredential, signInWithCustomToken} from 'firebase/auth';
-
+import { getAuth, getIdToken, GoogleAuthProvider, signInWithCredential, signInWithCustomToken}
+ from 'firebase/auth';
 
 function Login(){
     //UseState
@@ -129,21 +129,21 @@ function Login(){
             <View style={styles.containerBottom}>
                 <View></View>
                 <TouchableOpacity onPress={hanldPressLogin} style={styles.bottom} >
-                    <AntDesign name="arrowright" size={24} color="white" />
+                    {/* <AntDesign name="arrowright" size={24} color="white" /> */}
+                    <Text style={{color: "white",fontWeight: "700",fontSize: 16,}}>Đăng nhập
+                    </Text>
                 </TouchableOpacity>
             </View>
             <TouchableOpacity style={styles.buttonGoogle}  disabled={!request} onPress={handleLoginWithGoogle}>
-                <View style={{margin:30,borderWidth:0.5,height:50,alignItems:'center',display:'flex',flexDirection:'row',borderColor:'grey',backgroundColor:"#FFC1C1",borderRadius:10,}}>
+                <View style={{margin:30,borderWidth:0.5,height:50,alignItems:'center',display:'flex',flexDirection:'row',borderColor:'grey',backgroundColor:"#ff4d4d",borderRadius:10,}}>
                     <View style={{width:"15%",alignItems:'center',height:50,justifyContent:'center'}}>
-                        <AntDesign name="google" size={24} color="red" />
+                        <AntDesign name="google" size={24} color="#ffffff" />
                     </View>
                     <View style={{width:"70%"}}>
-                        <Text style={{fontSize:22,textAlign:'center',color:'red'}}>Sign In With Google</Text>
+                        <Text style={{fontSize:22,textAlign:'center',color:'#ffffff'}}>Sign In With Google</Text>
                     </View>
                 </View>
-            </TouchableOpacity>
-            
-            
+            </TouchableOpacity>       
         </View>
     );
 }
