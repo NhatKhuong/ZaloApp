@@ -53,7 +53,7 @@ function AddFriends() {
     var countReq = 0;
     const Data = listRequest.map((e)=>{
         countReq++;
-        return ({id:e.userId._id,name:e.userId.email});
+        return ({id:e.userId._id,name:e.userId.email,avt:e.userId.avatar});
     });
     function handlAccept(id) {
         axios
@@ -88,9 +88,6 @@ function AddFriends() {
     }
 
     const renderItem = ({item}) =>{
-        console.log('====================================');
-        console.log(item);
-        console.log('====================================');
         countRequest++;
         return  (
             <View key={countRequest} style={{alignItems:'center',display:'flex',flexDirection:'row',height:60,borderWidth:0.5,borderColor:'black'}}>
@@ -106,7 +103,7 @@ function AddFriends() {
                             <Text style={{fontSize:24,width:"70%"}}>{item.name}</Text>
                         </View>
                         <View style={{marginRight:20,}}>
-                            <TouchableOpacity onPress={()=>handlAccept()} style={styles.buttonAcp}> 
+                            <TouchableOpacity onPress={()=>handlAccept(item.id)} style={styles.buttonAcp}> 
                                 <Text style={{fontSize:18,}}>Chấp nhận</Text>
                             </TouchableOpacity>
                         </View>
