@@ -9,12 +9,17 @@ import { useDispatch } from 'react-redux';
 import roomAPI from "../../../redux/reducers/Room/roomAPI";
 import { useSelector } from 'react-redux';
 import * as ImagePicker  from 'expo-image-picker';
+import tokenService from '../../../services/token.service';
+import axios from 'axios';
+
 function Footter_Chat (){
   const dispatch = useDispatch();
   const [heightKey,setHeightKey] = useState("6%");
   const [text,setText] = useState("");
   const roomState = useSelector(state => state.room);
-  const userState = useSelector(state => state.user)
+  const userState = useSelector(state => state.user);
+  const token = tokenService.getAccessToken();
+  const urlUploadFile = "https://frozen-caverns-53350.herokuapp.com/api/storages/upload";
   const hanldPress= ()=>{
       setHeightKey("36%")
   }
@@ -41,15 +46,44 @@ function Footter_Chat (){
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4, 3],
       quality: 1,
     });
-
-    console.log(result);
-
     if (!result.cancelled) {
-      console.log(result.uri);
+      // console.log(result.uri);
+      let localUri = result.uri;
+      let filename = localUri.split('/').pop();
+      console.log("_______________________________________________________");
+      console.log("file name:"+filename);
+      let formData = new FormData();
+      formData.append("file",filename);
+      console.log(formData);
+      axios.post(urlUploadFile, formData, {
+                    headers: {
+                        authorization: token,
+                        "Content-type": "multipart/form-data",
+                    },
+                })
+                .then((res) => {
+                    // newSocket.emit("client-send-message", {
+                    //     token: userState.accessToken,
+                    //     roomId: roomState._id,
+                    //     content: res.data.url,
+                    //     type: res.data.type,
+                    // });
+                    console.log('====================================');
+                    console.log(res.data);
+                    console.log('====================================');
+                })
+                .catch((err) => {
+                    console.log(err);
+                    alert("Error Upload file");
+                });
+
     }
+    else if(result.cancelled){
+      console.log(result);
+    }
+
   };
     return (
       <KeyboardAvoidingView style={[styles.container,{height:heightKey}]}>

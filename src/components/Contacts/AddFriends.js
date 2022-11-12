@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux';
 import { async } from '@firebase/util';
 import infoAPI from '../../redux/reducers/Info/infoAPI';
 import userAPI from '../../redux/reducers/user/userAPI';
+import tokenService from '../../services/token.service';
 
 function AddFriends() {
     const navigation = useNavigation();
@@ -19,9 +20,9 @@ function AddFriends() {
     const dispatch = useDispatch();
     const userState = useSelector(state => state.user);
     let listRequest = userState.user.friendInvites || [];
-    console.log(listRequest);
     var countResult = 0;
     var countRequest = 0;
+    const token = tokenService.getAccessToken();
     const [listResult, setListResult] = useState([]);
     const accessToken = userState.accessToken;
     const handelSearch =  async () => {
@@ -58,7 +59,7 @@ function AddFriends() {
     function handlAccept(id) {
         axios
             .post(
-                `http://localhost:5000/api/users/invites`,
+                `https://frozen-caverns-53350.herokuapp.com/api/users/invites`,
                 {
                     userId: id,
                 },
@@ -73,14 +74,15 @@ function AddFriends() {
                 console.log(err);
             });
         dispatch(userAPI.deleteRequestAddFriend()(id));
-
+        
         axios
-            .get(`http://localhost:5000/api/rooms/users/${id}`, {
-                headers: { authorization: token },
+            .get(`https://frozen-caverns-53350.herokuapp.com/api/rooms/users/${id}`, {
+                headers: { authorization: accessToken },
             })
             .then((r) => {
-                console.log({ newData: r, id });
                 dispatch(userAPI.updateListRoomUI()(r.data));
+                var user = userAPI.getUserInfo()(token);
+                dispatch(user);
             })
             .catch((err) => {
                 console.log(err);

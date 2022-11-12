@@ -5,13 +5,23 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import userAPI from "../../../redux/reducers/user/userAPI";
+import tokenService from "../../../services/token.service";
 function Header({name,id,image}) {
     const navigation = useNavigation();
+    const dispatch = useDispatch();
+    const token = tokenService.getAccessToken();
+    const hanldPress = () =>{
+        navigation.navigate("Home");
+        var user = userAPI.getUserInfo()(token);
+        dispatch(user);
+    }
     return (
         <View style={styles.container}>
             <View style={styles.container_left}>
                 <View  style={styles.containerIcon}>
-                    <TouchableOpacity onPress={()=>navigation.navigate("Home")} style={styles.button}>
+                    <TouchableOpacity onPress={hanldPress} style={styles.button}>
                         <MaterialIcons 
                             name="keyboard-arrow-left"
                             size={32}
