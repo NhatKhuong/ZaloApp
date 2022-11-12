@@ -43,7 +43,6 @@ export const roomSlice = createSlice({
         builder.addCase(
             roomAPI.updateListChat().fulfilled,
             (state, action) => {
-                console.log(action.payload);
                 
                 state.lstChat?.push(action.payload.message)
             }

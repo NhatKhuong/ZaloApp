@@ -39,15 +39,7 @@ function Home(props) {
         newSocket?.on("server-send-message", function (data) {
             if (roomId.current === data.roomId) {
                 dispatch(roomAPI.updateListChat()(data));
-            }
-            dispatch(
-                userAPI.updateListChatForUserNoOnScreen()({
-                    data,
-                    roomId: data.roomId,
-                    rooms,
-                })
-            );
-            
+            }    
         });
         newSocket?.on("connect", () => {
             console.log("connecting");
@@ -60,7 +52,6 @@ function Home(props) {
         // socket request add friend
 
         newSocket.on("send-friend-invite", function (data) {
-            console.log(data);
             dispatch(
                 userAPI.updateListRequestAddFriend()(data.friendInvite.user)
             );
