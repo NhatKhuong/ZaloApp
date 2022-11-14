@@ -17,9 +17,7 @@ const ItemFriend = ({navigation}) => {
     const Data = listRoom.map((e)=>{
         return ({id:e._id,name:e.name,image:e.avatar,lastMessage:e.messages[0]?.content,time:(e.createdAt)});
     });
-    console.log('====================================');
-    console.log(userState.user.avatar);
-    console.log('====================================');
+    
     const renderItem = ({item}) =>{
         var imageItem = (item.image == undefined)? "https://hinhgaixinh.com/wp-content/uploads/2021/12/bo-anh-girl-xinh-cap-2.jpg":item.image;
         return  <TouchableHighlight underlayColor={'#E6E6FA'} style={styles.touchHightLight} onPress={()=>{

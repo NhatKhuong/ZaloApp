@@ -4,10 +4,22 @@ import styles from "./Style_MyProfile";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import tokenService from "../../services/token.service";
+import userAPI from "../../redux/reducers/user/userAPI";
 function MyProfile() {
     const navigation = useNavigation();
-    const hanldPressGoBack= ()=>{
+    const userState = useSelector(state => state.user);
+    
+    const avt = (userState.user.avatar == undefined)?"https://hinhgaixinh.com/wp-content/uploads/2021/12/bo-anh-girl-xinh-cap-2.jpg":userState.user.avatar;
+    var nameUser = (userState.user.name == undefined)? userState.user.email : userState.user.name;
+    const dispatch = useDispatch();
+    const token = tokenService.getAccessToken();
+    const hanldPressGoBack = () =>{
         navigation.navigate("Home");
+        var user = userAPI.getUserInfo()(token);
+        dispatch(user);
     }
     return (
         <View style={styles.container} >
@@ -22,8 +34,8 @@ function MyProfile() {
             <ScrollView style={{paddingBottom: 0}}>
                 <View style={styles.containerBody}>
                     <ImageBackground source={{uri: 'https://khoinguonsangtao.vn/wp-content/uploads/2022/08/background-dep-don-gian-de-thiet-ke-780x521.jpg'}}  style={styles.containerBody_Top}>
-                        <Image style={styles.containerBody_Top_Avt}source={{ uri: 'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80'}}/>
-                        <Text style={{fontSize:30,fontWeight:'bold',color:'black',marginTop:10,}}>Trần Tấn Phước</Text>
+                        <Image style={styles.containerBody_Top_Avt}source={{ uri: avt}}/>
+                        <Text style={{fontSize:30,fontWeight:'bold',color:'black',marginTop:10,}}>{nameUser}</Text>
                     </ImageBackground >
                     <View style={styles.containerBody_Mid}>
                             <View style={styles.containerBody_Mid_ChangeName}>
