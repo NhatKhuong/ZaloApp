@@ -24,12 +24,16 @@ const roomState = useSelector(state => state.room);
     const Data = listRoom.map((e)=>{
         return ({id:e._id,name:e.name,image:e.avatar,lastMessage:e.messages[0]?.content,time:(e.createdAt)});
     });
+    const hanldPressCreateGroup = ()=>{
+        navigation.navigate("CreateGroup");
+      }
     const renderItem = ({item}) =>{
+        var imageItem = (item.image == undefined)? "https://hinhgaixinh.com/wp-content/uploads/2021/12/bo-anh-girl-xinh-cap-2.jpg":item.image;
         return  <TouchableHighlight underlayColor={'#E6E6FA'} style={styles.touchHightLight} onPress={()=>{
             const id = item.id;
             dispatch(roomAPI.getListChat()({ accessToken, id }));
             dispatch(roomAPI.saveRoomId()(id))
-            navigation.navigate("ChatWindow",{id:item.id,name:item.name,image:item.image,lastMessage:item.lastMessage,time:item.time})
+            navigation.navigate("ChatWindow",{id:item.id,name:item.name,image:imageItem,lastMessage:item.lastMessage,time:item.time})
         }}>
                 <View style={styles.containerItem} >
                     <View style={styles.itemFriend_info}>
@@ -37,7 +41,7 @@ const roomState = useSelector(state => state.room);
                             <Image
                                 style={styles.itemFriend_avatar_avatar}
                                 source={{
-                                    uri: `${item.image}`,
+                                    uri: `${imageItem}`,
                                 }}
                             />
                         </View>
@@ -67,7 +71,7 @@ const roomState = useSelector(state => state.room);
                     <Image source={{uri:'https://cdn-icons-png.flaticon.com/512/1057/1057240.png'}} style={{height:35,width:35,}}></Image>
                     <Text style={{fontSize:18,marginLeft:20,}}>Thêm bạn bè mới</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.containerBody_Row}>
+                <TouchableOpacity onPress={hanldPressCreateGroup} style={styles.containerBody_Row}>
                     <Image source={{uri:'https://cdn-icons-png.flaticon.com/512/3820/3820188.png'}} style={{height:35,width:35,marginBottom:3,}}></Image>
                     <Text style={{fontSize:18,marginLeft:20,}}>Thêm bạn nhóm mới</Text>
                 </TouchableOpacity>

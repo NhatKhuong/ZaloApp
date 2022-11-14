@@ -10,20 +10,23 @@ import { useDispatch } from "react-redux";
 import roomAPI from "../../redux/reducers/Room/roomAPI";
 const ItemFriend = ({navigation}) => {
     const roomState = useSelector(state => state.room);
-    const userState = useSelector(state => state.user)
+    const userState = useSelector(state => state.user);
     const listRoom = userState.rooms;
     const accessToken = userState.accessToken;
     const dispatch = useDispatch();
     const Data = listRoom.map((e)=>{
         return ({id:e._id,name:e.name,image:e.avatar,lastMessage:e.messages[0]?.content,time:(e.createdAt)});
     });
-    
+    console.log('====================================');
+    console.log(userState.user.avatar);
+    console.log('====================================');
     const renderItem = ({item}) =>{
+        var imageItem = (item.image == undefined)? "https://hinhgaixinh.com/wp-content/uploads/2021/12/bo-anh-girl-xinh-cap-2.jpg":item.image;
         return  <TouchableHighlight underlayColor={'#E6E6FA'} style={styles.touchHightLight} onPress={()=>{
             const id = item.id;
             dispatch(roomAPI.getListChat()({ accessToken, id }));
             dispatch(roomAPI.saveRoomId()(id))
-            navigation.navigate("ChatWindow",{id:item.id,name:item.name,image:item.image,lastMessage:item.lastMessage,time:item.time})
+            navigation.navigate("ChatWindow",{id:item.id,name:item.name,image:imageItem,lastMessage:item.lastMessage,time:item.time})
         }}>
                 <View style={styles.container} >
                     <View style={styles.itemFriend_info}>
@@ -31,7 +34,7 @@ const ItemFriend = ({navigation}) => {
                             <Image
                                 style={styles.itemFriend_avatar_avatar}
                                 source={{
-                                    uri: `${item.image}`,
+                                    uri: `${imageItem}`,
                                 }}
                             />
                         </View>

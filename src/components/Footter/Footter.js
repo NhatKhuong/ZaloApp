@@ -4,16 +4,24 @@ import { StyleSheet, Text, View,TextInput, TouchableOpacity  } from 'react-nativ
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons'; 
 import { FontAwesome } from '@expo/vector-icons'; 
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
-const Tab = createBottomTabNavigator();
+import userAPI from '../../redux/reducers/user/userAPI';
+import { useDispatch } from 'react-redux';
+import tokenService from '../../services/token.service';
+
 
 function Footter() {
     const navigation  = useNavigation();
-    
+    const dispatch = useDispatch();
+    const token = tokenService.getAccessToken();
+    const hanldPress = () =>{
+        navigation.navigate("Home");
+        var user = userAPI.getUserInfo()(token);
+        dispatch(user);
+    }
   return (
     <View style={styles.container}>
-        <TouchableOpacity onPress={()=>navigation.navigate("Home")} style={styles.containerIcon}>
+        <TouchableOpacity onPress={hanldPress} style={styles.containerIcon}>
             <AntDesign name="message1" size={20} color="grey" />
         </TouchableOpacity>
         <TouchableOpacity  onPress={()=>navigation.navigate("Contracts")} style={styles.containerIcon}>

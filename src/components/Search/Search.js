@@ -11,6 +11,9 @@ function Search() {
   const hanldPress = ()=>{
     navigation.navigate("ScannerQR");
   }
+  const hanldPressCreateGroup = ()=>{
+    navigation.navigate("CreateGroup");
+  }
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.containerIcon}>
@@ -24,9 +27,9 @@ function Search() {
         <TouchableOpacity onPress={hanldPress} style={styles.containerIconQR}>
           <MaterialCommunityIcons name="qrcode-scan" size={22} color="white" />
           </TouchableOpacity>
-          <View style={styles.containerIconAdd}>
+          <TouchableOpacity onPress={hanldPressCreateGroup} style={styles.containerIconAdd}>
             <Ionicons name="md-add" size={30} color="white" />
-          </View>
+          </TouchableOpacity>
       </View>
     </SafeAreaView>
   )
