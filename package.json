@@ -53,7 +53,8 @@
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.1",
     "socket.io-client": "^4.5.3",
-    "expo-camera": "~12.3.0"
+    "expo-camera": "~12.3.0",
+    "expo-checkbox": "~2.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

@@ -91,6 +91,7 @@ function AddFriends() {
 
     const renderItem = ({item}) =>{
         countRequest++;
+        var imageItem = (item.avt == undefined)? "https://hinhgaixinh.com/wp-content/uploads/2021/12/bo-anh-girl-xinh-cap-2.jpg":item.avt;
         return  (
             <View key={countRequest} style={{alignItems:'center',display:'flex',flexDirection:'row',height:60,borderWidth:0.5,borderColor:'black'}}>
                         <View style={{display:'flex',flexDirection:'row',alignItems:'center',width:"70%"}}>
@@ -98,7 +99,7 @@ function AddFriends() {
                                     <Image
                                         style={styles.itemFriend_avatar_avatar}
                                         source={{
-                                            uri: `${item.avt}`,
+                                            uri: imageItem,
                                         }}
                                     />
                             </View>
@@ -140,13 +141,14 @@ function AddFriends() {
                 {
                     listResult.map((e)=>{
                         countResult++;
+                        var imageItem = (e.avatar == undefined)? "https://hinhgaixinh.com/wp-content/uploads/2021/12/bo-anh-girl-xinh-cap-2.jpg":e.avatar;
                         return (
                             <TouchableOpacity key={countResult} onPress={()=> handelClick(e)}  style={{flex:0.5,alignItems:'center',display:'flex',flexDirection:'row'}}>
                                 <View style={styles.itemFriend_avatar}>
                                     <Image
                                     style={styles.itemFriend_avatar_avatar}
                                     source={{
-                                        uri: e.avatar,
+                                        uri: imageItem,
                                     }}/>
                                 </View>
                                 <Text style={{fontSize:24}}>{e.email}</Text>
