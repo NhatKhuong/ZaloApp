@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native'
+import {Platform, StatusBar, StyleSheet} from 'react-native'
 const styles = StyleSheet.create({
     container :{
         display:'flex',
@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
         borderWidth:1,
         flexDirection:'row',
         backgroundColor:'#0091ff',
-        justifyContent:'space-between'
+        justifyContent:'space-between',
         
     },
     container_left:{
