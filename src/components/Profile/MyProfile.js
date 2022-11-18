@@ -8,10 +8,13 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import tokenService from "../../services/token.service";
 import userAPI from "../../redux/reducers/user/userAPI";
+import { initializeApp } from "firebase/app";
+import { firebaseConfig } from "../../../firebase-config";
+import { initializeAuth, signOut } from "firebase/auth";
+import { logout } from "../../redux/reducers/user/slice";
 function MyProfile() {
     const navigation = useNavigation();
     const userState = useSelector(state => state.user);
-    
     const avt = (userState.user.avatar == undefined)?"https://hinhgaixinh.com/wp-content/uploads/2021/12/bo-anh-girl-xinh-cap-2.jpg":userState.user.avatar;
     var nameUser = (userState.user.name == undefined)? userState.user.email : userState.user.name;
     const dispatch = useDispatch();
@@ -20,6 +23,11 @@ function MyProfile() {
         navigation.navigate("Home");
         var user = userAPI.getUserInfo()(token);
         dispatch(user);
+    }
+    const hanldPressSignOut = ()=>{
+        tokenService.remove();
+        dispatch(logout());
+        navigation.navigate("Login");
     }
     return (
         <View style={styles.container} >
@@ -53,9 +61,9 @@ function MyProfile() {
                                 </TouchableOpacity>
                                 <TouchableOpacity style={styles.containerBody_Mid_ChangeName_Item}>
                                     <MaterialCommunityIcons name="exit-to-app" size={24} color="red"  style={{width:"15%",height:"100%"}}/>
-                                    <View style={styles.containerBody_Mid_ChangeName_Item_Text}>
+                                    <TouchableOpacity style={styles.containerBody_Mid_ChangeName_Item_Text} onPress={hanldPressSignOut}>
                                             <Text style={{fontSize:22,color:'red',}}>Đăng xuất</Text>
-                                    </View>
+                                    </TouchableOpacity>
                                 </TouchableOpacity>
                             </View>
                         </View>

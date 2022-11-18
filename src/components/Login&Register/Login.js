@@ -28,7 +28,9 @@ function Login(){
     //UseEffect
     useEffect(() => {
         if (userState.is_login) {
-            navigation.navigate("Home")
+            setEmail("");
+            setPassWord("");
+            navigation.navigate("Home");
         } else {
             if (userState.error) {
                 (
@@ -55,6 +57,7 @@ function Login(){
     const hanldPressLogin = ()=>{
         signInWithEmailAndPassword(auth,email,passWord)
         .then(()=>{
+            
             const accessToken =`Bearer ${auth.currentUser.stsTokenManager.accessToken}`;
             var user = userAPI.getUserInfo()(accessToken )
             dispatch(user);

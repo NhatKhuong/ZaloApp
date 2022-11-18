@@ -67,6 +67,10 @@ function Register(){
                 createUserWithEmailAndPassword(auth,email,passWord)
                 .then(()=>{
                     Alert.alert("Thông báo","Đăng ký thành công !")
+                    setEmail("");
+                    setPassWord("");
+                    setPassWordAgain("");
+                    setuserName("");
                     navigation.navigate("Login");
                 })
                 .catch(error =>{

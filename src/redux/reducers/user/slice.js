@@ -21,7 +21,9 @@ export const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
-        //
+        logout: (state) => {
+            return { ...initialState, is_login: false, accessToken: "" };
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(
@@ -130,3 +132,4 @@ export const userSlice = createSlice({
         );
     },
 });
+export const { logout } = userSlice.actions;
