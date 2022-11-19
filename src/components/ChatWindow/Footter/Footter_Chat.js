@@ -49,14 +49,18 @@ function Footter_Chat (){
       quality: 1,
     });
     if (!result.cancelled) {
-      // console.log(result.uri);
       let localUri = result.uri;
-      let filename = localUri.split('/').pop();
-      console.log("_______________________________________________________");
-      console.log("file name:"+filename);
       let formData = new FormData();
-      formData.append("file",filename);
-      console.log(formData);
+      let uriParts = localUri.split(".");
+      const path = localUri.split("/");
+      let fileType = uriParts[uriParts.length - 1];
+      let nameFile = path[path.length - 1];
+      const _image = {
+        uri: Platform.OS === "android" ? localUri : localUri.replace("file://", ""),
+        type: `image/${fileType}`,
+        name: nameFile,
+      };
+      formData.append("file", _image);
       axios.post(urlUploadFile, formData, {
                     headers: {
                         authorization: token,
@@ -64,12 +68,12 @@ function Footter_Chat (){
                     },
                 })
                 .then((res) => {
-                    // newSocket.emit("client-send-message", {
-                    //     token: userState.accessToken,
-                    //     roomId: roomState._id,
-                    //     content: res.data.url,
-                    //     type: res.data.type,
-                    // });
+                    newSocket.emit("client-send-message", {
+                        token: userState.accessToken,
+                        roomId: roomState._id,
+                        content: res.data.url,
+                        type: res.data.type,
+                    });
                     console.log('====================================');
                     console.log(res.data);
                     console.log('====================================');
