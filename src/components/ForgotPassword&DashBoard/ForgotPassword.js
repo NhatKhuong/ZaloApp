@@ -13,7 +13,7 @@ function ForgotPassword(){
     const [email,setEmail] = useState("");
     const navigation = useNavigation();
     const hanldPressDashBoard = () => {
-        navigation.navigate("DashBoard");
+        navigation.navigate("Login");
     };
     
     // Connect FireBase
@@ -23,16 +23,20 @@ function ForgotPassword(){
     const regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     const hanldPressLinkResert = ()=>{
         if(email == ""){
-            Alert.alert("Thông báo","Email không được rỗng")
+            console.log("Email không rỗng")
         }
         else if(regexEmail.test(email)){
-            // sendPasswordResetEmail(auth,email)
-            Alert.alert("Thông báo",auth)
-            Alert.alert("Thông báo",email)
-            Alert.alert("Thông báo","Đã gởi link đổi lại mật khẩu vào Email của bạn")
+            sendPasswordResetEmail(auth,email).then(()=>{
+                Alert.alert("Thông báo","Link reset đã gởi về email của bạn");
+                navigation.navigate("Login");
+            }).catch((err)=>{
+                console.log(err);
+                Alert.alert("Thông báo","Xảy ra lỗi");
+            });
+            // Alert.alert("Thông báo","Đã gởi link đổi lại mật khẩu vào Email của bạn");
         }
         else{
-            Alert.alert("Thông báo","Email của bạn không hợp lệ")
+            // Alert.alert("Thông báo","Email của bạn không hợp lệ")
         }
         // signInWithEmailAndPassword(auth,email,passWord)
         // .then(()=>{

@@ -14,12 +14,15 @@ const ItemFriend = ({navigation}) => {
     const listRoom = userState.rooms;
     const accessToken = userState.accessToken;
     const dispatch = useDispatch();
+    
     const Data = listRoom.map((e)=>{
-        return ({id:e._id,name:e.name,image:e.avatar,lastMessage:e.messages[0]?.content,time:(e.createdAt)});
+        return ({id:e._id,name:e.name,image:e.avatar,lastMessage:e.messages[0]?.content,time:(e.createdAt),type: e.messages[0]?.type});
     });
     
     const renderItem = ({item}) =>{
         var imageItem = (item.image == undefined)? "https://hinhgaixinh.com/wp-content/uploads/2021/12/bo-anh-girl-xinh-cap-2.jpg":item.image;
+        var isImage = (item.type);
+        
         return  <TouchableHighlight underlayColor={'#E6E6FA'} style={styles.touchHightLight} onPress={()=>{
             const id = item.id;
             dispatch(roomAPI.getListChat()({ accessToken, id }));
@@ -40,7 +43,7 @@ const ItemFriend = ({navigation}) => {
                     <View style={styles.itemFriend_right}>
                         <View style={styles.itemFriend_message}>
                             <Text style={styles.itemFriend_name}>{item.name}</Text>
-                            <Text style={styles.itemFriend_content}>{item.lastMessage}</Text>
+                            <Text style={styles.itemFriend_content}>{(isImage == 'image')? '[Hình ảnh]' : item.lastMessage}</Text>
                         </View>
                         <View style={styles.itemFriend_timeBlock}>
                             <Text style={styles.itemFriend_time}>{item.time}</Text>

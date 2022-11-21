@@ -65,8 +65,10 @@ function Register(){
             else 
             {
                 createUserWithEmailAndPassword(auth,email,passWord)
-                .then(()=>{
-                    Alert.alert("Thông báo","Đăng ký thành công !")
+                .then((userCredential)=>{
+                    var user = userCredential.user;
+                    sendEmailVerification(user);
+                    Alert.alert("Thông báo",`Đăng ký thành công ! ${'\n'}Mời bạn kiểm tra email để xác nhận`);
                     setEmail("");
                     setPassWord("");
                     setPassWordAgain("");

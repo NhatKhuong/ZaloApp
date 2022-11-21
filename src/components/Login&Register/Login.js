@@ -54,10 +54,16 @@ function Login(){
     const app = initializeApp(firebaseConfig);
     const auth = initializeAuth(app,{
     });
+    const hanldPressForgotPasswrod = ()=>{
+        navigation.navigate("ForgotPassword");
+    }
     const hanldPressLogin = ()=>{
         signInWithEmailAndPassword(auth,email,passWord)
-        .then(()=>{
-            
+        .then((result)=>{
+            if (!result.user.emailVerified) {
+                alert("Email chưa được xác thực vui lòng kiểm tra hộp thư của bạn");
+                return;
+            }
             const accessToken =`Bearer ${auth.currentUser.stsTokenManager.accessToken}`;
             var user = userAPI.getUserInfo()(accessToken )
             dispatch(user);
@@ -88,7 +94,7 @@ function Login(){
                         <Text style={{fontSize:22}}>{isTextButton}</Text>
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={{margin:15,marginTop:25,}} >
+                <TouchableOpacity style={{margin:15,marginTop:25,}} onPress={hanldPressForgotPasswrod} >
                     <Text style={{fontSize:20, color:'#63B8FF',fontWeight:'bold'}}>
                         Lấy lại mật khẩu
                     </Text>
