@@ -54,6 +54,9 @@ function Login(){
     const app = initializeApp(firebaseConfig);
     const auth = initializeAuth(app,{
     });
+    const hanldPressForgotPasswrod = ()=>{
+        navigation.navigate("ForgotPassword");
+    }
     const hanldPressLogin = ()=>{
         signInWithEmailAndPassword(auth,email,passWord)
         .then((result)=>{
@@ -91,7 +94,7 @@ function Login(){
                         <Text style={{fontSize:22}}>{isTextButton}</Text>
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={{margin:15,marginTop:25,}} >
+                <TouchableOpacity style={{margin:15,marginTop:25,}} onPress={hanldPressForgotPasswrod} >
                     <Text style={{fontSize:20, color:'#63B8FF',fontWeight:'bold'}}>
                         Lấy lại mật khẩu
                     </Text>
