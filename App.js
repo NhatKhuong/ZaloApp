@@ -19,6 +19,7 @@ import FriendProfile from "./src/components/Profile/FriendFrofile";
 import Contracts from "./src/components/Contacts/Contracts";
 import AddFriends from "./src/components/Contacts/AddFriends";
 import CreateGroup from "./src/components/Group/CreateGroup";
+import ImageChat from "./src/components/ChatWindow/ShowImageChat";
 export default function App() {
     const home = "Home"
     const chatWindow = "ChatWindow"
@@ -34,6 +35,7 @@ export default function App() {
     const contracts = "Contracts"
     const addFriends = "AddFriends";
     const createGroup = "CreateGroup";
+    const imageChat = "ImageChat";
     return (
         <Provider store={store}>
             <NavigationContainer>
@@ -52,6 +54,7 @@ export default function App() {
                 <Stack.Screen name={contracts} component={Contracts} />
                 <Stack.Screen name={addFriends} component={AddFriends} />
                 <Stack.Screen name={createGroup} component={CreateGroup} />
+                <Stack.Screen name={imageChat} component={ImageChat} />
             </Stack.Navigator>
         </NavigationContainer>
         </Provider>

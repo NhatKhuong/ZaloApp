@@ -62,7 +62,7 @@ function Login(){
         .then((result)=>{
             if (!result.user.emailVerified) {
                 alert("Email chưa được xác thực vui lòng kiểm tra hộp thư của bạn");
-                return;
+                // return;
             }
             const accessToken =`Bearer ${auth.currentUser.stsTokenManager.accessToken}`;
             var user = userAPI.getUserInfo()(accessToken )

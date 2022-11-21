@@ -14,18 +14,12 @@ import axios from 'axios';
 
 function Footter_Chat (){
   const dispatch = useDispatch();
-  const [heightKey,setHeightKey] = useState("6%");
   const [text,setText] = useState("");
   const roomState = useSelector(state => state.room);
   const userState = useSelector(state => state.user);
   const token = tokenService.getAccessToken();
   const urlUploadFile = "https://frozen-caverns-53350.herokuapp.com/api/storages/upload";
-  const hanldPress= ()=>{
-      setHeightKey("36%")
-  }
-  const hanldPressOut  = ()=>{
-    setHeightKey("6%")
-  }
+  
   const newSocket = io("https://frozen-caverns-53350.herokuapp.com", {
         query: {
             // token: useState.accessToken,
@@ -74,12 +68,9 @@ function Footter_Chat (){
                         content: res.data.url,
                         type: res.data.type,
                     });
-                    console.log('====================================');
-                    console.log(res.data);
-                    console.log('====================================');
+                   
                 })
                 .catch((err) => {
-                    console.log(err);
                     alert("Error Upload file");
                 });
 
@@ -90,10 +81,10 @@ function Footter_Chat (){
 
   };
     return (
-      <KeyboardAvoidingView style={[styles.container,{height:heightKey}]}>
+      <KeyboardAvoidingView style={[styles.container,]}>
         <View style={styles.foorter_left}>
           <MaterialIcons name="insert-emoticon" size={24} color="#0091ff" />
-          <TextInput onFocus={hanldPress} onBlur={hanldPressOut} value={text} onChangeText={x=>setText(x)} style={styles.input_Message} placeholder='Nhập tin nhắn...' ></TextInput>
+          <TextInput  value={text} onChangeText={x=>setText(x)} style={styles.input_Message} placeholder='Nhập tin nhắn...' ></TextInput>
         </View>
         <View style={styles.footer_Right}>
           <View>
