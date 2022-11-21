@@ -56,8 +56,11 @@ function Login(){
     });
     const hanldPressLogin = ()=>{
         signInWithEmailAndPassword(auth,email,passWord)
-        .then(()=>{
-            
+        .then((result)=>{
+            if (!result.user.emailVerified) {
+                alert("Email chưa được xác thực vui lòng kiểm tra hộp thư của bạn");
+                return;
+            }
             const accessToken =`Bearer ${auth.currentUser.stsTokenManager.accessToken}`;
             var user = userAPI.getUserInfo()(accessToken )
             dispatch(user);
