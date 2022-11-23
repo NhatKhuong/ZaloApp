@@ -1,4 +1,4 @@
-import { Text, View, Image, FlatList, ScrollView, TouchableHighlight } from "react-native";
+import { Text, View, Image, FlatList, ScrollView, TouchableHighlight, TouchableOpacity } from "react-native";
 import React, { Component } from "react";
 import styles from "./ItemFriend_Style";
 import { AntDesign } from '@expo/vector-icons';
@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import roomAPI from "../../redux/reducers/Room/roomAPI";
+import axios from "axios";
 const ItemFriend = ({navigation}) => {
     const roomState = useSelector(state => state.room);
     const userState = useSelector(state => state.user);
@@ -18,7 +19,22 @@ const ItemFriend = ({navigation}) => {
     const Data = listRoom.map((e)=>{
         return ({id:e._id,name:e.name,image:e.avatar,lastMessage:e.messages[0]?.content,time:(e.createdAt),type: e.messages[0]?.type});
     });
-    
+    const deleteGroupHandleClick = () => {
+        axios
+            .delete(`https://frozen-caverns-53350.herokuapp.com/api/rooms/${roomState._id}`, {
+                headers: { authorization: accessToken },
+            }
+          )
+          .then(() => {
+            const listRooms = listRoom.filter(
+              (e) => (e._id) != roomState._id
+            );
+            console.log(listRooms);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      };
     const renderItem = ({item}) =>{
         var imageItem = (item.image == undefined)? "https://hinhgaixinh.com/wp-content/uploads/2021/12/bo-anh-girl-xinh-cap-2.jpg":item.image;
         var isImage = (item.type);
@@ -68,10 +84,10 @@ const ItemFriend = ({navigation}) => {
                             <AntDesign name="pushpino" size={24} color="white" />
                             <Text style={styles.txtItemRowBack}>Ghim</Text>
                         </View>
-                        <View style={styles.rowBackRight_Right}>
-                        <AntDesign name="delete" size={24} color="white" />
-                        <Text style={styles.txtItemRowBack}>Xóa</Text>
-                        </View>
+                        <TouchableOpacity onPress={deleteGroupHandleClick} style={styles.rowBackRight_Right}>
+                            <AntDesign name="delete" size={24} color="white" />
+                            <Text style={styles.txtItemRowBack}>Xóa</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
     }
