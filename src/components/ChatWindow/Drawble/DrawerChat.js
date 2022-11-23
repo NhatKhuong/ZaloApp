@@ -1,4 +1,4 @@
-import { ScrollView, View,Text,TouchableOpacity,TextInput, Image, Switch } from "react-native";
+import { ScrollView, View,Text,TouchableOpacity, Image, Switch,TextInput } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -10,18 +10,123 @@ import { useState } from "react";
 import { MaterialIcons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
+import {Button,Dialog,Portal,Provider,} from 'react-native-paper';
+import { useSelector } from "react-redux";
+import * as ImagePicker  from 'expo-image-picker';
+import roomAPI from "../../../redux/reducers/Room/roomAPI";
+import userAPI from "../../../redux/reducers/user/userAPI";
+import axios from "axios";
+import { useDispatch } from "react-redux";
 
 function DrawerChat({route}){
     const {id,name,image} = route.params;
-    console.log(name);
-    console.log(id);
+    const roomState = useSelector(state => state.room);
+    const userState = useSelector(state => state.user);
+    const token = userState.accessToken;
+    const roomId = id;
     const navigation = useNavigation();
     const [isBFF,setIsBFF] = useState(false);
     const hanldPressGoBack= ()=>{
-        navigation.navigate("ChatWindow",{id:id,name:name,image:image});
+        navigation.navigate("ChatWindow",{id:id,name:nameChange,image:avtChange});
     }
+    const [nameChange, setnameChange] = useState(name);
+    const [avtChange, setavtChange] = useState(image);
+    const [isDialogVisible, setIsDialogVisible] = useState(false);
+    const dispatch = useDispatch();
+    // const updateName = async () =>{
+    //     const data = {name: nameChange};
+    //     await axios.patch(
+    //         `https://frozen-caverns-53350.herokuapp.com/api/rooms/${roomId}/name`,
+    //         data,
+    //         {
+    //           headers: { authorization: token },
+    //         }
+    //     );
+    //     dispatch(
+    //         roomAPI.saveRoomId()({ _id: roomId, avatar: avtChange, name: nameChange })
+    //       );
+    //       dispatch(
+    //         userAPI.updateRoomByIdUI()({ _id: roomId, avatar: avtChange, name: nameChange })
+    //       );
+    //       setIsDialogVisible(false)
+    // }
+    const hanldPressMemberGroup = ()=>{
+        navigation.navigate("MemberGroup");
+    }
+
+    // Đổi avt 
+    const pickImage = async () => {
+        // No permissions request is necessary for launching the image library
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          allowsEditing: true,
+          quality: 1,
+        });
+        if (!result.cancelled) {
+          let localUri = result.uri;
+          let formData = new FormData();
+          let uriParts = localUri.split(".");
+          const path = localUri.split("/");
+          let fileType = uriParts[uriParts.length - 1];
+          let nameFile = path[path.length - 1];
+          const _image = {
+            uri: Platform.OS === "android" ? localUri : localUri.replace("file://", ""),
+            type: `image/${fileType}`,
+            name: nameFile,
+          };
+          formData.append("file", _image);
+          console.log('====================================');
+          console.log(`https://frozen-caverns-53350.herokuapp.com/api/rooms/${roomId}/avatar`);
+          console.log(formData);
+          console.log(token);
+          console.log('====================================');
+          axios
+          .patch(`https://frozen-caverns-53350.herokuapp.com/api/rooms/${roomId}/avatar`, formData, {
+            headers: {
+                authorization: token,
+                "Content-type": "multipart/form-data",
+            },
+          })
+          .then(() => {
+            console.log("1");
+          })
+          .catch((err) => {
+            console.log(err);
+            alert("Error Upload file");
+          });
+        dispatch(
+            roomAPI.saveRoomId()({ _id: roomId, avatar: avtChange, name: nameChange })
+          );
+        dispatch(
+            userAPI.updateRoomByIdUI()({ _id: roomId, avatar: avtChange, name: nameChange })
+          );
+    
+        }
+        else if(result.cancelled){
+          console.log(result);
+        }
+    
+      };
+    //   const deleteGroupHandleClick = async () => {
+    //     const roomId = roomState._id;
+    //     // dispatch(userAPI.deleteRoomByIdUI()(roomId));
+    //     await axios.delete(`https://frozen-caverns-53350.herokuapp.com/api/rooms/${roomId}`, {
+    //             headers: { authorization: token },
+    //         }
+    //       )
+    //       .then(() => {
+    //         const listRooms = listRoom.filter(
+    //           (e) => (e._id) != roomState._id
+    //         );
+    //         console.log(listRooms);
+    //       })
+    //       .catch((err) => {
+    //         console.log(err);
+    //       });
+    //   };
     return(
-        <View style={styles.container} >
+        <Provider>
+            <View style={styles.container} >
             <View style={styles.containerTabBar}>
                     <TouchableOpacity onPress={hanldPressGoBack} style={{  paddingLeft:10,paddingRight:10,justifyContent:'center',paddingTop:10,}} >
                         <Ionicons name="arrow-back" size={30} color="#fff" />
@@ -34,8 +139,8 @@ function DrawerChat({route}){
             <ScrollView style={{paddingBottom: 600}}>
                 <View style={styles.containerBody}>
                     <View style={styles.containerBody_Top}>
-                        <Image style={styles.containerBody_Top_Avt}source={{ uri: image}}/>
-                        <Text style={{fontSize:30,fontWeight:'bold',color:'black',marginTop:10,}}>{name}</Text>
+                        <Image style={styles.containerBody_Top_Avt}source={{ uri: avtChange}}/>
+                        <Text style={{fontSize:30,fontWeight:'bold',color:'black',marginTop:10,}}>{nameChange}</Text>
                         <View style={styles.containerBody_Top_Icon}>
                             <TouchableOpacity style={styles.containerBody_Top_Icon_Icon}>
                                 <View style={styles.containerBody_Top_Icon_IconItem}>
@@ -45,15 +150,15 @@ function DrawerChat({route}){
                                 <Text style={{color:'#4F4F4F',textAlign:'center'}}>Tìm {'\n'} tin nhắn</Text>
                                 </View>     
                             </TouchableOpacity>  
-                            <TouchableOpacity style={styles.containerBody_Top_Icon_Icon}>
+                            <TouchableOpacity onPress={hanldPressMemberGroup} style={styles.containerBody_Top_Icon_Icon}>
                                 <View style={styles.containerBody_Top_Icon_IconItem}>
                                     <AntDesign name="user" size={20} color="black" />
                                 </View>
                                 <View style={styles.containerBody_Top_Icon_IconText}>
-                                <Text style={{color:'#4F4F4F',textAlign:'center'}}>Trang {'\n'} cá nhân</Text>
+                                <Text style={{color:'#4F4F4F',textAlign:'center'}}>Xem {'\n'} thành viên</Text>
                                 </View>     
                             </TouchableOpacity>  
-                            <TouchableOpacity style={styles.containerBody_Top_Icon_Icon}>
+                            <TouchableOpacity onPress={pickImage} style={styles.containerBody_Top_Icon_Icon}>
                                 <View style={styles.containerBody_Top_Icon_IconItem}>
                                     <FontAwesome5 name="brush" size={20} color="black" />
                                 </View>
@@ -73,7 +178,7 @@ function DrawerChat({route}){
                     </View>
                     <View style={styles.containerBody_Mid}>
                             <View style={styles.containerBody_Mid_ChangeName}>
-                                <TouchableOpacity style={styles.containerBody_Mid_ChangeName_Item}>
+                                <TouchableOpacity onPress={() => setIsDialogVisible(true)} style={styles.containerBody_Mid_ChangeName_Item}>
                                     <Ionicons name="pencil" size={24} color="#828282"  style={{width:"15%",height:"100%"}} />
                                     <View style={styles.containerBody_Mid_ChangeName_Item_Text}>
                                         <Text style={{fontSize:20,color:'black',}}>Đổi tên gợi nhớ</Text>
@@ -226,7 +331,26 @@ function DrawerChat({route}){
                             </View>
                     </View>
             </ScrollView>
+            <Portal>
+                <Dialog
+                    visible={isDialogVisible}
+                    onDismiss={() => setIsDialogVisible(false)}>
+                    <Dialog.Title style={{fontSize:23,}}>Nhập tên cần đổi</Dialog.Title>
+                    <Dialog.Content>
+                    <TextInput
+                        value={nameChange}
+                        onChangeText={text => setnameChange(text)}
+                        style={{fontSize:24,borderBottomWidth:1,}}
+                    />
+                    </Dialog.Content>
+                    <Dialog.Actions>
+                    <Button onPress={() => setIsDialogVisible(false)}>Thoát</Button>
+                    <Button onPress={() => setIsDialogVisible(false)}>Xác nhận</Button>
+                    </Dialog.Actions>
+                </Dialog>
+            </Portal>
         </View>
+        </Provider>
     );
 }
 export default DrawerChat;
