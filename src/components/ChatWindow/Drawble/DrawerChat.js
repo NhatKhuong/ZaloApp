@@ -75,11 +75,6 @@ function DrawerChat({route}){
             name: nameFile,
           };
           formData.append("file", _image);
-          console.log('====================================');
-          console.log(`https://frozen-caverns-53350.herokuapp.com/api/rooms/${roomId}/avatar`);
-          console.log(formData);
-          console.log(token);
-          console.log('====================================');
           axios
           .patch(`https://frozen-caverns-53350.herokuapp.com/api/rooms/${roomId}/avatar`, formData, {
             headers: {
@@ -94,12 +89,12 @@ function DrawerChat({route}){
             console.log(err);
             alert("Error Upload file");
           });
-        dispatch(
-            roomAPI.saveRoomId()({ _id: roomId, avatar: avtChange, name: nameChange })
-          );
-        dispatch(
-            userAPI.updateRoomByIdUI()({ _id: roomId, avatar: avtChange, name: nameChange })
-          );
+        // dispatch(
+        //     roomAPI.saveRoomId()({ _id: roomId, avatar: avtChange, name: nameChange })
+        //   );
+        // dispatch(
+        //     userAPI.updateRoomByIdUI()({ _id: roomId, avatar: avtChange, name: nameChange })
+        //   );
     
         }
         else if(result.cancelled){
