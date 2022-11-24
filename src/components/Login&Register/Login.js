@@ -1,5 +1,5 @@
-import { View,Text,TouchableOpacity,TextInput, Alert } from "react-native";
-import { AntDesign } from '@expo/vector-icons';
+import { View,Text,TouchableOpacity,TextInput, Alert, Image } from "react-native";
+import { AntDesign, Entypo, Feather, FontAwesome5 } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import styles from "./StyleLogin";
 import { useEffect, useState } from "react";
@@ -14,7 +14,6 @@ import userAPI from "../../redux/reducers/user/userAPI";
 function Login(){
     //UseState
     const [isPassword,setPassword] = useState(true);
-    const [isTextButton,setTextButton] = useState("Hiện");
     const [email,setEmail] = useState("");
     const [passWord,setPassWord] = useState("");
     //useDispatch
@@ -24,6 +23,9 @@ function Login(){
     const navigation = useNavigation();
     const hanldPressDashBoard = () => {
         navigation.navigate("DashBoard");
+    };
+    const hanldPressRegister = () => {
+        navigation.navigate("Register");
     };
     //UseEffect
     useEffect(() => {
@@ -44,10 +46,8 @@ function Login(){
     const hanldPress = () => {
         if(isPassword){
             setPassword(false);
-            setTextButton("Ẩn");
         }else{
             setPassword(true);
-            setTextButton("Hiện");
         }
     };
     // Connect FireBase
@@ -62,7 +62,7 @@ function Login(){
         .then((result)=>{
             if (!result.user.emailVerified) {
                 alert("Email chưa được xác thực vui lòng kiểm tra hộp thư của bạn");
-                // return;
+                return;
             }
             const accessToken =`Bearer ${auth.currentUser.stsTokenManager.accessToken}`;
             var user = userAPI.getUserInfo()(accessToken )
@@ -87,36 +87,53 @@ function Login(){
                 <Text style={{fontSize:18,}}>Vui lòng nhập số điện thoại và mật khẩu để đăng nhập</Text>
             </View>
             <View style={styles.containerInput}>
-                <TextInput onChangeText={x=>setEmail(x)} value={email} placeholder="Vui lòng nhập Email" style={{marginLeft:15,marginRight:15,height:50,fontSize:22,borderBottomWidth:1,}}/>
-                <View style={{display:'flex',flexDirection:'row',borderBottomWidth:1,marginLeft:15,marginRight:15,}}>
-                    <TextInput onChangeText={x=>setPassWord(x)} value={passWord} secureTextEntry={isPassword}  placeholder="Vui lòng nhập mật khẩu" style={{height:50,fontSize:22,width:"85%"}}/>
-                    <TouchableOpacity style={{justifyContent:'center',alignItems:'center',width:"15%"}} onPress={hanldPress}>
-                        <Text style={{fontSize:22}}>{isTextButton}</Text>
+                <View style={{display:'flex',flexDirection:'row',borderWidth:1,marginRight:10,marginLeft:10,borderRadius:20,backgroundColor:"#DCDCDC",alignItems:"center"}}>
+                    <View style={{flex:0.15,alignItems:'center'}}>
+                        <Feather name="mail" size={32} color="black" />
+                    </View>
+                    <TextInput onChangeText={x=>setEmail(x)} value={email} placeholder="Vui lòng nhập Email" style={{marginRight:15,height:50,fontSize:22,flex:0.85}}/>
+                </View>
+                <View style={{display:'flex',flexDirection:'row',borderWidth:1,marginLeft:10,marginRight:10,marginTop:10,borderRadius:20,backgroundColor:"#DCDCDC",alignItems:"center"}}>
+                    <View style={{flex:0.15,alignItems:'center',}}>
+                        <FontAwesome5 name="keyboard" size={24} color="black" />
+                    </View>
+                    <TextInput onChangeText={x=>setPassWord(x)} value={passWord} secureTextEntry={isPassword}  placeholder="Vui lòng nhập mật khẩu" style={{height:50,fontSize:22,flex:0.7}}/>
+                    <TouchableOpacity style={{justifyContent:'center',alignItems:'center',flex:0.15}} onPress={hanldPress}>
+                        {
+                            (isPassword)? <Entypo name="eye" size={24} color="black" /> : <Entypo name="eye-with-line" size={24} color="black" />
+                        }
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity style={{margin:15,marginTop:25,}} onPress={hanldPressForgotPasswrod} >
                     <Text style={{fontSize:20, color:'#63B8FF',fontWeight:'bold'}}>
                         Lấy lại mật khẩu
                     </Text>
-            </TouchableOpacity>
-            </View>
-            <View style={styles.containerBottom}>
-                <View></View>
-                <TouchableOpacity onPress={hanldPressLogin} style={styles.bottom} >
-                    <AntDesign name="arrowright" size={24} color="white" />
                 </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.buttonGoogle}>
-                <View style={{margin:30,borderWidth:0.5,height:50,alignItems:'center',display:'flex',flexDirection:'row',borderColor:'grey',backgroundColor:"#FFC1C1",borderRadius:10,}}>
-                    <View style={{width:"15%",alignItems:'center',height:50,justifyContent:'center'}}>
-                        <AntDesign name="google" size={24} color="red" />
-                    </View>
-                    <View style={{width:"70%"}}>
-                        <Text style={{fontSize:22,textAlign:'center',color:'red'}}>Sign In With Google</Text>
-                    </View>
-                </View>
-            </TouchableOpacity>
-            
+            <View style={styles.containerBottom}>
+                <TouchableOpacity onPress={hanldPressLogin} style={styles.bottom} >
+                    <Text style={{fontSize:22, color:'#fff',fontWeight:'bold'}}> Đăng nhập</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={{flex:0.15,justifyContent:'center',alignItems:'center',display:'flex',flexDirection:'row',}}>
+                <TouchableOpacity  style={{height:60,width:60,justifyContent:'center',alignItems:'center',borderRadius:20,backgroundColor:"#DCDCDC"}} >
+                        <Image source={require('../../../assets/google.png')}/>
+                </TouchableOpacity>
+                <View style={{marginRight:20,}}></View>
+                <TouchableOpacity  style={{height:60,width:60,justifyContent:'center',alignItems:'center',borderRadius:20,backgroundColor:"#DCDCDC"}} >
+                        <Image source={require('../../../assets/facebook.png')}/>
+                </TouchableOpacity>
+                <View style={{marginRight:20,}}></View>
+                <TouchableOpacity  style={{height:60,width:60,justifyContent:'center',alignItems:'center',borderRadius:20,backgroundColor:"#DCDCDC"}} >
+                        <Image source={require('../../../assets/twitter.png')}/>
+                </TouchableOpacity>
+            </View>
+            <View style={{flex:0.15,justifyContent:'center',alignItems:'center',display:'flex',flexDirection:'row'}}>
+                    <Text style={{fontSize:20,}}>Chưa có tài khoản?</Text>
+                    <TouchableOpacity onPress={hanldPressRegister}>
+                        <Text style={{fontSize:22,color:'#F4A460',fontWeight:'bold'}}>Đăng ký</Text>
+                    </TouchableOpacity>
+            </View>
             
         </View>
     );
