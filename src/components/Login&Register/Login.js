@@ -1,4 +1,4 @@
-import { View,Text,TouchableOpacity,TextInput, Alert } from "react-native";
+import { View,Text,TouchableOpacity,TextInput, Alert, Image } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import styles from "./StyleLogin";
@@ -10,6 +10,11 @@ import {initializeApp} from 'firebase/app';
 import { firebaseConfig } from "../../../firebase-config";
 import { useDispatch, useSelector } from "react-redux";
 import userAPI from "../../redux/reducers/user/userAPI";
+import * as WebBrowser from 'expo-web-browser';
+import * as Google from 'expo-auth-session/providers/google';
+import * as React from 'react';
+import { getAuth, getIdToken, GoogleAuthProvider, signInWithCredential, signInWithCustomToken}
+ from 'firebase/auth';
 
 function Login(){
     //UseState
@@ -34,7 +39,7 @@ function Login(){
         } else {
             if (userState.error) {
                 (
-                    Alert.alert("Thông báo", "Tài khoản, mật khẩu sai")
+                    Alert.alert("Thông báo", "Đăng nhập")
                 )
             }
         }
@@ -73,6 +78,32 @@ function Login(){
         })
     }
     
+    WebBrowser.maybeCompleteAuthSession();
+    const [request, response, promptAsync] = Google.useIdTokenAuthRequest(
+        {
+          expoClientId: '345645422283-i00vurhgr0ian3jgjc8sng4brf4fna9u.apps.googleusercontent.com',
+          clientId: '345645422283-jsabtq810dpq1rim0amsr74nmkvec522.apps.googleusercontent.com',
+          iosClientId: '345645422283-lrb3hel7ulctk9hcoul0idh9e4sol75k.apps.googleusercontent.com',
+        },
+      );
+    
+    const handleLoginWithGoogle = (async() => {
+        const response =await promptAsync();
+        
+        if (response?.type === 'success') {
+
+            const { id_token } = response.params;
+            const auth = getAuth();
+            const credential = GoogleAuthProvider.credential(id_token);
+            signInWithCredential(auth, credential);
+
+            const accessToken =`Bear ${auth.currentUser.accessToken}`;
+            dispatch(userAPI.getUserInfo()(accessToken));
+            var user = userAPI.getUserInfo()(id_token )
+            dispatch(user);
+           }
+    });
+
     return (
         <View style={styles.container}>
              <View style={styles.containerTabBar}>
@@ -83,8 +114,12 @@ function Login(){
                         <Text style={{fontSize:22,color:'white',}}>Đăng nhập</Text>
                     </View>
             </View>
+            <Image
+            source={require("../../../assets/dangnhap.png")}
+            style={{ height: 250, width: 350, marginLeft: 20 }}
+            />
             <View style={styles.containerText}>
-                <Text style={{fontSize:18,}}>Vui lòng nhập số điện thoại và mật khẩu để đăng nhập</Text>
+                <Text style={{fontSize:15,}}>Vui lòng nhập số điện thoại và mật khẩu để đăng nhập</Text>
             </View>
             <View style={styles.containerInput}>
                 <TextInput onChangeText={x=>setEmail(x)} value={email} placeholder="Vui lòng nhập Email" style={{marginLeft:15,marginRight:15,height:50,fontSize:22,borderBottomWidth:1,}}/>
@@ -103,21 +138,21 @@ function Login(){
             <View style={styles.containerBottom}>
                 <View></View>
                 <TouchableOpacity onPress={hanldPressLogin} style={styles.bottom} >
-                    <AntDesign name="arrowright" size={24} color="white" />
+                    {/* <AntDesign name="arrowright" size={24} color="white" /> */}
+                    <Text style={{color: "white",fontWeight: "700",fontSize: 16,}}>Đăng nhập
+                    </Text>
                 </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.buttonGoogle}>
-                <View style={{margin:30,borderWidth:0.5,height:50,alignItems:'center',display:'flex',flexDirection:'row',borderColor:'grey',backgroundColor:"#FFC1C1",borderRadius:10,}}>
+            <TouchableOpacity style={styles.buttonGoogle}  disabled={!request} onPress={handleLoginWithGoogle}>
+                <View style={{margin:30,borderWidth:0.5,height:50,alignItems:'center',display:'flex',flexDirection:'row',borderColor:'grey',backgroundColor:"#ff4d4d",borderRadius:10,}}>
                     <View style={{width:"15%",alignItems:'center',height:50,justifyContent:'center'}}>
-                        <AntDesign name="google" size={24} color="red" />
+                        <AntDesign name="google" size={24} color="#ffffff" />
                     </View>
                     <View style={{width:"70%"}}>
-                        <Text style={{fontSize:22,textAlign:'center',color:'red'}}>Sign In With Google</Text>
+                        <Text style={{fontSize:22,textAlign:'center',color:'#ffffff'}}>Sign In With Google</Text>
                     </View>
                 </View>
-            </TouchableOpacity>
-            
-            
+            </TouchableOpacity>       
         </View>
     );
 }

@@ -66,6 +66,7 @@ function Register(){
             {
                 createUserWithEmailAndPassword(auth,email,passWord)
                 .then((userCredential)=>{
+<<<<<<< HEAD
                     var user = userCredential.user;
                     sendEmailVerification(user);
                     Alert.alert("Thông báo",`Đăng ký thành công ! ${'\n'}Mời bạn kiểm tra email để xác nhận`);
@@ -73,6 +74,14 @@ function Register(){
                     setPassWord("");
                     setPassWordAgain("");
                     setuserName("");
+=======
+                    const user =userCredential.user
+                    sendEmailVerification(user).then(()=>
+                    {
+                        console.log('Email verification sent')
+                    })
+                    Alert.alert("Thông báo","Đăng ký thành công !")
+>>>>>>> long
                     navigation.navigate("Login");
                 })
                 .catch(error =>{
@@ -94,8 +103,12 @@ function Register(){
                         <Text style={{fontSize:22,color:'white',}}>Đăng Ký</Text>
                     </View>
             </View>
+            <Image
+            source={require("../../../assets/dangky.png")}
+            style={{ height: 250, width: 350, marginLeft: 20 }}
+            />
             <View style={styles.containerText}>
-                <Text style={{fontSize:18,textAlign:'center'}}>Vui lòng nhập số điện thoại và mật khẩu để {'\n'} đăng ký tài khoản</Text>
+                <Text style={{fontSize:16,textAlign:'center'}}>Vui lòng nhập số điện thoại và mật khẩu để {'\n'} đăng ký tài khoản</Text>
             </View>
             <View style={styles.containerInput}>
                 <TextInput onChangeText={x=>setuserName(x)} value={userName} placeholder="Vui lòng nhập Tên người dùng" style={{marginLeft:15,marginRight:15,height:50,fontSize:22,borderBottomWidth:1,}}/>
@@ -124,7 +137,9 @@ function Register(){
             <View style={styles.containerBottom}>
                 <View></View>
                 <TouchableOpacity onPress={hanldPressRegister} style={styles.bottom} >
-                    <AntDesign name="arrowright" size={24} color="white" />
+                    {/* <AntDesign name="arrowright" size={24} color="white" /> */}
+                    <Text style={{color: "white",fontWeight: "700",fontSize: 16,}}>Đăng ký
+                    </Text>
                 </TouchableOpacity>
             </View>
         </View>

@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
     },
     
     containerTabBar:{
-    height: "8%",
+    height: "10%",
     padding:5,
     backgroundColor: '#01bafa',
     display:'flex',
