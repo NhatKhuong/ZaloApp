@@ -17,7 +17,8 @@ const ItemFriend = ({navigation}) => {
     const dispatch = useDispatch();
     
     const Data = listRoom.map((e)=>{
-        return ({id:e._id,name:e.name,image:e.avatar,lastMessage:e.messages[0]?.content,time:(e.createdAt),type: e.messages[0]?.type});
+        console.log();
+        return ({id:e._id,name:e.name,image:e.avatar,lastMessage:e.messages[0]?.content,time:(e.createdAt),type: e.messages[0]?.type,owner:e.owner});
     });
     const deleteGroupHandleClick = () => {
         axios
@@ -41,9 +42,10 @@ const ItemFriend = ({navigation}) => {
         
         return  <TouchableHighlight underlayColor={'#E6E6FA'} style={styles.touchHightLight} onPress={()=>{
             const id = item.id;
+            const onwer = item.owner;
             dispatch(roomAPI.getListChat()({ accessToken, id }));
             dispatch(roomAPI.saveRoomId()(id))
-            navigation.navigate("ChatWindow",{id:item.id,name:item.name,image:imageItem,lastMessage:item.lastMessage,time:item.time})
+            navigation.navigate("ChatWindow",{id:item.id,name:item.name,image:imageItem,lastMessage:item.lastMessage,time:item.time,owner:item.owner})
         }}>
                 <View style={styles.container} >
                     <View style={styles.itemFriend_info}>

@@ -3,13 +3,16 @@ const styles = StyleSheet.create({
     container:{
         display:'flex',
         flexDirection:'row',
-        paddingLeft:20,
-        marginTop:20,
+        paddingLeft:10,
+        marginTop:15,
+        marginBottom: 5,
     },
     container_Left_Img:{
-        width:33,
-        height:33,
+        width:50,
+        height:50,
         borderRadius:50,
+        justifyContent:'center',
+        alignItems:'center'
     },
     container_Right:{
         marginLeft:10,

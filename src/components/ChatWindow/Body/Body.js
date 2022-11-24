@@ -6,7 +6,7 @@ import MyMessagaItem from './MyMessagaItem';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import ScrollToBottom  from 'react-scroll-to-bottom';
-function Body ({id}) {
+function Body ({id,owner}) {
   const roomState = useSelector(state => state.room);
   const userState = useSelector(state => state.user);
   const dispatch = useDispatch();
@@ -18,6 +18,7 @@ function Body ({id}) {
           roomState.lstChat.map((e)=>{
             count++;
             const isMyMessage = e.user._id === userState.user._id ? true : false;
+            const isOwner =  e.user._id === owner ? true : false;
             if(isMyMessage){
               return <MyMessagaItem 
               key={count}
@@ -26,6 +27,7 @@ function Body ({id}) {
               time={e.createdAt}
               message={e.content}
               type={e.type} 
+              owner = {isOwner}
               />
             }
             else{
@@ -36,6 +38,7 @@ function Body ({id}) {
               time={e.createdAt}
               message={e.content}
               type={e.type}
+              owner = {isOwner}
               />
             }
           })
