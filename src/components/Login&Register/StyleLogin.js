@@ -7,32 +7,39 @@ const styles = StyleSheet.create({
     },
     
     containerTabBar:{
-    height: "8%",
+    flex:0.1,
     padding:5,
     backgroundColor: '#1E90FF',
     display:'flex',
     flexDirection:'row',
     },
     containerText:{
-        height:"8%",
+        flex:0.1,
         backgroundColor:'#F5FFFA',
         justifyContent:'center',
         alignItems:'center',
     },
     containerInput:{
         marginTop:20,
+        flex:0.4,
+        justifyContent:'center'
     },
     containerBottom:{
+        flex:0.1,
         display:'flex',
         flexDirection:'row',
-        justifyContent:'space-between',
-        paddingRight:15,
-        paddingTop:60,
+        justifyContent:'center',
+        paddingRight:10,
     },
     bottom:{
-        padding:20,
+        flex:1,
+        height:60,
         backgroundColor:'#1C86EE',
         borderRadius:100,
+        justifyContent:'center',
+        alignItems:'center',
+        marginRight:10,
+        marginLeft:10,
     }
 });
 
