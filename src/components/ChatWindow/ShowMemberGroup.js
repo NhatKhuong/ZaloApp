@@ -25,14 +25,19 @@ function MemberGroup() {
                 headers: { authorization: token},
             })
             .then((r) => {
+                
                 const users = r.data.users.map((e)=>{
                     return { userId: e.user };
+                    console.log('====================================');
+                    console.log(e.user);
+                    console.log('====================================');
                 })
                 setfriends(users);
             })
             .catch((err) => {
                 console.log(err);
             });
+        
     }, [token]);
     const [checkedItems, setCheckedItems] = useState([]);
     const isChecked = (id) => {
@@ -49,8 +54,9 @@ function MemberGroup() {
     const renderItem = ({item}) =>{
         var Name = (item.userId.name == undefined)? item.userId.email : item.userId.name;
         var image = (item.userId.avatar == undefined)?  "https://hinhgaixinh.com/wp-content/uploads/2021/12/bo-anh-girl-xinh-cap-2.jpg": item.userId.avatar;
+        console.log(item.userId);
         return(
-            <TouchableOpacity  style={{height:60,display:'flex',flexDirection:'row',flex:1,marginBottom:20,}} onPress={()=> toggleItem(item._id)}>
+            <TouchableOpacity  style={{height:60,display:'flex',flexDirection:'row',flex:1,marginBottom:20,}} onPress={()=> toggleItem(item.userId._id)}>
                 <View style={{flex:0.05,justifyContent:'center',alignItems:'center'}} >
                 </View>
                 <View style={{flex:0.15,borderRadius:100,}}>
@@ -77,7 +83,7 @@ function MemberGroup() {
             </View>
         </View>
         <View style={styles.containerBody}>
-        <SwipeListView  nestedScrollEnabled={true} data ={friends} renderItem={renderItem}  keyExtractor={item => `${item._id}`}/>
+        <SwipeListView  nestedScrollEnabled={true} data ={friends} renderItem={renderItem}  keyExtractor={item => `${item.userId._id}`}/>
         </View>
     </SafeAreaView>
   )
