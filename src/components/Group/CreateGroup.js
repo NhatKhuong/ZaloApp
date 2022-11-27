@@ -20,7 +20,7 @@ function CreateGroup() {
    const dispatch = useDispatch();
     useEffect(() => {
         axios
-            .get(`https://frozen-caverns-53350.herokuapp.com/api/users/friends`, {
+            .get(`http://18.140.239.96/api/users/friends`, {
                 headers: { authorization: token},
             })
             .then((r) => {
@@ -74,7 +74,7 @@ function CreateGroup() {
         console.log(checkedItems);
         axios
             .post(
-                `https://frozen-caverns-53350.herokuapp.com/api/rooms`,
+                `http://18.140.239.96/api/rooms`,
                 {
                     userIds: checkedItems,
                     name: name,

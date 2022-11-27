@@ -29,7 +29,7 @@ function FriendProfile({route}) {
             setIsAdd(true);
             try {
                 axios.post(
-                    `https://frozen-caverns-53350.herokuapp.com/api/users/invites`,
+                    `http://18.140.239.96/api/users/invites`,
                     {
                         userId: infoState._id,
                     },

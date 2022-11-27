@@ -22,7 +22,7 @@ const ItemFriend = ({navigation}) => {
     });
     const deleteGroupHandleClick = () => {
         axios
-            .delete(`https://frozen-caverns-53350.herokuapp.com/api/rooms/${roomState._id}`, {
+            .delete(`http://18.140.239.96/api/rooms/${roomState._id}`, {
                 headers: { authorization: accessToken },
             }
           )

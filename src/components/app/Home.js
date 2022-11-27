@@ -10,7 +10,7 @@ import tokenService from "../../services/token.service";
 import userAPI from "../../redux/reducers/user/userAPI";
 import  io  from "socket.io-client";
 import roomAPI from "../../redux/reducers/Room/roomAPI";
-export let newSocket = io("https://frozen-caverns-53350.herokuapp.com");
+export let newSocket = io("http://18.140.239.96");
 function Home(props) {
     const userState = useSelector(state => state.user);
     const roomState = useSelector(state => state.room);
@@ -35,7 +35,7 @@ function Home(props) {
     }, []);
     useEffect(() => {
         newSocket.disconnect();
-        newSocket = io("https://frozen-caverns-53350.herokuapp.com");
+        newSocket = io("http://18.140.239.96");
         newSocket?.on("server-send-message", function (data) {
             if (roomId.current === data.roomId) {
                 dispatch(roomAPI.updateListChat()(data));
@@ -55,6 +55,24 @@ function Home(props) {
             dispatch(
                 userAPI.updateListRequestAddFriend()(data.friendInvite.user)
             );
+        });
+        // send icon vs thu tin nhan
+        newSocket.on("react-message", function (data) {
+            if (roomId.current === data.roomId) {
+                dispatch(roomAPI.updateChangeIconMessage()(data));
+            }
+        });
+
+
+        newSocket.on("unsend-message", function (data) {
+            console.log(data);
+            console.log(data.roomId);
+            console.log(roomState._id);
+            if (roomId.current === data.roomId) {
+                console.log("vào");
+
+                dispatch(roomAPI.updateChangeMessage()(data));
+            }
         });
 
         // call video

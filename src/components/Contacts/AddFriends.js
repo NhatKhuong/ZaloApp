@@ -28,7 +28,7 @@ function AddFriends() {
     const handelSearch =  async () => {
         const emailNew = email+`@gmail.com`
             try {
-                var user = await axios(`https://frozen-caverns-53350.herokuapp.com/api/users/email/${emailNew}`,{
+                var user = await axios(`http://18.140.239.96/api/users/email/${emailNew}`,{
                     method: 'GET',
                     headers: { authorization: accessToken },
                 });
@@ -64,7 +64,7 @@ function AddFriends() {
     function handlAccept(id) {
         axios
             .post(
-                `https://frozen-caverns-53350.herokuapp.com/api/users/invites`,
+                `http://18.140.239.96/api/users/invites`,
                 {
                     userId: id,
                 },
@@ -81,7 +81,7 @@ function AddFriends() {
         dispatch(userAPI.deleteRequestAddFriend()(id));
         
         axios
-            .get(`https://frozen-caverns-53350.herokuapp.com/api/rooms/users/${id}`, {
+            .get(`http://18.140.239.96/api/rooms/users/${id}`, {
                 headers: { authorization: accessToken },
             })
             .then((r) => {

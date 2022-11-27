@@ -4,7 +4,7 @@ class AuthService {
     async login(accessToken) {
         try {
             
-            var user = await axios(`https://frozen-caverns-53350.herokuapp.com/api/users/profile`,{
+            var user = await axios(`http://18.140.239.96/api/users/profile`,{
                 method: 'GET',
                 headers: { authorization: accessToken },
               });

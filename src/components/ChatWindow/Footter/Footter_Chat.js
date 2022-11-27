@@ -18,9 +18,9 @@ function Footter_Chat (){
   const roomState = useSelector(state => state.room);
   const userState = useSelector(state => state.user);
   const token = tokenService.getAccessToken();
-  const urlUploadFile = "https://frozen-caverns-53350.herokuapp.com/api/storages/upload";
+  const urlUploadFile = "http://18.140.239.96/api/storages/upload";
   
-  const newSocket = io("https://frozen-caverns-53350.herokuapp.com", {
+  const newSocket = io("http://18.140.239.96", {
         query: {
             // token: useState.accessToken,
         },
