@@ -85,9 +85,12 @@ export const roomSlice = createSlice({
             (state, action) => {
                 console.log("Đang vào")
               state.lstChat?.map((item)=>{
-                console.log(item);
+                console.log("__________________________")
                 if(item._id === action.payload.messageId){
-                  item.emoji=action.payload.react.emoji
+                    item.reacts.map((x)=>{
+                        x.emoji=action.payload.react.emoji
+                    })
+                  
                 }
               })
             }

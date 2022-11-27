@@ -68,7 +68,7 @@ const hanldPressIcon = ()=>{
         </View> */}
          {(type=="unsend")?  
          <View style={styles.container_Right}>
-                <Text>Tin nhắn đã được gỡ</Text>
+                <Text>Tin nhắn đã thu hồi</Text>
                 <Text style={styles.container_Right_Time}>{time}</Text>
          </View>:
          <View>
