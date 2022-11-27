@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import {  Text, View,TextInput, TouchableOpacity, Image, Alert, StyleSheet } from 'react-native'
-import { AntDesign, Feather, EvilIcons} from '@expo/vector-icons';
+import { AntDesign, Feather, EvilIcons, Entypo} from '@expo/vector-icons';
 import { SafeAreaView } from 'react-navigation';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
@@ -9,7 +9,7 @@ import Checkbox from 'expo-checkbox';
 import axios from 'axios';
 import userAPI from '../../redux/reducers/user/userAPI';
 import { useDispatch } from 'react-redux';
-function MemberGroup() {
+function MemberGroup({route}) {
    const navigation = useNavigation();
    const [name,setName] = useState();
    const [email,setEmail] = useState();
@@ -19,6 +19,8 @@ function MemberGroup() {
    const token = userState.accessToken;
    const dispatch = useDispatch();
    const roomId = roomState._id;
+   const {owner} = route.params;
+   
     useEffect(() => {
         axios
             .get(`https://frozen-caverns-53350.herokuapp.com/api/rooms/${roomId}`, {
@@ -54,13 +56,16 @@ function MemberGroup() {
     const renderItem = ({item}) =>{
         var Name = (item.userId.name == undefined)? item.userId.email : item.userId.name;
         var image = (item.userId.avatar == undefined)?  "https://hinhgaixinh.com/wp-content/uploads/2021/12/bo-anh-girl-xinh-cap-2.jpg": item.userId.avatar;
-        console.log(item.userId);
         return(
             <TouchableOpacity  style={{height:60,display:'flex',flexDirection:'row',flex:1,marginBottom:20,}} onPress={()=> toggleItem(item.userId._id)}>
                 <View style={{flex:0.05,justifyContent:'center',alignItems:'center'}} >
                 </View>
-                <View style={{flex:0.15,borderRadius:100,}}>
-                    <Image source={{uri:image}} style={{flex:1,borderRadius:100,}}/>
+                <View style={{flex:0.15,}}>
+                    <Image source={{uri:image}} style={{borderRadius:100,height:50,width:50,}}/>
+                    {(owner == item.userId._id)? <View style={{height:20,alignItems:'flex-end'}}>
+                        <Entypo name="key" size={18} color="#CDAD00" />
+                    </View>: null
+                    }
                 </View>
                 <View style={{flex:0.8,marginLeft:10,justifyContent:"center"}}>
                     <Text style={{fontSize:22,}}>{Name}</Text>
