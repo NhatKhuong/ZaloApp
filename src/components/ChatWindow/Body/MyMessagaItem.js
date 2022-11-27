@@ -6,7 +6,7 @@ import { AntDesign, Entypo } from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import tokenService from '../../../services/token.service';
-function MyMessagaItem ({avatar,name,time,message,type,owner,_id}) {
+function MyMessagaItem ({avatar,name,time,message,type,owner,_id,emoji}) {
   const navigation = useNavigation();
   const accessToken = tokenService.getAccessToken();
   const hanldPress =()=>{
@@ -17,8 +17,30 @@ function MyMessagaItem ({avatar,name,time,message,type,owner,_id}) {
     })
   }
   const [messIndex,setMessIndex] = useState(message);
+  const [typeIndex,setTypeIndex] = useState(type);
+  const [emojiIndex,setemojiIndex] = useState(emoji);
   const roomState = useSelector(state => state.room);
  
+  const reactMessage = (e) => {
+    
+    axios({
+        url: `https://frozen-caverns-53350.herokuapp.com/api/rooms/${roomState._id}/messages/${_id}/react`,
+        method: "POST",
+        headers: {
+            authorization: accessToken 
+        },
+        data: {
+            react:e,
+        }
+    }).then((respone) => {
+        console.log("OKE");
+        setemojiIndex(e);
+
+    }).catch((err) => {
+        console.log(err);
+
+    })
+}
   const hadelUnMessage = async  ()=> {
     var user = await axios
         .delete(
@@ -30,6 +52,7 @@ function MyMessagaItem ({avatar,name,time,message,type,owner,_id}) {
         .then(() => {
             console.log("sucess");
             setMessIndex("Tin nhắn đã được gỡ");
+            setTypeIndex("unsend");
         })
         .catch((err) => {
             console.log(err);
@@ -44,19 +67,44 @@ function MyMessagaItem ({avatar,name,time,message,type,owner,_id}) {
         },
         { text: 'Xóa', onPress: hadelUnMessage },
       ]);
-      console.log("_id:___",_id);
+    }
+    const hanldPressIcon = ()=>{
+      Alert.alert("","",[
+        { text: '😍', onPress: ()=> reactMessage("😍") },
+        { text: '😑', onPress: ()=> reactMessage("😑") },
+        { text: '😀', onPress: ()=> reactMessage("😀")},
+        { text: '😭', onPress: ()=> reactMessage("😭")},
+        {
+          text: 'Thoát',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+       
+      ]);
     }
   const [isModelIcon,setisModelIcon] = useState(true);
     return (
         <View style={styles.containerC}>
             <View style={styles.container}>
-              <TouchableOpacity onLongPress={hanldLongPress} style={styles.container_Right}>
-                  {(type=="image")? 
-                  <TouchableOpacity onPress={hanldPress}>
-                    {(messIndex=="Tin nhắn đã được gỡ")?<Text>Tin nhắn đã được gỡ</Text>: <Image style={{height:150,width:150,}} source={{uri:message}} />}
-                  </TouchableOpacity> : (type=="unsend")? <Text style={{width:180,}}>Tin nhắn đã được gỡ</Text>:<Text style={{width:180,}}>{messIndex}</Text>}
+              {(typeIndex=="unsend")?  
+              <View style={styles.container_Right}>
+                 <Text>Tin nhắn đã được gỡ</Text>
                   <Text style={styles.container_Right_Time}>{time}</Text>
-              </TouchableOpacity>
+              </View>
+              :
+              <View>
+                  <TouchableOpacity onLongPress={hanldLongPress} onPress={hanldPressIcon} style={styles.container_Right}>
+                    {(typeIndex=="image")? 
+                    <TouchableOpacity onPress={hanldPress}>
+                      <Image style={{height:150,width:150,}} source={{uri:message}} />
+                    </TouchableOpacity> : <Text style={{width:180,}}>{messIndex}</Text>}
+                    <Text style={styles.container_Right_Time}>{time}</Text>
+                  </TouchableOpacity>
+                  <View style={{height:20,width:20,marginLeft:20,}}>
+                    <Text style={{fontSize:20,}}>{emojiIndex}</Text>
+                  </View>
+              </View>
+              }
 
               <View style={styles.container_Left}>
               <Image style={styles.container_Left_Img} source={{uri:avatar}} />

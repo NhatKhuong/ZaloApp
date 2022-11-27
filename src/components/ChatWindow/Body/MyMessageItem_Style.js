@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     container_Right:{
         marginLeft:10,
         backgroundColor:"#fff",
-        padding:10,
+        padding:15,
         borderRadius:10,
         alignItems:'flex-end'
     },
