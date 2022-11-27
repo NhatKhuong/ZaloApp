@@ -40,23 +40,26 @@ function AddFriends() {
     };
 
     function handelClick(e) {
+        var Name = (e.name == undefined)? e.email : e.name;
         dispatch(
             infoAPI.updateInfo()({
-                email: e.email,
+                email: Name,
                 avatar: e.avatar,
                 _id: e._id,
             })
         );
         navigation.navigate("FriendProfile",{
             isFriend: e.isFriend,
-            email:e.email,
+            email:Name,
             _id:e.id,
+            avatar: e.avatar,
         });
     }
     var countReq = 0;
     const Data = listRequest.map((e)=>{
         countReq++;
-        return ({id:e.userId._id,name:e.userId.email,avt:e.userId.avatar});
+        console.log(e);
+        return ({id:e.userId._id,name:e.userId.name,avt:e.userId.avatar,email:e.userId.email});
     });
     function handlAccept(id) {
         axios
@@ -105,7 +108,7 @@ function AddFriends() {
                                         }}
                                     />
                             </View>
-                            <Text style={{fontSize:24,width:"70%"}}>{item.name}</Text>
+                            {(item.name == null)? <Text style={{fontSize:24,width:"70%"}}>{item.email}</Text>:<Text style={{fontSize:24,width:"70%"}}>{item.name}</Text>}
                         </View>
                         <View style={{marginRight:20,}}>
                             <TouchableOpacity onPress={()=>handlAccept(item.id)} style={styles.buttonAcp}> 
@@ -144,6 +147,7 @@ function AddFriends() {
                     listResult.map((e)=>{
                         countResult++;
                         var imageItem = (e.avatar == undefined)? "https://hinhgaixinh.com/wp-content/uploads/2021/12/bo-anh-girl-xinh-cap-2.jpg":e.avatar;
+                        var Name = (e.name == undefined)? e.email : e.name;
                         return (
                             <TouchableOpacity key={countResult} onPress={()=> handelClick(e)}  style={{flex:0.5,alignItems:'center',display:'flex',flexDirection:'row'}}>
                                 <View style={styles.itemFriend_avatar}>
@@ -153,7 +157,7 @@ function AddFriends() {
                                         uri: imageItem,
                                     }}/>
                                 </View>
-                                <Text style={{fontSize:24}}>{e.email}</Text>
+                                <Text style={{fontSize:24}}>{Name}</Text>
                             </TouchableOpacity>
                         );
                     })

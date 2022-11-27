@@ -78,19 +78,20 @@ function DrawerChat({route}){
               name: nameFile,
             };
             formData.append("file", _image);
-        //   axios.patch(urlUploadFile, formData, {
-        //     headers: {
-        //         authorization: token,
-        //         "Content-type": "multipart/form-data",
-        //     },
-        // })
-        //   .then(() => {
-        //     alert("Vào")
-        //   })
-        //   .catch((err) => {
-        //     console.log(err);
-        //     alert("Error Upload file");
-        //   });
+            
+          axios.patch(urlUploadFile, formData, {
+            headers: {
+                authorization: token,
+                "Content-type": "multipart/form-data",
+            },
+            })
+          .then(() => {
+            alert("Vào")
+          })
+          .catch((err) => {
+            console.log(err);
+            alert("Error Upload file");
+          });
         // dispatch(
         //     roomAPI.saveRoomId()({ _id: roomId, avatar: avtChange, name: nameChange })
         //   );
@@ -104,23 +105,22 @@ function DrawerChat({route}){
         }
     
       };
-    //   const deleteGroupHandleClick = async () => {
-    //     const roomId = roomState._id;
-    //     // dispatch(userAPI.deleteRoomByIdUI()(roomId));
-    //     await axios.delete(`https://frozen-caverns-53350.herokuapp.com/api/rooms/${roomId}`, {
-    //             headers: { authorization: token },
-    //         }
-    //       )
-    //       .then(() => {
-    //         const listRooms = listRoom.filter(
-    //           (e) => (e._id) != roomState._id
-    //         );
-    //         console.log(listRooms);
-    //       })
-    //       .catch((err) => {
-    //         console.log(err);
-    //       });
-    //   };
+      const deleteGroupHandleClick =  () => {
+        const roomId = roomState._id;
+        // dispatch(userAPI.deleteRoomByIdUI()(roomId));
+         axios.delete(`https://frozen-caverns-53350.herokuapp.com/api/rooms/${roomId}`, {
+                headers: { authorization: token },
+            }
+          )
+          .then(() => {
+            navigation.navigate("Home");
+            var user = userAPI.getUserInfo()(token);
+            dispatch(user);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      };
     return(
         <Provider>
             <View style={styles.container} >
@@ -327,12 +327,12 @@ function DrawerChat({route}){
                                             <Text style={{fontSize:20,color:'black',}}>Chặn tin nhắn</Text>
                                     </View>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={styles.containerBody_Mid_ChangeName_Item}>
+                                {(owner == userState.user._id)? <TouchableOpacity onPress={deleteGroupHandleClick} style={styles.containerBody_Mid_ChangeName_Item}>
                                     <MaterialIcons name="delete" size={24} color="#828282"  style={{width:"15%",height:"100%"}}/>
                                     <View style={styles.containerBody_Mid_ChangeName_Item_Text}>
-                                            <Text style={{fontSize:20,color:'black',}}>Xóa cuộc trò chuyện</Text>
+                                            <Text style={{fontSize:20,color:'red',}}>Xóa cuộc trò chuyện</Text>
                                     </View>
-                                </TouchableOpacity>
+                                </TouchableOpacity>: null}
                             </View>
                     </View>
             </ScrollView>

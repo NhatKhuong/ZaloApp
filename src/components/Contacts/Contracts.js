@@ -77,7 +77,7 @@ const roomState = useSelector(state => state.room);
                 </TouchableOpacity>
             </View>
             <View style={{flex:0.8, backgroundColor:"white"}}>
-                <SwipeListView  nestedScrollEnabled={true} data ={Data} renderItem={renderItem} />
+                {/* <SwipeListView  nestedScrollEnabled={true} data ={Data} renderItem={renderItem} /> */}
             </View>
             
         </View>
