@@ -82,7 +82,6 @@ function MyMessagaItem ({avatar,name,time,message,type,owner,_id,emoji}) {
        
       ]);
     }
-  const [isModelIcon,setisModelIcon] = useState(true);
     return (
         <View style={styles.containerC}>
             <View style={styles.container}>
