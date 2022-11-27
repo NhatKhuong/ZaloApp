@@ -28,6 +28,7 @@ function Body ({id,owner}) {
               message={e.content}
               type={e.type} 
               owner = {isOwner}
+              _id = {e._id}
               />
             }
             else{

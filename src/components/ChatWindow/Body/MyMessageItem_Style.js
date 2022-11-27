@@ -1,5 +1,8 @@
 import {StyleSheet} from 'react-native'
 const styles = StyleSheet.create({
+    containerC:{
+        flex:1,
+    },
     container:{
         display:'flex',
         flexDirection:'row',

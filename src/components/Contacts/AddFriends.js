@@ -48,7 +48,9 @@ function AddFriends() {
             })
         );
         navigation.navigate("FriendProfile",{
-            isFriend: e.isFriend
+            isFriend: e.isFriend,
+            email:e.email,
+            _id:e.id,
         });
     }
     var countReq = 0;

@@ -14,7 +14,7 @@ function DashBoard(){
     };
     return (
         <SafeAreaView style={styles.container}>
-            <Image source={{url:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Zalo_logo_2019.svg/2560px-Zalo_logo_2019.svg.png'}} style={{height:53,width:150,marginTop:20,}}/>
+            <Image source={require('../../../assets/logo.jpg')} style={{height:70,width:150,marginTop:20,}}/>
             <View style={{height:400,width:"100%",marginTop:40,}}>
                 <PagerView  style={styles.viewPager} initialPage={0}>
                     <View style={styles.page} key="1">

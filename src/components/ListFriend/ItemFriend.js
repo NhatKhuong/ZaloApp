@@ -61,7 +61,7 @@ const ItemFriend = ({navigation}) => {
                     <View style={styles.itemFriend_right}>
                         <View style={styles.itemFriend_message}>
                             <Text style={styles.itemFriend_name}>{item.name}</Text>
-                            <Text style={styles.itemFriend_content}>{(isImage == 'image')? '[Hình ảnh]' : item.lastMessage}</Text>
+                            <Text style={styles.itemFriend_content}>{(isImage == 'image')? '[Hình ảnh]' : (isImage=='unsend')? "Tin nhắn đã được gỡ": item.lastMessage}</Text>
                         </View>
                         <View style={styles.itemFriend_timeBlock}>
                             <Text style={styles.itemFriend_time}>{item.time}</Text>
