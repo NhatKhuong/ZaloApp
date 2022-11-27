@@ -23,7 +23,6 @@ function Body ({id,owner}) {
             e.reacts.map((x)=>{
               emoji = x.emoji;
             })
-            console.log(e._id);
             if(isMyMessage){
               return <MyMessagaItem 
               key={count}
