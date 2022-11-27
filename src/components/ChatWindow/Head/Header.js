@@ -8,7 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import userAPI from "../../../redux/reducers/user/userAPI";
 import tokenService from "../../../services/token.service";
-function Header({name,id,image}) {
+function Header({name,id,image,owner}) {
     const navigation = useNavigation();
     const dispatch = useDispatch();
     const token = tokenService.getAccessToken();
@@ -41,7 +41,7 @@ function Header({name,id,image}) {
                 <View style={styles.container_right_icon}>
                     <Feather name="video"  size={26} color="white"/>
                 </View>
-                <TouchableOpacity style={styles.container_right_icon} onPress={()=> navigation.navigate("DrawerChat",{id:id,name:name,image:image})}>
+                <TouchableOpacity style={styles.container_right_icon} onPress={()=> navigation.navigate("DrawerChat",{id:id,name:name,image:image,owner:owner})}>
                     <Feather name="menu" size={26} color="white" />
                 </TouchableOpacity>
             </View>

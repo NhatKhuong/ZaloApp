@@ -9,7 +9,7 @@ import tokenService from "../../services/token.service";
 import { useSelector } from "react-redux";
 import { async } from "@firebase/util";
 function FriendProfile({route}) {
-    const {isFriend} = route.params;
+    const {isFriend,email,_id} = route.params;
     const navigation = useNavigation();
     const hanldPressGoBack= ()=>{
         navigation.navigate("Home");
@@ -57,7 +57,7 @@ function FriendProfile({route}) {
                 <View style={styles.containerBody}>
                     <ImageBackground source={{uri: 'https://khoinguonsangtao.vn/wp-content/uploads/2022/08/background-dep-don-gian-de-thiet-ke-780x521.jpg'}}  style={styles.containerBody_Top}>
                         <Image style={styles.containerBody_Top_Avt}source={{ uri: 'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80'}}/>
-                        <Text style={{fontSize:30,fontWeight:'bold',color:'black',marginTop:10,}}>Trần Tấn Phước</Text>
+                        <Text style={{fontSize:30,fontWeight:'bold',color:'black',marginTop:10,}}>{email}</Text>
                     </ImageBackground >
                     <View style={styles.containerBody_Mid}>
                         <View style={styles.containerBody_Mid_Bottom} >

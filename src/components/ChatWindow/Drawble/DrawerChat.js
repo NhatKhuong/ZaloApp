@@ -1,4 +1,4 @@
-import { ScrollView, View,Text,TouchableOpacity, Image, Switch,TextInput } from "react-native";
+import { ScrollView, View,Text,TouchableOpacity, Image, Switch,TextInput, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -17,22 +17,25 @@ import roomAPI from "../../../redux/reducers/Room/roomAPI";
 import userAPI from "../../../redux/reducers/user/userAPI";
 import axios from "axios";
 import { useDispatch } from "react-redux";
+import tokenService from "../../../services/token.service";
 
 function DrawerChat({route}){
-    const {id,name,image} = route.params;
+    const {id,name,image,owner} = route.params;
     const roomState = useSelector(state => state.room);
     const userState = useSelector(state => state.user);
-    const token = userState.accessToken;
+    const token = tokenService.getAccessToken();
+    
     const roomId = id;
     const navigation = useNavigation();
     const [isBFF,setIsBFF] = useState(false);
     const hanldPressGoBack= ()=>{
-        navigation.navigate("ChatWindow",{id:id,name:nameChange,image:avtChange});
+        navigation.navigate("ChatWindow",{id:id,name:nameChange,image:avtChange,owner:owner});
     }
     const [nameChange, setnameChange] = useState(name);
     const [avtChange, setavtChange] = useState(image);
     const [isDialogVisible, setIsDialogVisible] = useState(false);
     const dispatch = useDispatch();
+    const urlUploadFile = `https://frozen-caverns-53350.herokuapp.com/api/rooms/${roomId}/avatar`;
     // const updateName = async () =>{
     //     const data = {name: nameChange};
     //     await axios.patch(
@@ -75,15 +78,15 @@ function DrawerChat({route}){
             name: nameFile,
           };
           formData.append("file", _image);
-          axios
-          .patch(`https://frozen-caverns-53350.herokuapp.com/api/rooms/${roomId}/avatar`, formData, {
+          console.log(formData);
+          axios.patch(urlUploadFile, formData, {
             headers: {
                 authorization: token,
                 "Content-type": "multipart/form-data",
             },
-          })
+        })
           .then(() => {
-            console.log("1");
+            alert("Vào")
           })
           .catch((err) => {
             console.log(err);
@@ -145,22 +148,22 @@ function DrawerChat({route}){
                                 <Text style={{color:'#4F4F4F',textAlign:'center'}}>Tìm {'\n'} tin nhắn</Text>
                                 </View>     
                             </TouchableOpacity>  
-                            <TouchableOpacity onPress={hanldPressMemberGroup} style={styles.containerBody_Top_Icon_Icon}>
+                            {(owner==userState.user._id)? <TouchableOpacity onPress={hanldPressMemberGroup} style={styles.containerBody_Top_Icon_Icon}>
                                 <View style={styles.containerBody_Top_Icon_IconItem}>
                                     <AntDesign name="user" size={20} color="black" />
                                 </View>
                                 <View style={styles.containerBody_Top_Icon_IconText}>
                                 <Text style={{color:'#4F4F4F',textAlign:'center'}}>Xem {'\n'} thành viên</Text>
                                 </View>     
-                            </TouchableOpacity>  
-                            <TouchableOpacity onPress={pickImage} style={styles.containerBody_Top_Icon_Icon}>
+                            </TouchableOpacity>  :null}
+                            {(owner==userState.user._id)? <TouchableOpacity onPress={pickImage} style={styles.containerBody_Top_Icon_Icon}>
                                 <View style={styles.containerBody_Top_Icon_IconItem}>
                                     <FontAwesome5 name="brush" size={20} color="black" />
                                 </View>
                                 <View style={styles.containerBody_Top_Icon_IconText}>
                                 <Text style={{color:'#4F4F4F',textAlign:'center'}}>Đổi {'\n'} hình nền</Text>
                                 </View>     
-                            </TouchableOpacity>  
+                            </TouchableOpacity> : null}
                             <TouchableOpacity style={styles.containerBody_Top_Icon_Icon}>
                                 <View style={styles.containerBody_Top_Icon_IconItem}>
                                     <AntDesign name="bells" size={20} color="black" />

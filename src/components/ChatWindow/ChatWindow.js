@@ -8,7 +8,7 @@ function ChatWindow({route}) {
     const {id,name,image,owner} = route.params;
     return (
         <View style={styles.container}>
-            <Header  name={name} id={id} image={image} />
+            <Header  name={name} id={id} image={image} owner={owner} />
             <Body id={id} owner={owner} />
             <Footter/>
         </View>
