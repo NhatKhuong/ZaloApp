@@ -9,7 +9,7 @@ function ChatWindow({route}) {
     return (
         <View style={styles.container}>
             <Header  name={name} id={id} image={image} owner={owner} />
-            <Body id={id} owner={owner} />
+            <Body id={id} owner={owner} nameGroup= {name} imageGroup = {image} />
             <Footter/>
         </View>
     );

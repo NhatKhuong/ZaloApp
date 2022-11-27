@@ -23,7 +23,7 @@ function MessageItem ({avatar,name,time,message,type,owner}) {
             <Text style={{fontSize:17,color:'#CC9933'}}>{name}</Text>
             {(type=="image")? <TouchableOpacity onPress={hanldPress}>
                 <Image style={{height:150,width:150,}} source={{uri:message}} />
-                </TouchableOpacity> : <Text style={{width:180,}}>{message}</Text>}
+                </TouchableOpacity> : (type=="unsend")?<Text style={{width:180,}}>Tin nhắn đã được thu hồi</Text>: <Text style={{width:180,}}>{message}</Text>}
             <Text style={styles.container_Right_Time}>{time}</Text>
         </View>
       </View>

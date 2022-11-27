@@ -15,9 +15,9 @@ import { useSelector } from "react-redux";
 import * as ImagePicker  from 'expo-image-picker';
 import roomAPI from "../../../redux/reducers/Room/roomAPI";
 import userAPI from "../../../redux/reducers/user/userAPI";
-import axios from "axios";
 import { useDispatch } from "react-redux";
 import tokenService from "../../../services/token.service";
+import axios from "axios";
 
 function DrawerChat({route}){
     const {id,name,image,owner} = route.params;
@@ -66,32 +66,31 @@ function DrawerChat({route}){
           quality: 1,
         });
         if (!result.cancelled) {
-          let localUri = result.uri;
-          let formData = new FormData();
-          let uriParts = localUri.split(".");
-          const path = localUri.split("/");
-          let fileType = uriParts[uriParts.length - 1];
-          let nameFile = path[path.length - 1];
-          const _image = {
-            uri: Platform.OS === "android" ? localUri : localUri.replace("file://", ""),
-            type: `image/${fileType}`,
-            name: nameFile,
-          };
-          formData.append("file", _image);
-          console.log(formData);
-          axios.patch(urlUploadFile, formData, {
-            headers: {
-                authorization: token,
-                "Content-type": "multipart/form-data",
-            },
-        })
-          .then(() => {
-            alert("Vào")
-          })
-          .catch((err) => {
-            console.log(err);
-            alert("Error Upload file");
-          });
+            let localUri = result.uri;
+            let formData = new FormData();
+            let uriParts = localUri.split(".");
+            const path = localUri.split("/");
+            let fileType = uriParts[uriParts.length - 1];
+            let nameFile = path[path.length - 1];
+            const _image = {
+              uri: Platform.OS === "android" ? localUri : localUri.replace("file://", ""),
+              type: `image/${fileType}`,
+              name: nameFile,
+            };
+            formData.append("file", _image);
+        //   axios.patch(urlUploadFile, formData, {
+        //     headers: {
+        //         authorization: token,
+        //         "Content-type": "multipart/form-data",
+        //     },
+        // })
+        //   .then(() => {
+        //     alert("Vào")
+        //   })
+        //   .catch((err) => {
+        //     console.log(err);
+        //     alert("Error Upload file");
+        //   });
         // dispatch(
         //     roomAPI.saveRoomId()({ _id: roomId, avatar: avtChange, name: nameChange })
         //   );
@@ -148,14 +147,14 @@ function DrawerChat({route}){
                                 <Text style={{color:'#4F4F4F',textAlign:'center'}}>Tìm {'\n'} tin nhắn</Text>
                                 </View>     
                             </TouchableOpacity>  
-                            {(owner==userState.user._id)? <TouchableOpacity onPress={hanldPressMemberGroup} style={styles.containerBody_Top_Icon_Icon}>
+                            <TouchableOpacity onPress={hanldPressMemberGroup} style={styles.containerBody_Top_Icon_Icon}>
                                 <View style={styles.containerBody_Top_Icon_IconItem}>
                                     <AntDesign name="user" size={20} color="black" />
                                 </View>
                                 <View style={styles.containerBody_Top_Icon_IconText}>
                                 <Text style={{color:'#4F4F4F',textAlign:'center'}}>Xem {'\n'} thành viên</Text>
                                 </View>     
-                            </TouchableOpacity>  :null}
+                            </TouchableOpacity>  
                             {(owner==userState.user._id)? <TouchableOpacity onPress={pickImage} style={styles.containerBody_Top_Icon_Icon}>
                                 <View style={styles.containerBody_Top_Icon_IconItem}>
                                     <FontAwesome5 name="brush" size={20} color="black" />
@@ -176,12 +175,20 @@ function DrawerChat({route}){
                     </View>
                     <View style={styles.containerBody_Mid}>
                             <View style={styles.containerBody_Mid_ChangeName}>
-                                <TouchableOpacity onPress={() => setIsDialogVisible(true)} style={styles.containerBody_Mid_ChangeName_Item}>
+                                {/* <TouchableOpacity onPress={() => setIsDialogVisible(true)} style={styles.containerBody_Mid_ChangeName_Item}>
                                     <Ionicons name="pencil" size={24} color="#828282"  style={{width:"15%",height:"100%"}} />
                                     <View style={styles.containerBody_Mid_ChangeName_Item_Text}>
                                         <Text style={{fontSize:20,color:'black',}}>Đổi tên gợi nhớ</Text>
                                     </View>
-                                </TouchableOpacity>
+                                </TouchableOpacity> */}
+                                {
+                                    (owner==userState.user._id)? <TouchableOpacity onPress={() => setIsDialogVisible(true)} style={styles.containerBody_Mid_ChangeName_Item}>
+                                    <Ionicons name="pencil" size={24} color="#828282"  style={{width:"15%",height:"100%"}} />
+                                    <View style={styles.containerBody_Mid_ChangeName_Item_Text}>
+                                        <Text style={{fontSize:20,color:'black',}}>Đổi tên gợi nhớ</Text>
+                                    </View>
+                                </TouchableOpacity> : null
+                                }
                                 <View style={styles.containerBody_Mid_ChangeName_Item}>
                                     <MaterialCommunityIcons name="star-outline" size={30} color="#828282"style={{width:"15%",height:"100%"}} />
                                     <View style={styles.containerBody_Mid_ChangeName_Item_Text}>
