@@ -20,9 +20,11 @@ function Body ({id,owner}) {
             const isMyMessage = e.user._id === userState.user._id ? true : false;
             const isOwner =  e.user._id === owner ? true : false;
             let emoji ; 
-            e.reacts.map((x)=>{
-              emoji = x.emoji;
-            })
+            if( e.reacts != null){
+              e.reacts.map((x)=>{
+                emoji = x.emoji;
+              })
+            }
             if(isMyMessage){
               return <MyMessagaItem 
               key={count}

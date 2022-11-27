@@ -1,4 +1,4 @@
-import { ScrollView, View,Text,TouchableOpacity, Image, Switch,TextInput, Platform } from "react-native";
+import { ScrollView, View,Text,TouchableOpacity, Image, Switch,TextInput, Platform, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -17,7 +17,7 @@ import roomAPI from "../../../redux/reducers/Room/roomAPI";
 import userAPI from "../../../redux/reducers/user/userAPI";
 import { useDispatch } from "react-redux";
 import tokenService from "../../../services/token.service";
-import axios from "axios";
+import axios, { Axios } from "axios";
 
 function DrawerChat({route}){
     const {id,name,image,owner} = route.params;
@@ -36,28 +36,89 @@ function DrawerChat({route}){
     const [isDialogVisible, setIsDialogVisible] = useState(false);
     const dispatch = useDispatch();
     const urlUploadFile = `https://frozen-caverns-53350.herokuapp.com/api/rooms/${roomId}/avatar`;
-    // const updateName = async () =>{
-    //     const data = {name: nameChange};
-    //     await axios.patch(
-    //         `https://frozen-caverns-53350.herokuapp.com/api/rooms/${roomId}/name`,
-    //         data,
-    //         {
-    //           headers: { authorization: token },
-    //         }
-    //     );
-    //     dispatch(
-    //         roomAPI.saveRoomId()({ _id: roomId, avatar: avtChange, name: nameChange })
-    //       );
-    //       dispatch(
-    //         userAPI.updateRoomByIdUI()({ _id: roomId, avatar: avtChange, name: nameChange })
-    //       );
-    //       setIsDialogVisible(false)
-    // }
+    const updateName = () =>{
+        axios({
+            url: `https://frozen-caverns-53350.herokuapp.com/api/rooms/${roomId}/name`,
+            method: "PATCH",
+            headers: {
+                authorization: token 
+            },
+            data: {
+                name: nameChange
+            }
+        }).then((res)=>{
+            Alert.alert("Thông báo","Đổi tên thành công!!");
+            setIsDialogVisible(false);
+        }).catch((err)=>{
+            console.log(err);
+        })
+        //  axios.patch(
+        //     `https://frozen-caverns-53350.herokuapp.com/api/rooms/${roomId}/name`,
+            
+        //     {data,
+        //       headers: { authorization: token },
+        //     }
+        // );
+        // dispatch(
+        //     roomAPI.saveRoomId()({ _id: roomId, avatar: avtChange, name: nameChange })
+        //   );
+        //   dispatch(
+        //     userAPI.updateRoomByIdUI()({ _id: roomId, avatar: avtChange, name: nameChange })
+        //   );
+        //   setIsDialogVisible(false)
+    }
     const hanldPressMemberGroup = ()=>{
         navigation.navigate("MemberGroup");
     }
 
     // Đổi avt 
+    // const pickImage = async () => {
+    //     // No permissions request is necessary for launching the image library
+    //     let result = await ImagePicker.launchImageLibraryAsync({
+    //       mediaTypes: ImagePicker.MediaTypeOptions.All,
+    //       allowsEditing: true,
+    //       quality: 1,
+    //     });
+    //     if (!result.cancelled) {
+    //         let localUri = result.uri;
+    //         let formData = new FormData();
+    //         let uriParts = localUri.split(".");
+    //         const path = localUri.split("/");
+    //         let fileType = uriParts[uriParts.length - 1];
+    //         let nameFile = path[path.length - 1];
+    //         const _image = {
+    //           uri: Platform.OS === "android" ? localUri : localUri.replace("file://", ""),
+    //           type: `image/${fileType}`,
+    //           name: nameFile,
+    //         };
+    //         formData.append("file", _image);
+            
+    //       axios.patch(urlUploadFile, formData, {
+    //         headers: {
+    //             authorization: token,
+    //             "Content-type": "multipart/form-data",
+    //         },
+    //         })
+    //       .then(() => {
+    //         alert("Vào")
+    //       })
+    //       .catch((err) => {
+    //         console.log(err);
+    //         alert("Error Upload file");
+    //       });
+    //     // dispatch(
+    //     //     roomAPI.saveRoomId()({ _id: roomId, avatar: avtChange, name: nameChange })
+    //     //   );
+    //     // dispatch(
+    //     //     userAPI.updateRoomByIdUI()({ _id: roomId, avatar: avtChange, name: nameChange })
+    //     //   );
+    
+    //     }
+    //     else if(result.cancelled){
+    //       console.log(result);
+    //     }
+    
+    //   };
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -66,38 +127,42 @@ function DrawerChat({route}){
           quality: 1,
         });
         if (!result.cancelled) {
-            let localUri = result.uri;
-            let formData = new FormData();
-            let uriParts = localUri.split(".");
-            const path = localUri.split("/");
-            let fileType = uriParts[uriParts.length - 1];
-            let nameFile = path[path.length - 1];
-            const _image = {
-              uri: Platform.OS === "android" ? localUri : localUri.replace("file://", ""),
-              type: `image/${fileType}`,
-              name: nameFile,
-            };
-            formData.append("file", _image);
-            
+          let localUri = result.uri;
+          let formData = new FormData();
+          let uriParts = localUri.split(".");
+          const path = localUri.split("/");
+          let fileType = uriParts[uriParts.length - 1];
+          let nameFile = path[path.length - 1];
+          const _image = {
+            uri: Platform.OS === "android" ? localUri : localUri.replace("file://", ""),
+            type: `image/${fileType}`,
+            name: nameFile,
+          };
+          formData.append("file", _image);
           axios.patch(urlUploadFile, formData, {
-            headers: {
-                authorization: token,
-                "Content-type": "multipart/form-data",
-            },
-            })
-          .then(() => {
-            alert("Vào")
-          })
-          .catch((err) => {
-            console.log(err);
-            alert("Error Upload file");
-          });
-        // dispatch(
-        //     roomAPI.saveRoomId()({ _id: roomId, avatar: avtChange, name: nameChange })
-        //   );
-        // dispatch(
-        //     userAPI.updateRoomByIdUI()({ _id: roomId, avatar: avtChange, name: nameChange })
-        //   );
+                        headers: {
+                            authorization: token,
+                            "Content-type": "multipart/form-data",
+                        },
+                    })
+                    .then((res) => {
+                       console.log(res)
+                    })
+                    .catch((err) => {
+                        alert("Error Upload file");
+                    });
+        //   axios.post(urlUploadFile, formData, {
+        //                 headers: {
+        //                     authorization: token,
+        //                     "Content-type": "multipart/form-data",
+        //                 },
+        //             })
+        //             .then((res) => {
+        //                console.log(res)
+        //             })
+        //             .catch((err) => {
+        //                 alert("Error Upload file");
+        //             });
     
         }
         else if(result.cancelled){
@@ -107,7 +172,6 @@ function DrawerChat({route}){
       };
       const deleteGroupHandleClick =  () => {
         const roomId = roomState._id;
-        // dispatch(userAPI.deleteRoomByIdUI()(roomId));
          axios.delete(`https://frozen-caverns-53350.herokuapp.com/api/rooms/${roomId}`, {
                 headers: { authorization: token },
             }
@@ -350,7 +414,7 @@ function DrawerChat({route}){
                     </Dialog.Content>
                     <Dialog.Actions>
                     <Button onPress={() => setIsDialogVisible(false)}>Thoát</Button>
-                    <Button onPress={() => setIsDialogVisible(false)}>Xác nhận</Button>
+                    <Button onPress={updateName}>Xác nhận</Button>
                     </Dialog.Actions>
                 </Dialog>
             </Portal>
