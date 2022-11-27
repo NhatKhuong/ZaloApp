@@ -19,6 +19,10 @@ function Body ({id,owner}) {
             count++;
             const isMyMessage = e.user._id === userState.user._id ? true : false;
             const isOwner =  e.user._id === owner ? true : false;
+            let emoji ; 
+            e.reacts.map((x)=>{
+              emoji = x.emoji;
+            })
             if(isMyMessage){
               return <MyMessagaItem 
               key={count}
@@ -29,6 +33,7 @@ function Body ({id,owner}) {
               type={e.type} 
               owner = {isOwner}
               _id = {e._id}
+              emoji={emoji}
               />
             }
             else{
@@ -40,6 +45,8 @@ function Body ({id,owner}) {
               message={e.content}
               type={e.type}
               owner = {isOwner}
+              _id = {e._id}
+              emoji={emoji}
               />
             }
           })
