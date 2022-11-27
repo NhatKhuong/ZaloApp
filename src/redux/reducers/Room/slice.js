@@ -67,5 +67,31 @@ export const roomSlice = createSlice({
             }
         );
         builder.addCase(roomAPI.updateSentMessage().rejected, (state) => {});
+
+        builder.addCase(
+            roomAPI.updateChangeMessage().fulfilled,
+            (state, action) => {
+              state.lstChat?.forEach((item)=>{
+                if(item._id === action.payload.messageId){
+                  item.type='unsend'
+                }
+              })
+            }
+          );
+          builder.addCase(roomAPI.updateChangeMessage().rejected, (state) => {});
+      
+          builder.addCase(
+            roomAPI.updateChangeIconMessage().fulfilled,
+            (state, action) => {
+                console.log("Đang vào")
+              state.lstChat?.map((item)=>{
+                console.log(item);
+                if(item._id === action.payload.messageId){
+                  item.emoji=action.payload.react.emoji
+                }
+              })
+            }
+          );
+          builder.addCase(roomAPI.updateChangeIconMessage().rejected, (state) => {});
     }
 });

@@ -20,10 +20,10 @@ function MemberGroup({route}) {
    const dispatch = useDispatch();
    const roomId = roomState._id;
    const {owner} = route.params;
-   
-    useEffect(() => {
+    const myUserId = userState.user._id;
+   useEffect(() => {
         axios
-            .get(`https://frozen-caverns-53350.herokuapp.com/api/rooms/${roomId}`, {
+            .get(`http://18.140.239.96/api/rooms/${roomId}`, {
                 headers: { authorization: token},
             })
             .then((r) => {
@@ -41,23 +41,42 @@ function MemberGroup({route}) {
             });
         
     }, [token]);
-    const [checkedItems, setCheckedItems] = useState([]);
-    const isChecked = (id) => {
-        return checkedItems.includes(id);
+const deleteUser = (userId) => {
+        Alert.alert("Thông báo","Bạn có chắc muốn xóa thành viên này ra khỏi nhóm",
+        [
+            {
+                text: 'Thoát',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel',
+              },
+              { text: 'Xóa', onPress: () => {
+                    axios
+                    .delete(
+                        `http://18.140.239.96/api/rooms/${roomId}/users/${userId}`,
+                        {
+                            headers: { authorization: token  },
+                        }
+                    )
+                    .then(({ data }) => {
+                        setfriends(
+                            friends.filter((e) => (e.userId._id) != userId)
+                        );
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+              } },
+        ])
+        
     };
-
-  const toggleItem = (id) => {
-    if (isChecked(id)) {
-      setCheckedItems(checkedItems.filter(item => item !== id));
-    } else {
-      setCheckedItems([...checkedItems, id]);
-    }
-  };
+  
     const renderItem = ({item}) =>{
         var Name = (item.userId.name == undefined)? item.userId.email : item.userId.name;
         var image = (item.userId.avatar == undefined)?  "https://hinhgaixinh.com/wp-content/uploads/2021/12/bo-anh-girl-xinh-cap-2.jpg": item.userId.avatar;
         return(
-            <TouchableOpacity  style={{height:60,display:'flex',flexDirection:'row',flex:1,marginBottom:20,}} onPress={()=> toggleItem(item.userId._id)}>
+            (myUserId== owner)?
+            ((owner==item.userId._id)? 
+            <View  style={{height:60,display:'flex',flexDirection:'row',flex:1,marginBottom:20,}}>
                 <View style={{flex:0.05,justifyContent:'center',alignItems:'center'}} >
                 </View>
                 <View style={{flex:0.15,}}>
@@ -71,7 +90,48 @@ function MemberGroup({route}) {
                     <Text style={{fontSize:22,}}>{Name}</Text>
                     <Text style={{fontSize:18,color:"grey"}}>2 giờ</Text>
                 </View>
-            </TouchableOpacity>
+                 
+            </View> 
+            : 
+            <View  style={{height:60,display:'flex',flexDirection:'row',flex:1,marginBottom:20,}} >
+                <View style={{flex:0.05,justifyContent:'center',alignItems:'center'}} >
+                </View>
+                <View style={{flex:0.15,}}>
+                    <Image source={{uri:image}} style={{borderRadius:100,height:50,width:50,}}/>
+                    {(owner == item.userId._id)? <View style={{height:20,alignItems:'flex-end'}}>
+                        <Entypo name="key" size={18} color="#CDAD00" />
+                    </View>: null
+                    }
+                </View>
+                <View style={{flex:0.65,marginLeft:10,justifyContent:"center"}}>
+                    <Text style={{fontSize:22,}}>{Name}</Text>
+                    <Text style={{fontSize:18,color:"grey"}}>2 giờ</Text>
+                </View>
+                <TouchableOpacity style={{flex:0.2,justifyContent:'center',alignItems:'center'}} onPress={()=> deleteUser(item.userId._id)}>
+                        <AntDesign name="deleteuser" size={24} color="black" />
+                </TouchableOpacity>  
+           
+            </View>
+            ):
+            (
+            <View  style={{height:60,display:'flex',flexDirection:'row',flex:1,marginBottom:20,}}>
+                <View style={{flex:0.05,justifyContent:'center',alignItems:'center'}} >
+                </View>
+                <View style={{flex:0.15,}}>
+                    <Image source={{uri:image}} style={{borderRadius:100,height:50,width:50,}}/>
+                    {(owner == item.userId._id)? <View style={{height:20,alignItems:'flex-end'}}>
+                        <Entypo name="key" size={18} color="#CDAD00" />
+                    </View>: null
+                    }
+                </View>
+                <View style={{flex:0.8,marginLeft:10,justifyContent:"center"}}>
+                    <Text style={{fontSize:22,}}>{Name}</Text>
+                    <Text style={{fontSize:18,color:"grey"}}>2 giờ</Text>
+                </View>
+                 
+            </View> 
+            )
+            
         );
     };
     

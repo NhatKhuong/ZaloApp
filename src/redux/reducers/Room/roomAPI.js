@@ -57,6 +57,22 @@ class RoomAPI {
       }
     );
   }
+  updateChangeMessage() {
+    return createAsyncThunk(
+      "room/update-change-message",
+      async (data, thunkAPI) => {
+        return data;
+      }
+    );
+  }
+  updateChangeIconMessage() {
+    return createAsyncThunk(
+      "room/update-icon-message",
+      async (data, thunkAPI) => {
+        return data;
+      }
+    );
+  }
 }
 
 export default new RoomAPI();

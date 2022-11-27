@@ -24,7 +24,7 @@ function MyMessagaItem ({avatar,name,time,message,type,owner,_id,emoji}) {
   const reactMessage = (e) => {
     
     axios({
-        url: `https://frozen-caverns-53350.herokuapp.com/api/rooms/${roomState._id}/messages/${_id}/react`,
+        url: `http://18.140.239.96/api/rooms/${roomState._id}/messages/${_id}/react`,
         method: "POST",
         headers: {
             authorization: accessToken 
@@ -44,7 +44,7 @@ function MyMessagaItem ({avatar,name,time,message,type,owner,_id,emoji}) {
   const hadelUnMessage = async  ()=> {
     var user = await axios
         .delete(
-            `https://frozen-caverns-53350.herokuapp.com/api/rooms/${roomState._id}/messages/${_id}`,
+            `http://18.140.239.96/api/rooms/${roomState._id}/messages/${_id}`,
             {
                 headers: { authorization: accessToken },
             }
