@@ -36,19 +36,21 @@ function CreateGroup() {
     };
 
   const toggleItem = (id) => {
+    console.log(id);
     if (isChecked(id)) {
       setCheckedItems(checkedItems.filter(item => item !== id));
     } else {
       setCheckedItems([...checkedItems, id]);
     }
   };
+  console.log(checkedItems);
     const renderItem = ({item}) =>{
         var Name = (item.userId.name == undefined)? item.userId.email : item.userId.name;
         var image = (item.userId.avatar == undefined)?  "https://hinhgaixinh.com/wp-content/uploads/2021/12/bo-anh-girl-xinh-cap-2.jpg": item.userId.avatar;
         return(
-            <TouchableOpacity style={{height:60,display:'flex',flexDirection:'row',flex:1,marginBottom:10,}} onPress={()=> toggleItem(item._id)}>
+            <TouchableOpacity style={{height:60,display:'flex',flexDirection:'row',flex:1,marginBottom:10,}} onPress={()=> toggleItem(item.userId._id)}>
                 <View style={{flex:0.15,justifyContent:'center',alignItems:'center'}} >
-                    <Checkbox  value={isChecked(item._id)? true : false} style={{height:30,width:30,borderRadius:100,}} />
+                    <Checkbox  value={isChecked(item.userId._id)? true : false} style={{height:30,width:30,borderRadius:100,}} />
                 </View>
                 <View style={{flex:0.15,borderRadius:100,}}>
                     <Image source={{uri:image}} style={{flex:1,borderRadius:100,}}/>
@@ -69,6 +71,7 @@ function CreateGroup() {
             alert("Nhắc nhỡ","Nhập tên nhóm");
             return;
         }
+        console.log(checkedItems);
         axios
             .post(
                 `https://frozen-caverns-53350.herokuapp.com/api/rooms`,
@@ -81,13 +84,13 @@ function CreateGroup() {
                 }
             )
             .then((r) => {
+                console.log(r.data);
                 dispatch(userAPI.updateListRoomUI()(r.data));
             })
             .catch((err) => {
                 console.log(err);
             });
     };
-    console.log(checkedItems);
   return (
     <SafeAreaView style={styles.container}>
         <View style={styles.containerHeader}>

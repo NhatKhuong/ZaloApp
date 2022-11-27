@@ -68,7 +68,7 @@ function DrawerChat({route}){
         //   setIsDialogVisible(false)
     }
     const hanldPressMemberGroup = ()=>{
-        navigation.navigate("MemberGroup");
+        navigation.navigate("MemberGroup",{id: id});
     }
 
     // Đổi avt 
