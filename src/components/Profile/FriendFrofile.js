@@ -29,7 +29,7 @@ function FriendProfile({route}) {
             setIsAdd(true);
             try {
                 axios.post(
-                    `http://18.140.239.96/api/users/invites`,
+                    `http://54.254.183.128/api/users/invites`,
                     {
                         userId: infoState._id,
                     },

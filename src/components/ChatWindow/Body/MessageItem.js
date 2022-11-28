@@ -22,7 +22,7 @@ function MessageItem ({avatar,name,time,message,type,owner,_id,emoji}) {
   const reactMessage = (e) => {
     
     axios({
-        url: `http://18.140.239.96/api/rooms/${roomState._id}/messages/${_id}/react`,
+        url: `http://54.254.183.128/api/rooms/${roomState._id}/messages/${_id}/react`,
         method: "POST",
         headers: {
             authorization: accessToken 
@@ -64,12 +64,12 @@ const hanldPressIcon = ()=>{
             {(type=="image")? <TouchableOpacity onPress={hanldPress}>
                 <Image style={{height:150,width:150,}} source={{uri:message}} />
                 </TouchableOpacity> : (type=="unsend")?<Text style={{width:180,}}>Tin nhắn đã được thu hồi</Text>: <Text style={{width:180,}}>{message}</Text>}
-            <Text style={styles.container_Right_Time}>{time}</Text>
+            <Text style={styles.container_Right_Time}>9:30</Text>
         </View> */}
          {(type=="unsend")?  
          <View style={styles.container_Right}>
                 <Text>Tin nhắn đã thu hồi</Text>
-                <Text style={styles.container_Right_Time}>{time}</Text>
+                <Text style={styles.container_Right_Time}>9:30</Text>
          </View>:
          <View>
             <TouchableOpacity onPress={hanldPressIcon} style={styles.container_Right}>
@@ -77,7 +77,7 @@ const hanldPressIcon = ()=>{
               {(type=="image")? <TouchableOpacity onPress={hanldPress}>
                   <Image style={{height:150,width:150,}} source={{uri:message}} />
                   </TouchableOpacity> :  <Text style={{width:180,}}>{message}</Text>}
-              <Text style={styles.container_Right_Time}>{time}</Text>
+              <Text style={styles.container_Right_Time}>9:30</Text>
           </TouchableOpacity>
           <View style={{height:20,marginLeft:20,alignItems:'flex-end'}}>
                     <Text style={{fontSize:20,}}>{emojiIndex}</Text>

@@ -18,9 +18,9 @@ function Footter_Chat (){
   const roomState = useSelector(state => state.room);
   const userState = useSelector(state => state.user);
   const token = tokenService.getAccessToken();
-  const urlUploadFile = "http://18.140.239.96/api/storages/upload";
+  const urlUploadFile = "http://54.254.183.128/api/storages/upload";
   
-  const newSocket = io("http://18.140.239.96", {
+  const newSocket = io("http://54.254.183.128", {
         query: {
             // token: useState.accessToken,
         },
