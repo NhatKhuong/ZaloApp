@@ -22,7 +22,7 @@ const ItemFriend = ({navigation}) => {
     });
     const deleteGroupHandleClick = () => {
         axios
-            .delete(`http://18.140.239.96/api/rooms/${roomState._id}`, {
+            .delete(`http://54.254.183.128/api/rooms/${roomState._id}`, {
                 headers: { authorization: accessToken },
             }
           )
@@ -64,7 +64,7 @@ const ItemFriend = ({navigation}) => {
                             <Text style={styles.itemFriend_content}>{(isImage == 'image')? '[Hình ảnh]' : (isImage=='unsend')? "Tin nhắn đã được gỡ": item.lastMessage}</Text>
                         </View>
                         <View style={styles.itemFriend_timeBlock}>
-                            <Text style={styles.itemFriend_time}>{item.time}</Text>
+                            <Text style={styles.itemFriend_time}>1 phút trước</Text>
                         </View>
                     </View>
                 </View>

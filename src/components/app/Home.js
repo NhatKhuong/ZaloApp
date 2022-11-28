@@ -10,7 +10,7 @@ import tokenService from "../../services/token.service";
 import userAPI from "../../redux/reducers/user/userAPI";
 import  io  from "socket.io-client";
 import roomAPI from "../../redux/reducers/Room/roomAPI";
-export let newSocket = io("http://18.140.239.96");
+export let newSocket = io("http://54.254.183.128");
 function Home(props) {
     const userState = useSelector(state => state.user);
     const roomState = useSelector(state => state.room);
@@ -35,7 +35,7 @@ function Home(props) {
     }, []);
     useEffect(() => {
         newSocket.disconnect();
-        newSocket = io("http://18.140.239.96");
+        newSocket = io("http://54.254.183.128");
         newSocket?.on("server-send-message", function (data) {
             if (roomId.current === data.roomId) {
                 dispatch(roomAPI.updateListChat()(data));

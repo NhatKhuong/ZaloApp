@@ -13,6 +13,7 @@ import { async } from '@firebase/util';
 import infoAPI from '../../redux/reducers/Info/infoAPI';
 import userAPI from '../../redux/reducers/user/userAPI';
 import tokenService from '../../services/token.service';
+import { newSocket } from '../app/Home';
 
 function AddFriends() {
     const navigation = useNavigation();
@@ -28,7 +29,7 @@ function AddFriends() {
     const handelSearch =  async () => {
         const emailNew = email+`@gmail.com`
             try {
-                var user = await axios(`http://18.140.239.96/api/users/email/${emailNew}`,{
+                var user = await axios(`http://54.254.183.128/api/users/email/${emailNew}`,{
                     method: 'GET',
                     headers: { authorization: accessToken },
                 });
@@ -64,7 +65,7 @@ function AddFriends() {
     function handlAccept(id) {
         axios
             .post(
-                `http://18.140.239.96/api/users/invites`,
+                `http://54.254.183.128/api/users/invites`,
                 {
                     userId: id,
                 },
@@ -74,6 +75,12 @@ function AddFriends() {
             )
             .then((r) => {
                 console.log("done");
+                // newSocket.emit("client-send-message", {
+                //     token: token,
+                //     roomId: r.data._id,
+                //     content: "Hãy gửi lời chào đến bạn của bạn",
+                //     type: "notification",
+                // });
             })
             .catch((err) => {
                 console.log(err);
@@ -81,7 +88,7 @@ function AddFriends() {
         dispatch(userAPI.deleteRequestAddFriend()(id));
         
         axios
-            .get(`http://18.140.239.96/api/rooms/users/${id}`, {
+            .get(`http://54.254.183.128/api/rooms/users/${id}`, {
                 headers: { authorization: accessToken },
             })
             .then((r) => {

@@ -35,10 +35,10 @@ function DrawerChat({route}){
     const [avtChange, setavtChange] = useState(image);
     const [isDialogVisible, setIsDialogVisible] = useState(false);
     const dispatch = useDispatch();
-    const urlUploadFile = `http://18.140.239.96/api/rooms/${roomId}/avatar`;
+    const urlUploadFile = `http://54.254.183.128/api/rooms/${roomId}/avatar`;
     const updateName = () =>{
         axios({
-            url: `http://18.140.239.96/api/rooms/${roomId}/name`,
+            url: `http://54.254.183.128/api/rooms/${roomId}/name`,
             method: "PATCH",
             headers: {
                 authorization: token 
@@ -53,7 +53,7 @@ function DrawerChat({route}){
             console.log(err);
         })
         //  axios.patch(
-        //     `http://18.140.239.96/api/rooms/${roomId}/name`,
+        //     `http://54.254.183.128/api/rooms/${roomId}/name`,
             
         //     {data,
         //       headers: { authorization: token },
@@ -172,7 +172,7 @@ function DrawerChat({route}){
       };
       const deleteGroupHandleClick =  () => {
         const roomId = roomState._id;
-         axios.delete(`http://18.140.239.96/api/rooms/${roomId}`, {
+         axios.delete(`http://54.254.183.128/api/rooms/${roomId}`, {
                 headers: { authorization: token },
             }
           )

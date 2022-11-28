@@ -23,7 +23,7 @@ function MemberGroup({route}) {
     const myUserId = userState.user._id;
    useEffect(() => {
         axios
-            .get(`http://18.140.239.96/api/rooms/${roomId}`, {
+            .get(`http://54.254.183.128/api/rooms/${roomId}`, {
                 headers: { authorization: token},
             })
             .then((r) => {
@@ -52,7 +52,7 @@ const deleteUser = (userId) => {
               { text: 'Xóa', onPress: () => {
                     axios
                     .delete(
-                        `http://18.140.239.96/api/rooms/${roomId}/users/${userId}`,
+                        `http://54.254.183.128/api/rooms/${roomId}/users/${userId}`,
                         {
                             headers: { authorization: token  },
                         }
